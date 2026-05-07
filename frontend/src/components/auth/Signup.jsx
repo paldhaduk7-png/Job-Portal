@@ -180,7 +180,7 @@ try {
                 onChange={changeEventHandler}
                 className="cursor-pointer"
               />
-              <Label htmlFor="r2">Recurviter</Label>
+              <Label htmlFor="r2">Recruiter</Label>
             </div>
           </RadioGroup>
 
@@ -195,7 +195,7 @@ try {
         </div>
 
        {
-         loading? <Button className="w-full mt-4" > <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wit</Button>:
+         loading? <Button className="w-full mt-4" > <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</Button>:
             <Button
                  type="submit"
                  className="w-full my-4 bg-purple-600 hover:bg-purple-700 transition"

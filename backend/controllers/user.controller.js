@@ -1,6 +1,9 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import getDataUri from "../utils/dataUri.js";
+import cloudinary from "../utils/clodinary.js";
+
 
 //for register
 export const register = async (req, res) => {
@@ -16,8 +19,21 @@ export const register = async (req, res) => {
       });
     }
 
-    //check donot use duplicate email
-    let user = await User.findOne({ email });
+    //implet cloudary for image
+    const file=req.file;
+
+     let cloudResponse;
+    if(file){
+      const fileUri=getDataUri(file);
+   cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+  resource_type: "image"
+});
+
+    }
+
+
+    //check donot use duplicate email (convert to lowercase for consistency)
+    let user = await User.findOne({ email: email.toLowerCase() });
     if (user) {
       return res.status(400).json({
         message: "User already exists with this email",
@@ -31,10 +47,13 @@ export const register = async (req, res) => {
     //create user
     await User.create({
       fullname,
-      email,
+      email: email.toLowerCase(),
       phoneNumber,
       password: hashedPassword,
       role,
+      profile:{
+        profilePhoto: cloudResponse?.secure_url || "",
+      }
     });
 
     return res.status(201).json({
@@ -44,8 +63,8 @@ export const register = async (req, res) => {
 
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
-        message: "User already exists with this email",
+    return res.status(500).json({
+        message: error.message || "Something went wrong during registration",
         success: false,
       });
   }
@@ -69,7 +88,7 @@ console.log(email, password, role);
     }
 
     //cheak email exist
-    let user = await User.findOne({ email });
+    let user = await User.findOne({email  :email.toLowerCase() });
     if (!user) {
       return res.status(400).json({
         message: "Incorrect email ",
@@ -126,6 +145,10 @@ console.log(email, password, role);
       });
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      message: "Login failed",
+      success: false
+    });
   }
 };
 
@@ -149,7 +172,20 @@ export const updateProfile= async (req,res)=>{
     try {
        const {fullname,email,phoneNumber,bio,skills} =req.body;
    const file=req.file;
+   let cloudResponse;
     //cloudinary avase (for file)
+
+
+    if(file){
+    //datauri.js ma file mokali
+    console.log("FILE:", file);
+ const fileUri= getDataUri(file);
+
+ //cloudnary.js mathi responce avse
+cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+  resource_type: "raw"
+});
+    }
 
     let skillsArray;
     if(skills){
@@ -165,15 +201,35 @@ export const updateProfile= async (req,res)=>{
              });
            }
 
+
+if (email) {
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser && existingUser._id.toString() !== userId) {
+    return res.status(400).json({
+      message: "Email already exists",
+      success: false
+    });
+  }
+
+  user.email = email;
+}
+
            //updating data
            if(fullname)      user.fullname=fullname;
-           if(email)         user.email=email;
            if(phoneNumber)    user.phoneNumber=phoneNumber;
            if(bio)           user.profile.bio=bio;
            if(skills)    user.profile.skills=skillsArray;
       
        
       //resume comes later here...
+     if(cloudResponse){
+      user.profile.resume=cloudResponse.secure_url //save in the cloudnary url
+      user.profile.resumeOriginalName=file.originalname //save the original file name
+     }
+
+
+
       await user.save();
 
        user = {
@@ -193,5 +249,9 @@ export const updateProfile= async (req,res)=>{
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Profile update failed",
+            success: false
+        });
     }
 }
