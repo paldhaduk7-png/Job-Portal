@@ -1,11 +1,12 @@
 import { Company } from "../models/company.model.js";
-
-
+import getDataUri from "../utils/dataUri.js";
+import cloudinary from "../utils/clodinary.js";
 
 //register company
 export const registerCompany= async(req,res)=>{
 try {
     const {companyName}=req.body;
+    console.log(companyName);
             if(!companyName){
                 return res.status(400).json({
                     message: "Please Enter a Company Name",
@@ -36,6 +37,10 @@ return res.status(200).json({
 
 } catch (error) {
     console.log(error);
+      return res.status(500).json({
+        message: "Internal Server Error",
+        success: false
+    });
 }
 }
 
@@ -64,6 +69,10 @@ const companies= await Company.find({userId});
 
     } catch (error) {
         console.log(error);
+          return res.status(500).json({
+        message: "Internal Server Error",
+        success: false
+    });
     }
 }
 
@@ -89,6 +98,10 @@ export const getComapnyById= async (req,res)=>{
 
     } catch (error) {
         console.log(error);
+          return res.status(500).json({
+        message: "Internal Server Error",
+        success: false
+    });
     }
 }
 
@@ -99,6 +112,23 @@ export const getComapnyById= async (req,res)=>{
         const {name, description, website ,location}=req.body;
         const file=req.file;
         //under cloundanry
+          let logo;
+
+    // only run when file exists
+    if (file) {
+
+      const fileUri = getDataUri(file);
+
+      const cloudResponse = await cloudinary.uploader.upload(
+        fileUri.content,
+        {
+          resource_type: "image"
+        }
+      );
+
+      logo = cloudResponse.secure_url;
+    }
+
 
        const updateData = {};
 
@@ -117,6 +147,9 @@ if (website) {
 if (location) {
   updateData.location = location;
 }
+if (logo) {
+  updateData.logo = logo;
+}
 
         const company =await Company.findByIdAndUpdate(req.params.id , updateData, {new: true});
              if(!company){
@@ -134,5 +167,9 @@ if (location) {
 
     } catch (error) {
         console.log(error);
+          return res.status(500).json({
+        message: "Internal Server Error",
+        success: false
+    });
     }
  }

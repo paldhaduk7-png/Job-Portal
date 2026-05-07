@@ -16,7 +16,7 @@ const isAuthenticated=async (req,res, next)=>{
 const decode= await jwt.verify(token, process.env.SECRET_KEY);
     if(!decode){
         return res.status(400).json({
-            Message: "inavlid token",
+            message: "inavlid token",
             success:false
         });
         
@@ -28,6 +28,10 @@ const decode= await jwt.verify(token, process.env.SECRET_KEY);
 
      } catch (error) {
         console.log(error);
+        return res.status(500).json({
+            message: "Authentication error",
+            success: false
+        });
      }
 }
 

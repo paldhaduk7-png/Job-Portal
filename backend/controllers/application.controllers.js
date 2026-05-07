@@ -45,9 +45,18 @@ const newApplication = await Application.create({
 job.applications.push(newApplication._id);
 await job.save();
 
+// Populate applications with applicant details
+const updatedJob = await Job.findById(jobId).populate({
+    path: 'applications',
+    populate: {
+        path: 'applicant'
+    }
+}).populate('company');
+
 return res.status(200).json({
     message: "Job applyed successfully",
-    success: true
+    success: true,
+    job: updatedJob
 });
 
     } catch (error) {
