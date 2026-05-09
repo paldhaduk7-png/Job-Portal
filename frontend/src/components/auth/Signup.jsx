@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
@@ -16,7 +16,7 @@ const Signup = () => {
 
   const navigate=useNavigate();
   const dispatch=useDispatch();
-  const {loading}=useSelector(store=>store.auth);
+  const {user,loading}=useSelector(store=>store.auth);
 
   const [input, setInput] = useState({
     fullname: "",
@@ -68,6 +68,7 @@ try {
   if(res.data.success){
     toast.success(res.data.message);
     navigate("/login");
+     toast("you are Already sigin");
   }
   
 
@@ -94,6 +95,12 @@ try {
 
 
   };
+
+useEffect(()=>{
+ if(user){
+  navigate("/")
+ }
+}, [])
 
   return (
     <div className="flex items-center  justify-center max-w-7xl mx-auto">

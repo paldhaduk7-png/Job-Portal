@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import { RadioGroup } from "@/components/ui/radio-group";
@@ -18,8 +18,9 @@ const Login = () => {
 
   const navigate=useNavigate();
   const dispatch=useDispatch();
-  const {loading}=useSelector(store=>store.auth);
+  const {user,loading}=useSelector(store=>store.auth);
 
+  
   const [input, setInput] = useState({
     email: "",
     password: "",
@@ -71,6 +72,13 @@ try {
   role: "",
 });
   };
+
+useEffect(()=>{
+ if(user){
+  navigate("/");
+  toast("you are Already Login");
+ }
+}, [])
 
   return (
     <div className="flex items-center  justify-center max-w-7xl mx-auto">

@@ -79,7 +79,7 @@ const AppliedJobTable = () => {
                       appliedJob?.status
                     )}`}
                   >
-                   {appliedJob?.status}
+                   {appliedJob?.status?.toUpperCase()}
                   </Badge>
                 </TableCell>
 

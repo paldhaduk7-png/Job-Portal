@@ -14,6 +14,7 @@ import ComapnySetup from './Admin/ComapnySetup';
 import AdminJobs from './Admin/AdminJobs.jsx'
 import PostJob from './Admin/PostJob';
 import Applicants from './Admin/Applicants';
+import ProtectedRoute from './Admin/ProtectedRoute';
 
 function App() {
 
@@ -82,7 +83,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
      <Compaies />
+     </ProtectedRoute>
     </>
 },
 {
@@ -90,7 +93,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
      <ComapnyCreate />
+     </ProtectedRoute>
     </>
 },
 {
@@ -98,7 +103,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
    <ComapnySetup />
+   </ProtectedRoute>
     </>
 },
 {
@@ -106,7 +113,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
 <AdminJobs />
+</ProtectedRoute>
     </>
 },
 {
@@ -114,7 +123,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
 <PostJob />
+</ProtectedRoute>
     </>
 },
 {
@@ -122,7 +133,9 @@ function App() {
   element:
     <>
     <Navbar />
+    <ProtectedRoute>
 <Applicants />
+</ProtectedRoute>
     </>
 },
 

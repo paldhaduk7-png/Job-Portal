@@ -3,20 +3,18 @@ import CategoryCarousel from './CategoryCarousel'
 import HeroSection from './HeroSection'
 import LatestJobs from './LatestJobs'
 import Footer from './Fotter'
-import userGetAllJobs from '@/hooks/userGetAllJobs'
+import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useSelector } from 'react-redux'
-import Compaies from '@/Admin/Compaies'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
-userGetAllJobs();
+useGetAllJobs();
 
 const {user}=useSelector(store=>store.auth);
-console.log(user);
+// console.log(user);
 const navigate=useNavigate();
  
 useEffect ( ()=>{
- 
   if(user?.role=== 'recruiter'){
 navigate("/admin/companies")
   }
@@ -25,16 +23,12 @@ navigate("/admin/companies")
 
   return (
     <div>
-      
-   
+    
          <HeroSection />
       <CategoryCarousel />
       <LatestJobs />
-      <Footer />
-     
-   
-      
-    
+      <Footer />  
+
     </div>
   )
 }
