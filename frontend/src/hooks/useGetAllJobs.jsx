@@ -13,7 +13,9 @@ useEffect(() => {
   const fetchAllJobs= async () => {
     try {
        
-        const res=await axios.get(`${JOB_API_END_POINT}/get?keyword=${searchQuery || ""}`, {withCredentials:true});
+        const isSalary = ["0-5LPA", "5-10LPA", "10-20LPA"].includes(searchQuery);
+        
+        const res=await axios.get(`${JOB_API_END_POINT}/get?keyword=${isSalary ? "" : searchQuery || ""}`, {withCredentials:true});
         
         console.log("Response:", res.data);
         console.log("Success:", res.data.success);
@@ -29,7 +31,7 @@ useEffect(() => {
     }
   }
  fetchAllJobs();
-}, [searchQuery, , dispatch])
+}, [searchQuery , dispatch])
 
 
    

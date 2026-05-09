@@ -13,35 +13,25 @@ const [filterJob, setFiltterJob]=useState(allJobs);
   useGetAllJobs();
 
 //useefefct atle vapriye chieke jyure koy pan tik badlay tyre filter method call thay
-useEffect(()=>{
- if(searchQuery){
- const filterJobs= allJobs.filter((job)=>{
-   // text filter
-      const matchesText =
+useEffect(() => {
+  if (searchQuery) {
+    const filtered = allJobs.filter(job => {
+      // salary filter (frontend)
+      if (searchQuery === "0-5LPA") return job.salary >= 0 && job.salary <= 5;
+      if (searchQuery === "5-10LPA") return job.salary >= 5 && job.salary <= 10;
+      if (searchQuery === "10-20LPA") return job.salary >= 10 && job.salary <= 20;
+
+      // title / location / industry filter (backend already did this, but double check)
+      return (
         job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.location.toLowerCase().includes(searchQuery.toLowerCase());
-
-      // salary filter
-       if(searchQuery === "0-5LPA"){
-        return job.salary >= 0 && job.salary <= 5;
-      }
-
-      if(searchQuery === "5-10LPA"){
-        return job.salary > 5 && job.salary <= 10;
-      }
-
-      if(searchQuery === "10-20LPA"){
-        return job.salary > 10 && job.salary <= 20;
-      }
-
-      return matchesText;
+        job.location.toLowerCase().includes(searchQuery.toLowerCase())
+      );
     });
- setFiltterJob(filterJobs);
- }else{
-  //means serchQuery is ematy
-  setFiltterJob(allJobs);
- }
-},[allJobs, searchQuery]);
+    setFiltterJob(filtered);
+  } else {
+    setFiltterJob(allJobs);
+  }
+}, [allJobs, searchQuery]);
 
 
   return (
