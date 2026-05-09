@@ -9,32 +9,36 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { useSelector } from "react-redux";
+
 
 const AppliedJobTable = () => {
-  const jobs = [
-    {
-      date: "2024-07-10",
-      role: "Frontend Developer",
-      company: "Google",
-      status: "Selected",
-    },
-    {
-      date: "2024-07-12",
-      role: "Backend Developer",
-      company: "Amazon",
-      status: "Pending",
-    },
-    {
-      date: "2024-07-15",
-      role: "Full Stack Dev",
-      company: "Microsoft",
-      status: "Rejected",
-    },
-  ];
+  // const jobs = [
+  //   {
+  //     date: "2024-07-10",
+  //     role: "Frontend Developer",
+  //     company: "Google",
+  //     status: "Selected",
+  //   },
+  //   {
+  //     date: "2024-07-12",
+  //     role: "Backend Developer",
+  //     company: "Amazon",
+  //     status: "Pending",
+  //   },
+  //   {
+  //     date: "2024-07-15",
+  //     role: "Full Stack Dev",
+  //     company: "Microsoft",
+  //     status: "Rejected",
+  //   },
+  // ];
+
+  const {allAppliedJob}=useSelector(store=>store.job);
 
   const getColor = (status) => {
-    if (status === "Selected") return "bg-green-500";
-    if (status === "Rejected") return "bg-red-500";
+    if (status === "accepted") return "bg-green-500";
+    if (status === "rejected") return "bg-red-500";
     return "bg-yellow-500";
   };
 
@@ -53,33 +57,35 @@ const AppliedJobTable = () => {
           </TableHeader>
 
           <TableBody>
-            {jobs.map((job, index) => (
-              <TableRow key={index} className="h-16 hover:bg-gray-50">
+            { allAppliedJob.length>=0 ?
+            allAppliedJob.map((appliedJob) => (
+              <TableRow key={appliedJob._id} className="h-16 hover:bg-gray-50">
 
                 <TableCell className="py-5 text-base">
-                  {job.date}
+                  {appliedJob?.createdAt?.split("T")[0]}
                 </TableCell>
 
                 <TableCell className="py-5 text-base font-medium">
-                  {job.role}
+                  {appliedJob?.job?.title}
                 </TableCell>
 
                 <TableCell className="py-5 text-base">
-                  {job.company}
+                  {appliedJob?.job?.company?.name}
                 </TableCell>
 
                 <TableCell className="text-right py-5">
                   <Badge
                     className={`text-white px-4 py-1 rounded-full ${getColor(
-                      job.status
+                      appliedJob?.status
                     )}`}
                   >
-                    {job.status}
+                   {appliedJob?.status}
                   </Badge>
                 </TableCell>
 
               </TableRow>
-            ))}
+            )): <span className="font-medium text-md">No Job Appplied yet.</span>
+            }
           </TableBody>
 
           <TableCaption className="mt-4 text-gray-500">

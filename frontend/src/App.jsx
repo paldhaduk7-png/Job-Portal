@@ -13,6 +13,7 @@ import ComapnyCreate from './Admin/ComapnyCreate';
 import ComapnySetup from './Admin/ComapnySetup';
 import AdminJobs from './Admin/AdminJobs.jsx'
 import PostJob from './Admin/PostJob';
+import Applicants from './Admin/Applicants';
 
 function App() {
 
@@ -114,6 +115,14 @@ function App() {
     <>
     <Navbar />
 <PostJob />
+    </>
+},
+{
+  path:`/admin/jobs/:id/applicants`,
+  element:
+    <>
+    <Navbar />
+<Applicants />
     </>
 },
 
