@@ -32,14 +32,18 @@ export const postJob= async (req ,res)=>{
         });
 
 
-        return res.status(201).json({
-            Message: "New Job created Successfully",
+        return res.status(200).json({
+            message: "New Job created Successfully",
             job,
             success: true
         });
 
     } catch (error) {
         console.log(error);
+        return res.status(500).json({
+    message: "Internal server error",
+    success: false
+});
     }
 }
 

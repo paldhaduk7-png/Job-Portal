@@ -7,11 +7,11 @@ import { Label } from "@/components/ui/label";
 import ApplicationJobTabel from "./ApplicationJobTabel";
 import UpadateProfile from "./upadateProfile.jsx";
 import {  useSelector } from "react-redux";
-
+import useGetAppliedJob from "@/hooks/useGetAppliedJob";
 
 const Profile = () => {
  
-
+useGetAppliedJob();
 const [open , setOpen]=useState(false);
 
 const {user}=useSelector(store=>store.auth);

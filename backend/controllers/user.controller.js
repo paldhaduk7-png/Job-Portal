@@ -178,7 +178,7 @@ export const updateProfile= async (req,res)=>{
 
     if(file){
     //datauri.js ma file mokali
-    console.log("FILE:", file);
+    // console.log("FILE:", file);
  const fileUri= getDataUri(file);
 
  //cloudnary.js mathi responce avse
