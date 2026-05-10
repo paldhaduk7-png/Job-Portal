@@ -53,12 +53,18 @@ const statusHandler = async (status , id) => {
     <TableCell>{item?.applicant?.email}</TableCell>
     <TableCell>{item?.applicant?.phoneNumber}</TableCell>
     <TableCell>
-      {
-        item?.applicant?.profile?.resumeOriginalName ?
-         <a className='text-blue-600 cursor-pointer' href={item?.applicant?.profile?.resumeOriginalName} target='_blank'>{item?.applicant?.profile?.resumeOriginalName} 
-        </a> :
-        <span className='text-blue-600'>NA</span>
-      }
+       {
+    item?.applicant?.profile?.resume ?
+     <a 
+      className='text-blue-600 cursor-pointer' 
+      href={`https://docs.google.com/viewer?url=${encodeURIComponent(item?.applicant?.profile?.resume)}&embedded=true`}
+      target='_blank' 
+      rel='noopener noreferrer'
+    >
+      {item?.applicant?.profile?.resumeOriginalName || 'View Resume'} 
+     </a> :
+    <span className='text-blue-600'>NA</span>
+  }
      </TableCell>
     <TableCell>{item?.applicant?.createdAt.split("T")[0]}</TableCell>
 

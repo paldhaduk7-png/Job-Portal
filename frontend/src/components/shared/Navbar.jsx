@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,8 +9,19 @@ import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 const Navbar = () => {
+
+  const [open, setOpen] = useState(false); // State to control the popup
+
 const {user}=useSelector(store=>store.auth);
 const dispatch=useDispatch();
 const navigate=useNavigate();
@@ -28,7 +39,9 @@ try {
 } catch (error) {
   console.log(error);   
 toast.error(error?.response?.data?.message);
-}
+}finally {
+      setOpen(false); // Close the popup
+    }
 }
 
 
@@ -111,7 +124,7 @@ toast.error(error?.response?.data?.message);
         
               <div className="flex w -fit items-center gap-2  ">
                 <LogOut/>
-                 <Button className='cursor-pointer' onClick={logoutHandler} variant="link">Logout</Button>
+                 <Button className='cursor-pointer' onClick={() => setOpen(true)} variant="link">Logout</Button>
      </div>
        </div>
 </div>
@@ -123,6 +136,26 @@ toast.error(error?.response?.data?.message);
    
         </div>
       </div>
+
+
+
+
+{/* --- LOGOUT CONFIRMATION DIALOG --- */}
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Confirm Logout</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to log out? You will need to sign in again to access your account.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2">
+            <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="destructive" onClick={logoutHandler}>Logout</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };

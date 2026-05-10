@@ -21,8 +21,6 @@ const navigate=useNavigate();
     dispatch(setSearchQuery(""));  // ← add this
   }, []);
 
-
-
 useEffect ( ()=>{
   if(user?.role=== 'recruiter'){
 navigate("/admin/companies")

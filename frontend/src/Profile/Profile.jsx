@@ -78,8 +78,11 @@ const {user}=useSelector(store=>store.auth);
         <Label className="font-semibold">Resume</Label>
 
      {user?.Profile?.resume ? (
+
+      // PartMeaninghttps://docs.google.com/viewerGoogle's online PDF viewer?url=pass your PDF link to GoogleencodeURIComponent(...)
+      // converts your URL to safe format (replaces :// → %3A%2F%2F etc.)&embedded=trueopens inside browser, not redirect
   <a
-    href={user.Profile.resume}
+      href={`https://docs.google.com/viewer?url=${encodeURIComponent(user.Profile.resume)}&embedded=true`}
     target="_blank"
     rel="noopener noreferrer"
     className="text-blue-500 hover:underline block"
