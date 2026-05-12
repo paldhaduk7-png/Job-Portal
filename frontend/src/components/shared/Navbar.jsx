@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
+import { clearAllJobs } from "@/redux/jobSlice";
 import {
   Dialog,
   DialogContent,
@@ -32,6 +33,7 @@ try {
   
   if(res.data.success){
   dispatch(setUser(null));
+  dispatch(clearAllJobs());
   navigate("/");
     toast.success(res?.data?.message);
   }
