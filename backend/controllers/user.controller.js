@@ -20,7 +20,7 @@ export const register = async (req, res) => {
     }
 
     //implet cloudary for image
-    const file=req.file;
+   const file = req.files?.profilePhoto?.[0];
 
      let cloudResponse;
     if(file){

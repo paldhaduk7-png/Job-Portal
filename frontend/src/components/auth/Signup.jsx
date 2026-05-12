@@ -50,7 +50,7 @@ formData.append("password", input.password);
 formData.append("role", input.role);
 
 if(input.file){
-  formData.append("file", input.file);
+  formData.append("profilePhoto", input.file);
 }  
 
 try {
@@ -68,7 +68,6 @@ try {
   if(res.data.success){
     toast.success(res.data.message);
     navigate("/login");
-     toast("you are Already sigin");
   }
   
 
