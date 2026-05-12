@@ -171,19 +171,36 @@ export const logout = async (req, res) => {
 export const updateProfile= async (req,res)=>{
     try {
        const {fullname,email,phoneNumber,bio,skills} =req.body;
-   const file=req.file;
-   let cloudResponse;
+
+  const profilePhoto = req.files?.profilePhoto?.[0];
+const resume = req.files?.resume?.[0];
+
+let profilePhotoResponse;
+let resumeResponse;
     //cloudinary avase (for file)
 
 
-    if(file){
+    if(profilePhoto){
     //datauri.js ma file mokali
     // console.log("FILE:", file);
- const fileUri= getDataUri(file);
+ const fileUri= getDataUri(profilePhoto);
 
  //cloudnary.js mathi responce avse
-cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
-  resource_type: "raw"
+profilePhotoResponse = await cloudinary.uploader.upload(fileUri.content, {
+ resource_type: "image"
+});
+    }
+
+    if(resume){
+    //datauri.js ma file mokali
+    // console.log("FILE:", file);
+ const fileUri= getDataUri(resume);
+
+ //cloudnary.js mathi responce avse
+resumeResponse  = await cloudinary.uploader.upload(fileUri.content, {
+  resource_type: "raw", // ← add this for PDFs
+  format: "pdf",    // ← force pdf format
+  flags: "attachment:false" // ← prevent forced download
 });
     }
 
@@ -222,13 +239,16 @@ if (email) {
            if(skills)    user.profile.skills=skillsArray;
       
        
+if(profilePhotoResponse){
+   user.profile.profilePhoto = profilePhotoResponse.secure_url;
+}
+
+
       //resume comes later here...
-     if(cloudResponse){
-      user.profile.resume=cloudResponse.secure_url //save in the cloudnary url
-      user.profile.resumeOriginalName=file.originalname //save the original file name
-     }
-
-
+  if(resumeResponse){
+   user.profile.resume = resumeResponse.secure_url;
+   user.profile.resumeOriginalName = resume.originalname;
+}
 
       await user.save();
 

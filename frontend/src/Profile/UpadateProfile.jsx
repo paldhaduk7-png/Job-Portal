@@ -31,6 +31,8 @@ const UpdateProfile = ({ open, setOpen }) => {
     phoneNumber: user?.phoneNumber || "",
     bio: user?.Profile?.bio || "",        // fixed lowercase
     skills: user?.Profile?.skills || [],
+
+     profilePhoto: null,
     file: null
   });
 
@@ -41,7 +43,7 @@ const UpdateProfile = ({ open, setOpen }) => {
 
   // file input
   const fileHandler = (e) => {
-    setInput({ ...input, file: e.target.files?.[0] });
+    setInput({ ...input,   [e.target.name]: e.target.files?.[0] });
   };
 
   // submit
@@ -59,9 +61,13 @@ const UpdateProfile = ({ open, setOpen }) => {
       input.skills.length ? input.skills.join(",") : ""
     );
 
-    if (input.file) {
-      formData.append("file", input.file);
-    }
+   if (input.profilePhoto) {
+  formData.append("profilePhoto", input.profilePhoto);
+}
+
+if (input.resume) {
+  formData.append("resume", input.resume);
+}
 
     try {
      dispatch(setLoading(true)); //  start loading
@@ -106,6 +112,18 @@ const UpdateProfile = ({ open, setOpen }) => {
 
         <form onSubmit={submitHandler}>
           <div className='grid gap-4 py-4'>
+
+            {/* Profile Photo*/}
+            <div className='grid grid-cols-4 items-center gap-4'>
+              <Label className="text-right">Photo</Label>
+              <Input
+                type="file"
+                accept="image/*"
+                name="profilePhoto"
+                onChange={fileHandler}
+                className='col-span-3'
+              />
+            </div>
 
             {/* Name */}
             <div className='grid grid-cols-4 items-center gap-4'>
@@ -176,7 +194,7 @@ const UpdateProfile = ({ open, setOpen }) => {
               <Label className="text-right">Resume</Label>
               <Input
                 type="file"
-                name="file"
+                name="resume"
                 onChange={fileHandler}
                 accept="application/pdf"
                 className='col-span-3'
