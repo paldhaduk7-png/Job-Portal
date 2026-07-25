@@ -73,26 +73,25 @@ const {user}=useSelector(store=>store.auth);
         </div>
       </div>
 
-      {/* RESUME */}
-      <div className="mt-6">
-        <Label className="font-semibold">Resume</Label>
+{/* RESUME */}
+<div className="mt-6">
+  <Label className="font-semibold">Resume</Label>
+  <div>
+    {user?.Profile?.resume ? (
+      <a
+        href={user.Profile.resume}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 hover:underline block cursor-pointer"
+      >
+        {user?.Profile?.resumeOriginalName || "View Resume"}
+      </a>
+    ) : (
+      <span>NA</span>
+    )}
+  </div>
+</div>
 
-     {user?.Profile?.resume ? (
-
-      // PartMeaninghttps://docs.google.com/viewerGoogle's online PDF viewer?url=pass your PDF link to GoogleencodeURIComponent(...)
-      // converts your URL to safe format (replaces :// → %3A%2F%2F etc.)&embedded=trueopens inside browser, not redirect
-  <a
-      href={`https://docs.google.com/viewer?url=${encodeURIComponent(user.Profile.resume)}&embedded=true`}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="text-blue-500 hover:underline block"
-  >
-    {user?.Profile?.resumeOriginalName || "View Resume"}
-  </a>
-) : (
-  <span>NA</span>
-)}
-      </div>
     </div>
 
       {/* APPLIED JOBS */}

@@ -189,20 +189,21 @@ let resumeResponse;
 profilePhotoResponse = await cloudinary.uploader.upload(fileUri.content, {
  resource_type: "image"
 });
+console.log("RESUME CLOUDINARY:", resumeResponse);
     }
 
-    if(resume){
-    //datauri.js ma file mokali
-    // console.log("FILE:", file);
- const fileUri= getDataUri(resume);
+    if (resume) {
+  const fileUri = getDataUri(resume);
 
- //cloudnary.js mathi responce avse
-resumeResponse  = await cloudinary.uploader.upload(fileUri.content, {
-  resource_type: "raw", // ← add this for PDFs
-  format: "pdf",    // ← force pdf format
-  flags: "attachment:false" // ← prevent forced download
-});
-    }
+  resumeResponse = await cloudinary.uploader.upload(fileUri.content, {
+    resource_type: "image",
+    format: "pdf",
+    use_filename: true,
+    unique_filename: true
+  });
+
+  console.log("RESUME CLOUDINARY:", resumeResponse);
+}
 
     let skillsArray;
     if(skills){
