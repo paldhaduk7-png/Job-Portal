@@ -110,7 +110,12 @@ export const getComapnyById= async (req,res)=>{
 
     try {
         const {name, description, website ,location}=req.body;
-        const file=req.file;
+        // multer may provide single file as `req.file` (for .single)
+        // or as `req.files` when using .fields(). Support both.
+        let file = req.file;
+        if (!file && req.files && req.files.file && req.files.file.length > 0) {
+          file = req.files.file[0];
+        }
         //under cloundanry
           let logo;
 
