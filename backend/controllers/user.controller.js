@@ -276,3 +276,82 @@ if(profilePhotoResponse){
         });
     }
 }
+
+export const updateRecruiterProfile= async (req,res)=>{
+    try {
+       const {fullname,email,phoneNumber,bio,companyName,designation,companyLocation,companyWebsite} =req.body;
+
+  const profilePhoto = req.files?.profilePhoto?.[0];
+let profilePhotoResponse;
+    if(profilePhoto){
+    //datauri.js ma file mokali
+    // console.log("FILE:", file);
+ const fileUri= getDataUri(profilePhoto);
+
+ //cloudnary.js mathi responce avse
+profilePhotoResponse = await cloudinary.uploader.upload(fileUri.content, {
+ resource_type: "image"
+});
+    }
+
+   
+    const userId=req.id;  //middlware authetication
+    let user= await User.findById(userId);
+           if(!user){
+             return res.status(400).json({
+                message:"User not found",
+                success:false
+             });
+           }
+
+
+if (email) {
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser && existingUser._id.toString() !== userId) {
+    return res.status(400).json({
+      message: "Email already exists",
+      success: false
+    });
+  }
+
+  user.email = email;
+}
+
+           //updating data
+           if(fullname)      user.fullname=fullname;
+           if(phoneNumber)    user.phoneNumber=phoneNumber;
+           if(bio)           user.profile.bio=bio;
+           if(companyName)           user.profile.companyName=companyName;
+           if(designation)           user.profile.designation=designation;
+           if(companyLocation)           user.profile.companyLocation=companyLocation;
+           if(companyWebsite)           user.profile.companyWebsite=companyWebsite;
+            
+if(profilePhotoResponse){
+   user.profile.profilePhoto = profilePhotoResponse.secure_url;
+}
+      await user.save();
+
+       user = {
+      _id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      Profile: user.profile,
+    };
+
+     return res.status(200).json({
+        message : "Profile Upadated Succesfuuly",
+        user,
+        success:true
+     })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Profile update failed",
+            success: false
+        });
+    }
+}
