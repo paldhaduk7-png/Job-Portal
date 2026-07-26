@@ -24,16 +24,28 @@ role:{
     enum: ['student', 'recruiter'],
       required: true
 },
-profile:{
-    bio:{type:String},
-    skills: [{type:String}],
-    resume: {type:String},//URL to resume file
-    resumeOriginalName:{type: String},
-    company: {type:mongoose.Schema.Types.ObjectId, ref: 'Company'},
-    profilePhoto:{
-        type: String,
-        default: ""
-    },
+profile: {
+  // Common
+  bio: { type: String },
+  profilePhoto: {
+    type: String,
+    default: ""
+  },
+
+  // Student
+  skills: [{ type: String }],
+  resume: { type: String },
+  resumeOriginalName: { type: String },
+
+  // Recruiter
+  company: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company"
+  },
+  companyName: { type: String },
+  designation: { type: String },
+  companyLocation: { type: String },
+  companyWebsite: { type: String }
 }
 
 } ,{timestamps: true});

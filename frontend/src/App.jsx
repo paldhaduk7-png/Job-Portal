@@ -15,6 +15,7 @@ import AdminJobs from './Admin/AdminJobs.jsx'
 import PostJob from './Admin/PostJob';
 import Applicants from './Admin/Applicants';
 import ProtectedRoute from './Admin/ProtectedRoute';
+import RecuterProfile from './Profile/RecuterProfile';
 
 
 function App() {
@@ -86,6 +87,15 @@ function App() {
     <Navbar />
     <ProtectedRoute>
      <Compaies />
+     </ProtectedRoute>
+    </>
+},{
+  path:"/recruiter-profile",
+  element:
+    <>
+    <Navbar />
+    <ProtectedRoute>
+     <RecuterProfile />
      </ProtectedRoute>
     </>
 },

@@ -115,14 +115,18 @@ toast.error(error?.response?.data?.message);
 
 <div className="flex  flex-col  text-gray-600">
 
-{
-  user && user.role=== 'student' &&(
-    <div className="flex w-fit my-2 items-center gap-2 cursor-pointer ">
-                <User2 />
-                <Button variant="link"> <Link to="/profile">View profile</Link></Button>
-     </div>
-  )
-}
+{user && (
+  <div className="flex w-fit my-2 items-center gap-2 cursor-pointer">
+    <User2 />
+    <Button variant="link">
+      <Link
+        to={user.role === "student" ? "/profile" : "/recruiter-profile"}
+      >
+        View profile
+      </Link>
+    </Button>
+  </div>
+)}
         
               <div className="flex w -fit items-center gap-2  ">
                 <LogOut/>
