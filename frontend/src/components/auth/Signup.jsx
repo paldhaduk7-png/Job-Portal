@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
 import { Loader2 } from "lucide-react";
+import { Eye,EyeOff } from "lucide-react";
 
 const Signup = () => {
 
@@ -18,6 +19,7 @@ const Signup = () => {
   const dispatch=useDispatch();
   const {user,loading}=useSelector(store=>store.auth);
 
+const [password ,setPassword]=useState(false);
   const [input, setInput] = useState({
     fullname: "",
     email: "",
@@ -101,123 +103,187 @@ useEffect(()=>{
  }
 }, [])
 
-  return (
-    <div className="flex items-center  justify-center max-w-7xl mx-auto">
-      <form
-        onSubmit={submitHandler}
-        className="w-1/2 bg-gray-900  text-white border border-gray-200 rounded-md p-4 my-10"
-      >
-        <h1 className="font-bold text-xl mb-5">Sign Up</h1>
+ return (
+  <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center px-4 py-10">
+    <div className="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden grid lg:grid-cols-2">
 
-        <div className="my-2  ">
-          <Label>Full Name</Label>
-          <Input
-            type="text"
-            placeholder="enter your fullnmae"
-            value={input.fullname}
-            name="fullname"
-            onChange={changeEventHandler}
-           required
-            className="border border-green-500  bg-purple-500/20 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          />
+      {/* Left side */}
+      <div className="hidden lg:flex bg-gradient-to-br from-violet-700 to-indigo-600 text-white p-10 flex-col justify-between">
+        <div>
+          <h2 className="text-2xl font-bold mb-12">JobPortal</h2>
+
+          <h1 className="text-4xl font-bold leading-tight">
+            Start your journey.
+            <br />
+            Find your opportunity.
+          </h1>
+
+          <p className="text-violet-100 mt-5 leading-relaxed">
+            Create your account and connect with opportunities that match
+            your skills and goals.
+          </p>
         </div>
 
-        <div className="my-5">
-          <Label>Email</Label>
-          <Input
-            type="email"
-            placeholder="enter your email"
-            value={input.email}
-            name="email"
-            onChange={changeEventHandler}
-            required
-            className="border border-green-500 bg-purple-500/20 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          />
-        </div>
+        <p className="text-sm text-violet-200">
+          Students and recruiters. One platform.
+        </p>
+      </div>
 
-        <div className="my-5">
-          <Label>Phone Number</Label>
-          <Input
-            type="text"
-            placeholder="phone no."
-            value={input.phoneNumber}
-            name="phoneNumber"
-            onChange={changeEventHandler}
-            required
-            className="border border-green-500 bg-purple-500/20 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          />
-        </div>
+      {/* Right side */}
+      <div className="p-8 sm:p-10 lg:p-12">
+        <form onSubmit={submitHandler} className="w-full">
 
-        <div className="my-5">
-          <Label>Password</Label>
-          <Input
-            type="password"
-            placeholder="Password"
-            value={input.password}
-            name="password"
-            onChange={changeEventHandler}
-            required
-            className="border border-green-500 bg-purple-500/20 rounded-md px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none"
-          />
-        </div>
+          <h1 className="font-bold text-3xl text-slate-900">
+            Create account
+          </h1>
 
-        <div className="flex items-center justify-between">
-          <RadioGroup 
-          className="flex items-center gap-4 my-5 ">
-            <div className="flex items-center gap-3">
-              <Input
-                type="radio"
-                name="role"
-                value="student"
-                checked={input.role === "student"}
-                onChange={changeEventHandler}
-                className="cursor-pointer"
-              
-              />
-              <Label htmlFor="r1">Student</Label>
-            </div>
+          <p className="text-slate-500 mt-2 mb-7">
+            Sign up to get started with JobPortal.
+          </p>
 
-            <div className="flex items-center gap-3">
-              <Input
-                type="radio"
-                name="role"
-                value="recruiter"
-                checked={input.role === "recruiter"}
-                onChange={changeEventHandler}
-                className="cursor-pointer"
-              />
-              <Label htmlFor="r2">Recruiter</Label>
-            </div>
-          </RadioGroup>
+          {/* Full Name */}
+          <div className="mb-4">
+            <Label className="text-slate-700">Full Name</Label>
 
-          <div className="flex items-center gap-2">
-            <Label>Profile</Label>
-            <Input 
-            accept="image/*"
-             type="file" 
-             onChange={changeFileHandler}
-             className="cursor-pointer" />
+            <Input
+              type="text"
+              placeholder="Enter your full name"
+              value={input.fullname}
+              name="fullname"
+              onChange={changeEventHandler}
+              required
+              className="mt-2 h-11 border-slate-300"
+            />
           </div>
-        </div>
 
-       {
-         loading? <Button className="w-full mt-4" > <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</Button>:
+          {/* Email */}
+          <div className="mb-4">
+            <Label className="text-slate-700">Email</Label>
+
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={input.email}
+              name="email"
+              onChange={changeEventHandler}
+              required
+              className="mt-2 h-11 border-slate-300"
+            />
+          </div>
+
+          {/* Phone */}
+          <div className="mb-4">
+            <Label className="text-slate-700">Phone Number</Label>
+
+            <Input
+              type="text"
+              placeholder="Enter phone number"
+              value={input.phoneNumber}
+              name="phoneNumber"
+              onChange={changeEventHandler}
+              required
+              className="mt-2 h-11 border-slate-300"
+            />
+          </div>
+
+          {/* Password */}
+            <Label className="text-slate-700">Password</Label>
+          <div className="mb-5 flex">
+            <Input
+              type={password ? "text" : "password"}
+              placeholder="Create a password"
+              value={input.password}
+              name="password"
+              onChange={changeEventHandler}
+              required
+              className="mt-2 h-11 border-slate-300"
+            />
+                {password ? (
+    <Eye
+      onClick={() => setPassword(false)}
+      className="mt-5 size-7.5 ml-1 cursor-pointer"
+    />
+  ) : (
+    <EyeOff
+      onClick={() => setPassword(true)}
+      className="mt-5 size-7.5 ml-1 cursor-pointer"
+    />
+  )}
+          </div>
+
+          {/* Role */}
+          <div className="mb-5">
+            <Label className="text-slate-700">Choose your role</Label>
+
+            <RadioGroup className="flex gap-6 mt-3">
+              <div className="flex items-center gap-2">
+                <Input
+                  type="radio"
+                  name="role"
+                  value="student"
+                  checked={input.role === "student"}
+                  onChange={changeEventHandler}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label>Student</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Input
+                  type="radio"
+                  name="role"
+                  value="recruiter"
+                  checked={input.role === "recruiter"}
+                  onChange={changeEventHandler}
+                  className="w-4 h-4 cursor-pointer"
+                />
+                <Label>Recruiter</Label>
+              </div>
+            </RadioGroup>
+          </div>
+
+          {/* Profile Photo */}
+          <div className="mb-6">
+            <Label className="text-slate-700">Profile Photo</Label>
+
+            <Input
+              accept="image/*"
+              type="file"
+              onChange={changeFileHandler}
+              className="mt-2 cursor-pointer border-slate-300"
+            />
+          </div>
+
+          {/* Submit */}
+          {loading ? (
+            <Button className="w-full h-11" disabled>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Please Wait
+            </Button>
+          ) : (
             <Button
-                 type="submit"
-                 className="w-full my-4 bg-purple-600 hover:bg-purple-700 transition"
-               >
-                 Signup
-               </Button>
-       }
-        <span className="text-sm">
-          Already have an account?
-          <Link to="/login" className="text-blue-600">
-            Login
-          </Link>
-        </span>
-      </form>
+              type="submit"
+              className="w-full h-11 cursor-pointer bg-violet-600 hover:bg-violet-700"
+            >
+              Sign Up
+            </Button>
+          )}
+
+          <p className="text-sm text-center text-slate-500 mt-6">
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              className="text-violet-600 font-semibold"
+            >
+              Login
+            </Link>
+          </p>
+
+        </form>
+      </div>
     </div>
-  );
+  </div>
+);
 };
 
 export default Signup;
