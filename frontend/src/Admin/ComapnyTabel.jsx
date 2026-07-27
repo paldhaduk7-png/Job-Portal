@@ -10,15 +10,16 @@ import {
 } from "@/components/ui/table"
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Edit2, MoreHorizontal } from 'lucide-react'
+import { Edit2,MoreHorizontal } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import CompanyDelete from './hadling CURD/CompanyDelete';
 
 const ComapnyTabel = () => {
 const navigate=useNavigate();
 
 
-  const { allCompany , searchComapnyByText } = useSelector(store => store.company);
+const { allCompany , searchComapnyByText } = useSelector(store => store.company);
 const [filterCompany, setFilterCompany]=useState(allCompany);
   
 
@@ -91,11 +92,14 @@ useEffect( ()=>{
 
                       <PopoverContent className='w-32'>
 
+      
                         <div onClick={()=> navigate(`/admin/companies/${company._id}`)} className='flex items-center gap-2 w-fit cursor-pointer'>
                           <Edit2  />
                           <span>Edit</span>
                         </div>
-      
+
+                        <CompanyDelete companyId={company._id} />
+                        
                       </PopoverContent>
 
                     </Popover>
