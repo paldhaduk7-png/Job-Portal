@@ -1,6 +1,7 @@
 import { Company } from "../models/company.model.js";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "../utils/clodinary.js";
+import mongoose from "mongoose";
 
 //register company
 export const registerCompany= async(req,res)=>{
@@ -177,4 +178,35 @@ if (logo) {
         success: false
     });
     }
+ }
+
+
+ //delte compmny
+ export const DeletCompny=async (req,res)=>{
+  
+  try {
+    const { id } = req.params;
+
+    const deletedCompany = await Company.findByIdAndDelete(id);
+
+    if (!deletedCompany) {
+      return res.status(404).json({
+        message: "Company is Not Found!!!",
+        success: false
+      });
+    }
+
+    return res.status(200).json({
+      message: "Company deleted successfully.",
+      success: true
+    });
+
+  } catch (error) {
+    console.log(error);
+
+    return res.status(500).json({
+      message: "Internal Server Error",
+      success: false
+    });
+  }
  }
