@@ -16,6 +16,7 @@ import PostJob from './Admin/PostJob';
 import Applicants from './Admin/Applicants';
 import ProtectedRoute from './Admin/ProtectedRoute';
 import RecuterProfile from './Profile/RecuterProfile';
+import JobUpadate from './Admin/hadling CURD/JobUpadate';
 
 
 
@@ -137,6 +138,16 @@ function App() {
     <Navbar />
     <ProtectedRoute>
 <PostJob />
+</ProtectedRoute>
+    </>
+},
+{
+  path:"/admin/job/update/:id",
+  element:
+    <>
+    <Navbar />
+    <ProtectedRoute>
+<JobUpadate />
 </ProtectedRoute>
     </>
 },
