@@ -79,7 +79,11 @@ return res.status(200).json({
     success: true,
 })
     } catch (error) {
-        console.log(error);
+            console.log(error);
+        return res.status(500).json({
+    message: "Internal server error",
+    success: false
+});
     }
 }
 
@@ -105,7 +109,11 @@ export const findJobId= async (req,res)=>{
 })
 
     } catch (error) {
-        console.log(error);
+           console.log(error);
+        return res.status(500).json({
+    message: "Internal server error",
+    success: false
+});
     }
 } 
 
@@ -133,7 +141,102 @@ return res.status(200).json({
 })
     
     } catch (error) {
-        console.log(error);
+           console.log(error);
+        return res.status(500).json({
+    message: "Internal server error",
+    success: false
+});
     }
 }
 
+export const updateJob= async(req,res)=>{
+    try {
+        const {title,description, requirements, salary,location, jobType,experinence, position}=req.body;
+        const jobId=req.params.id;
+
+              if(!jobId){
+                return res.status(404).json({
+                    message: "Job is not found!!!",
+                    success: false
+                })
+              }
+    const updatjob={};
+
+    if(title){
+        updatjob.title=title;
+    }
+    if(description){
+        updatjob.description=description;
+    }
+    if(requirements){
+        updatjob.requirements= requirements.split(",");
+    }
+    if(salary){
+        updatjob.salary=salary;
+    }
+    if(location){
+        updatjob.location=location;
+    }
+    if(jobType){
+        updatjob.jobType=jobType;
+    }
+    if(experinence){
+        updatjob.experinence=experinence;
+    }
+    if(position){
+        updatjob.position=position;
+    }
+
+
+            const jobUp= await Job.findByIdAndUpdate( jobId,updatjob,{new: true});
+                         if(!jobUp){
+                return res.status(404).json({
+                    message: "job not found..",
+                    success : false
+                });
+             }
+
+ return res.status(200).json({
+            message: "Job Updated Successfully",
+            success: true
+        });
+    } catch (error) {
+            console.log(error);
+        return res.status(500).json({
+    message: "Internal server error",
+    success: false
+});
+    }
+}
+
+
+export const deletJob=async (req,res)=>{
+ try {
+     const { id } = req.params;
+        console.log(id);
+        const job = await Job.findById(id);
+console.log("FOUND JOB:", job);
+     const deletedJob = await Job.findByIdAndDelete(id);
+ 
+     if (!deletedJob) {
+       return res.status(404).json({
+         message: "Job is Not Found!!!",
+         success: false
+       });
+     }
+ 
+     return res.status(200).json({
+       message: "Job deleted successfully.",
+       success: true
+     });
+ 
+   } catch (error) {
+     console.log(error);
+ 
+     return res.status(500).json({
+       message: "Internal Server Error",
+       success: false
+     });
+   }
+
+}
