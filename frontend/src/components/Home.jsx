@@ -32,7 +32,7 @@ navigate("/admin/companies")
     <div>
     
          <HeroSection />
-      <CategoryCarousel />
+      {/* <CategoryCarousel /> */}
       <LatestJobs />
       <Footer />  
 
