@@ -310,13 +310,12 @@ const Navbar = () => {
             >
               Cancel
             </Button>
-            <Button 
-              variant="destructive" 
-              onClick={logoutHandler}
-              className="flex-1 rounded-xl h-11 bg-red-600 hover:bg-red-700"
-            >
-              Logout
-            </Button>
+           <Button 
+  onClick={logoutHandler}
+  className="flex-1 h-11 rounded-xl bg-red-600 text-white hover:bg-red-700"
+>
+  Logout
+</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
