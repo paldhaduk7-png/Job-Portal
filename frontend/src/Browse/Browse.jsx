@@ -1,41 +1,58 @@
 import React, { useEffect } from 'react'
 import Job from '@/Job/job';
-import {  useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { setSearchQuery } from '@/redux/jobSlice';
-// const randomJobs=[1,2,3, 4 ,5 ,6 ,7];
+import { Briefcase } from 'lucide-react';
 
 const Browse = () => {
-
   useGetAllJobs();
+  const { allJobs } = useSelector(store => store.job);
+  const dispatch = useDispatch();
 
-  const {allJobs}=useSelector(store=>store.job);
-// console.log(allJobs);
-
-const dispatch=useDispatch();
-//for clean up in serachQuery
-useEffect(()=>{
-return ()=>{
-  dispatch(setSearchQuery(""));
-}
-},[])
+  useEffect(() => {
+    return () => {
+      dispatch(setSearchQuery(""));
+    };
+  }, [dispatch]);
 
   return (
-    <div className="max-w-7xl mx-auto my-10">
-     <h1 className='font-bold text-xl my-10'>Search Results ({allJobs?.length || 0})</h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      
+      {/* Header with better styling */}
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-800">
+            Search Results
+          </h1>
+          <p className="text-slate-500 mt-1">
+            {allJobs?.length || 0} jobs found
+          </p>
+        </div>
+        <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
+          <Briefcase className="w-4 h-4" />
+          {allJobs?.length || 0} Jobs
+        </div>
+      </div>
 
-     <div className='grid grid-cols-3 gap-4 '> 
-          {
-allJobs?.length > 0 ?
-       allJobs?.map((job)=>(
-             <Job key={job._id} job={job} />
-        )) :
-        <span>No job found</span>
-     }
-     </div>
-    
+      {/* Job Grid with better responsive layout */}
+      {allJobs?.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {allJobs.map((job) => (
+            <Job key={job._id} job={job} />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-16 bg-slate-50/80 rounded-3xl border-2 border-dashed border-slate-200">
+          <div className="flex flex-col items-center gap-3">
+            <Briefcase className="w-16 h-16 text-slate-300" />
+            <h3 className="text-xl font-semibold text-slate-600">No jobs found</h3>
+            <p className="text-slate-400">Check back later for new opportunities</p>
+          </div>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Browse
+export default Browse;
