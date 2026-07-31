@@ -55,7 +55,7 @@ const LatestJobs = () => {
       {/* View More Button (if more than 6 jobs) */}
       {allJobs?.length > 6 && (
         <div className="text-center mt-10">
-          <Link to="/browse">
+          <Link to="/jobs">
             <button className="px-8 py-3 bg-white border-2 border-purple-200 text-purple-600 font-semibold rounded-xl hover:bg-purple-50 hover:border-purple-300 transition-all duration-300 shadow-sm hover:shadow-md">
               Browse All Jobs
             </button>
