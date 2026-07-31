@@ -18,11 +18,7 @@ import ProtectedRoute from './Admin/ProtectedRoute';
 import RecuterProfile from './Profile/RecuterProfile';
 import JobUpadate from './Admin/hadling CURD/JobUpadate';
 
-
-
-function App() {
-
-  const appRouter= createBrowserRouter([
+const appRouter= createBrowserRouter([
 //client
 {
   path:"/",
@@ -164,6 +160,8 @@ function App() {
 
 
   ]);
+
+function App() {
 
   return (
     <>

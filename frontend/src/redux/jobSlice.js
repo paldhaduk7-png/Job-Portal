@@ -6,6 +6,7 @@ const jobSlice=createSlice({
     name:"job",
     initialState:{
         allJobs:[],
+         
         singleJob:null,
         allAdminJobs: [],
         searchJobsByText: "",
@@ -31,6 +32,7 @@ const jobSlice=createSlice({
         setSearchQuery:(state,action)=>{
             state.searchQuery=action.payload;
         },
+  
         clearAllJobs:(state)=>{
             state.allJobs=[];
             state.singleJob=null;

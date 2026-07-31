@@ -22,7 +22,7 @@ useEffect(() => {
         console.log("Jobs:", res.data.job);
      
         if(res.data.success){
-            dispatch(setAllJobs(res.data.job));
+          dispatch(setAllJobs(res.data.job));
             // console.log("Jobs dispatched to Redux");
         }
 

@@ -7,226 +7,190 @@ import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import { JOB_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
-import { Loader2 } from 'lucide-react'
+import { Loader2, ArrowLeft, Briefcase, MapPin, FileText, List, DollarSign, Users, Clock, Building2 } from 'lucide-react'
 
 const JobUpadate = () => {
-const navigate=useNavigate();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [input, setInput] = useState({
+    title: "",
+    description: "",
+    requirements: "",
+    salary: "",
+    experinence: "",
+    location: "",
+    jobType: "",
+    position: 0,
+    companyId: ""
+  });
 
+  const [loading, setLoading] = useState(false);
 
-const {id}=useParams();
-    const [input, setInput] = useState({
-        title: "",
-        description: "",
-        requirements: "",
-        salary: "",
-        experinence: "",
-        location: "",
-        jobType: "",
-        position: 0,
-        companyId: ""
-    });
+  const changeEventHandler = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+  }
 
-    const [loading, setLoading]=useState(false);
-
-    const changeEventHandler = (e) => {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    }
-
-   const submitHandler = async (e)=>{
+  const submitHandler = async (e) => {
     e.preventDefault();
-
-try {
-    setLoading(true);
-
-    
-    const res= await axios.put(`${JOB_API_END_POINT}/update/${id}`,input, {withCredentials:true})
-    if(res.data.success){
+    try {
+      setLoading(true);
+      const res = await axios.put(`${JOB_API_END_POINT}/update/${id}`, input, { withCredentials: true })
+      if (res.data.success) {
         toast.success(res?.data?.message);
         navigate("/admin/jobs")
-    }
-
-} catch (error) {
-toast.error(error?.response?.data?.message);
-    console.log(error);
-}finally{
-    setLoading(false);
-}
-
-   }
-
-
-  useEffect(() => {
-  const getJobData = async () => {
-    try {
-      const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {withCredentials:true});
-           
-      if (res.data.success) {
-        //  console.log(res.data);
-        setInput({
-            title:res.data.job.title,
-        description: res.data.job.description,
-        requirements:res.data.job.requirements?.join(", ") || "",
-        salary:res.data.job.salary,
-        experinence: res.data.job.experienceLevel,
-        location:res.data.job.location ,
-        jobType:res.data.job.jobType,
-        position:res.data.job.position,
-        });
       }
     } catch (error) {
+      toast.error(error?.response?.data?.message);
       console.log(error);
-      toast.error("Failed to load data");
+    } finally {
+      setLoading(false);
     }
-  };
-
-  if (id) {
-    getJobData();
   }
-}, [id]);
+
+  useEffect(() => {
+    const getJobData = async () => {
+      try {
+        const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, { withCredentials: true });
+        if (res.data.success) {
+          setInput({
+            title: res.data.job.title,
+            description: res.data.job.description,
+            requirements: res.data.job.requirements?.join(", ") || "",
+            salary: res.data.job.salary,
+            experinence: res.data.job.experienceLevel,
+            location: res.data.job.location,
+            jobType: res.data.job.jobType,
+            position: res.data.job.position,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to load data");
+      }
+    };
+    if (id) {
+      getJobData();
+    }
+  }, [id]);
+
+  const fields = [
+    { name: 'title', label: 'Job Title', placeholder: 'e.g. Frontend Developer', icon: Briefcase, type: 'text' },
+    { name: 'location', label: 'Location', placeholder: 'e.g. Remote, New York', icon: MapPin, type: 'text' },
+    { name: 'description', label: 'Description', placeholder: 'Brief overview of the role', icon: FileText, type: 'text', fullWidth: true },
+    { name: 'requirements', label: 'Requirements', placeholder: 'e.g. React, Node.js', icon: List, type: 'text', fullWidth: true },
+    { name: 'salary', label: 'Salary', placeholder: 'e.g. 8(LPA)', icon: DollarSign, type: 'text' },
+    { name: 'experinence', label: 'Experience Level', placeholder: 'e.g. Mid-level, Senior', icon: Users, type: 'text' },
+    { name: 'jobType', label: 'Job Type', placeholder: 'e.g. Full-time, Contract', icon: Clock, type: 'text' },
+    { name: 'position', label: 'No. of Positions', placeholder: '1', icon: Users, type: 'number' },
+  ]
 
   return (
-     <div className='w-full max-w-4xl mx-auto my-12 px-6'>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Back Button */}
+        <button
+          onClick={() => navigate("/admin/jobs")}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6 group"
+        >
+          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-sm font-medium">Back to Jobs</span>
+        </button>
 
-
-<form onSubmit={submitHandler}> 
-            {/* Header */}
-            <div className='mb-8'>
-                <h1 className='text-2xl font-semibold text-gray-900'>Update Job</h1>
-                <p className='text-sm text-gray-500 mt-1'>Fill in the details below to update a job listing.</p>
+        {/* Main Card */}
+        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-6">
+            <div className="flex items-center gap-4">
+              <div className="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
+                <Briefcase className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-white">Update Job</h1>
+                <p className="text-orange-100 text-sm mt-1">
+                  Fill in the details below to update a job listing.
+                </p>
+              </div>
             </div>
-
-            {/* Form Card */}
-            <div className='bg-white border border-gray-200 rounded-2xl shadow-sm p-8'>
-
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-
-                    {/* Title */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>Job Title</Label>
-                        <Input
-                            type='text'
-                            placeholder="e.g. Frontend Developer"
-                            name='title'
-                            value={input.title}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Location */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>Location</Label>
-                        <Input
-                            type='text'
-                            placeholder="e.g. Remote, New York"
-                            name='location'
-                            value={input.location}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Description — full width */}
-                    <div className='flex flex-col gap-1.5 md:col-span-2'>
-                        <Label className='text-sm font-medium text-gray-700'>Description</Label>
-                        <Input
-                            type='text'
-                            placeholder="Brief overview of the role"
-                            name='description'
-                            value={input.description}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Requirements — full width */}
-                    <div className='flex flex-col gap-1.5 md:col-span-2'>
-                        <Label className='text-sm font-medium text-gray-700'>Requirements</Label>
-                        <Input
-                            type='text'
-                            placeholder="e.g. React, Node.js"
-                            name='requirements'
-                            value={input.requirements}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Salary */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>Salary</Label>
-                        <div className='relative'>
-                            <span className='absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm'>₹</span>
-                            <Input
-                                type='text'
-                                placeholder="e.g. 8(LPA)"
-                                name='salary'
-                                value={input.salary}
-                                onChange={changeEventHandler}
-                                className='h-10 pl-7 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                            />
-                        </div>
-                    </div>
-
-                    {/* Experience Level */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>Experience Level</Label>
-                        <Input
-                            type='text'
-                            placeholder="e.g. Mid-level, Senior"
-                            name='experinence'
-                            value={input.experinence}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Job Type */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>Job Type</Label>
-                        <Input
-                            type='text'
-                            placeholder="e.g. Full-time, Contract"
-                            name='jobType'
-                            value={input.jobType}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
-
-                    {/* Position */}
-                    <div className='flex flex-col gap-1.5'>
-                        <Label className='text-sm font-medium text-gray-700'>No. of Positions</Label>
-                        <Input
-                           type='number'
-                            placeholder="1"
-                            name='position'
-                            value={input.position}
-                            onChange={changeEventHandler}
-                            className='h-10 rounded-lg border-gray-300 focus-visible:ring-2 focus-visible:ring-orange-400 focus-visible:ring-offset-0 focus-visible:border-transparent text-sm'
-                        />
-                    </div>
           </div>
 
-                {/* Divider + Submit */}
-                <div className='mt-8 pt-6 border-t border-gray-100 flex justify-end gap-3'>
-                    <Button onClick ={()=> navigate("/admin/jobs")} variant='outline' className='rounded-lg px-6 text-sm h-10 border-gray-300 text-gray-600 hover:bg-gray-50 cursor-pointer'>
-                        Cancel
-                    </Button>
-                   
-                        {/* Submit */}
-       {
-  loading? <Button className="w-full mt-4" > <Loader2 className="mr-2 h-4 w-4 animate-spin"/>Please Wait</Button>:
-     <Button type="submit" className='rounded-lg px-6 text-sm h-10 bg-orange-500 hover:bg-orange-600 text-white font-medium d cursor-pointer'>
-                        Update Job
-                    </Button>
-}
-                </div>
-           
+          <form onSubmit={submitHandler} className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {fields.map((field) => {
+                const Icon = field.icon
+                const isFullWidth = field.fullWidth
+                
+                return (
+                  <div key={field.name} className={isFullWidth ? 'md:col-span-2' : ''}>
+                    <Label className="block text-sm font-medium text-gray-700 mb-1.5">
+                      {field.label}
+                    </Label>
+                    <div className="relative">
+                      <div className="absolute left-3 top-1/2 -translate-y-1/2">
+                        <Icon className="h-4 w-4 text-gray-400" />
+                      </div>
+                      <Input
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        value={input[field.name] || ''}
+                        onChange={changeEventHandler}
+                        className={`pl-10 h-11 border-gray-200 focus:border-orange-500 focus:ring-orange-500`}
+                      />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
 
-            </form>
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 pt-6 border-t border-gray-200">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => navigate("/admin/jobs")}
+                className="w-full sm:w-auto px-8 h-11 border-2 hover:bg-gray-50 transition-colors"
+                disabled={loading}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full sm:w-auto px-8 h-11 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transition-all flex-1"
+              >
+                {loading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Updating...
+                  </>
+                ) : (
+                  'Update Job'
+                )}
+              </Button>
+            </div>
+          </form>
         </div>
+
+        {/* Quick Tips */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+            <div className="text-orange-500 text-lg mb-1">📝</div>
+            <h4 className="text-sm font-medium text-gray-900">Clear Title</h4>
+            <p className="text-xs text-gray-500">Use a clear and descriptive job title</p>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+            <div className="text-orange-500 text-lg mb-1">💰</div>
+            <h4 className="text-sm font-medium text-gray-900">Competitive Salary</h4>
+            <p className="text-xs text-gray-500">Mention salary range to attract more applicants</p>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+            <div className="text-orange-500 text-lg mb-1">🎯</div>
+            <h4 className="text-sm font-medium text-gray-900">Clear Requirements</h4>
+            <p className="text-xs text-gray-500">List specific skills and experience needed</p>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 
