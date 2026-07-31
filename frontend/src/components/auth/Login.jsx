@@ -64,13 +64,7 @@ const Login = () => {
     });
   };
 
-  useEffect(() => {
-    if (user) {
-      navigate("/");
-      toast("You are already logged in");
-    }
-  }, [user, navigate]);
-
+ 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-gradient-to-br from-slate-50 via-white to-blue-50 relative overflow-hidden">
       

@@ -1,5 +1,5 @@
 import {Job} from "../models/job.model.js";
-
+import { Application } from "../models/application.model.js";
 
 
 //creating job(by admin)
@@ -212,23 +212,27 @@ export const updateJob= async(req,res)=>{
 
 export const deletJob=async (req,res)=>{
  try {
-     const { id } = req.params;
-        console.log(id);
-        const job = await Job.findById(id);
-console.log("FOUND JOB:", job);
-     const deletedJob = await Job.findByIdAndDelete(id);
- 
-     if (!deletedJob) {
-       return res.status(404).json({
-         message: "Job is Not Found!!!",
-         success: false
-       });
-     }
- 
-     return res.status(200).json({
-       message: "Job deleted successfully.",
-       success: true
-     });
+       const { id } = req.params;
+
+    const job = await Job.findById(id);
+
+    if (!job) {
+      return res.status(404).json({
+        message: "Job not found",
+        success: false,
+      });
+    }
+
+    // Delete applications for this job
+    await Application.deleteMany({ job: id });
+
+    // Delete job
+    await Job.findByIdAndDelete(id);
+
+    return res.status(200).json({
+      message: "Job and related applications deleted successfully",
+      success: true,
+    });
  
    } catch (error) {
      console.log(error);
