@@ -7,14 +7,14 @@ import { Briefcase } from 'lucide-react';
 
 const Browse = () => {
   useGetAllJobs();
-  const { allJobs } = useSelector(store => store.job);
+const { allJobs } = useSelector(store => store.job);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(setSearchQuery(""));
-    };
-  }, [dispatch]);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(setSearchQuery(""));
+  //   };
+  // }, [dispatch]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -36,13 +36,13 @@ const Browse = () => {
       </div>
 
       {/* Job Grid with better responsive layout */}
-      {allJobs?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {allJobs.map((job) => (
-            <Job key={job._id} job={job} />
-          ))}
-        </div>
-      ) : (
+  {allJobs?.length > 0 ? (
+  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+    {allJobs?.map((job) => (
+      <Job key={job._id} job={job} />
+    ))}
+  </div>
+) : (
         <div className="text-center py-16 bg-slate-50/80 rounded-3xl border-2 border-dashed border-slate-200">
           <div className="flex flex-col items-center gap-3">
             <Briefcase className="w-16 h-16 text-slate-300" />
