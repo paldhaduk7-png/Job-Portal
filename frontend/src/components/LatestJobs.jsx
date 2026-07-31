@@ -3,8 +3,10 @@ import LatestJobCards from './LatestJobCards';
 import { useSelector } from 'react-redux';
 import { Briefcase, TrendingUp, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import useGetAllHomeJobs from '@/hooks/useGetAllHomeJobs';
 
 const LatestJobs = () => {
+  useGetAllHomeJobs();
   const { allJobs } = useSelector(store => store.job);
 
   return (
