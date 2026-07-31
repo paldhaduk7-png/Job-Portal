@@ -242,16 +242,6 @@ const Profile = () => {
                       <Eye className="w-4 h-4" />
                       View
                     </a>
-
-                    <a
-                      href={user.Profile.resume}
-                      download
-                      className="text-slate-500 hover:text-slate-700 text-sm font-medium flex items-center gap-1"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download
-                    </a>
-
                   </div>
 
                 </div>

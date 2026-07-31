@@ -52,6 +52,7 @@ export const postJob= async (req ,res)=>{
 export const getAllJobs= async(req,res)=>{
     try {
     const keyword=req.query.keyword || "";
+        console.log("SEARCH KEYWORD:", keyword);
 
     const query = keyword
     ? {
