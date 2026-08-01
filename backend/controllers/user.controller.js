@@ -8,11 +8,11 @@ import cloudinary from "../utils/clodinary.js";
 //for register
 export const register = async (req, res) => {
   try {
-    const { fullname, email, phoneNumber, password, role } = req.body;
+    const { fullname, email, phoneNumber, password, role , confirmpassword} = req.body;
    console.log("BODY:", req.body);
 
     //eny filed not are empty
-    if (!fullname || !email || !phoneNumber || !password || !role) {
+    if (!fullname || !email || !phoneNumber || !password || !confirmpassword || !role) {
       return res.status(400).json({
         message: "All fields are required",
         success: false,
@@ -39,6 +39,13 @@ export const register = async (req, res) => {
         message: "User already exists with this email",
         success: false,
       });
+    }
+
+    if(password != confirmpassword){
+     return res.status(400).json({
+    success: false,
+    message: "Password and Confirm Password do not match"
+  });
     }
 
     //pasword convert into hash
