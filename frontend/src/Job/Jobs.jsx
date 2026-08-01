@@ -10,7 +10,7 @@ const Jobs = () => {
   const { allJobs, searchQuery } = useSelector(store => store.job);
   const [filterJob, setFiltterJob] = useState(allJobs);
   useGetAllJobs();
-
+console.log(allJobs[0]);
   useEffect(() => {
     if (searchQuery) {
       const filtered = allJobs.filter(job => {
