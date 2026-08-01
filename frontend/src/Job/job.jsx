@@ -53,7 +53,7 @@ const job = ({job}) => {
             </h3>
             <div className="flex items-center gap-1 text-sm text-slate-500">
               <MapPin className="w-3.5 h-3.5" />
-              <span>{job?.company?.location || 'Remote'}</span>
+              <span>{job?.location || 'Remote'}</span>
             </div>
           </div>
         </div>
