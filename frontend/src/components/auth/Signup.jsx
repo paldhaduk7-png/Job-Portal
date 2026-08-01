@@ -29,6 +29,7 @@ const Signup = () => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector(store => store.auth);
   const [showPassword, setShowPassword] = useState(false);
+  const [confirmpassword,SetConfrirmPassword]=useState(false);
   const [fileName, setFileName] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
 
@@ -37,6 +38,7 @@ const Signup = () => {
     email: "",
     phoneNumber: "",
     password: "",
+    confirmpassword: "",
     role: "",
     file: null,
   });
@@ -90,11 +92,17 @@ const Signup = () => {
       return;
     }
 
+    if(input.password != input.confirmpassword){
+       toast.error("Password and Confirm Password do not match");
+       return;
+    }
+
     const formData = new FormData();
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("password", input.password);
+    formData.append("confirmpassword", input.confirmpassword);
     formData.append("role", input.role);
 
     if (input.file) {
@@ -112,6 +120,19 @@ const Signup = () => {
 
       if (res.data.success) {
         toast.success(res.data.message);
+
+          setInput({
+    fullname: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    confirmpassword: "",
+    role: "",
+    file: null,
+  });
+  setFileName("");
+  setPasswordStrength("");
+
         navigate("/login");
       }
     } catch (error) {
@@ -122,17 +143,6 @@ const Signup = () => {
     } finally {
       dispatch(setLoading(false));
     }
-
-    setInput({
-      fullname: "",
-      email: "",
-      phoneNumber: "",
-      password: "",
-      role: "",
-      file: null,
-    });
-    setFileName("");
-    setPasswordStrength("");
   };
 
   useEffect(() => {
@@ -331,6 +341,37 @@ const Signup = () => {
                     </span>
                   </div>
                 )}
+              </div>
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <Label className="text-slate-700 text-sm font-medium flex items-center gap-2">
+                  <Lock className="w-4 h-4" />
+                   Confirm Password
+                </Label>
+                <div className="relative">
+                  <Input
+                    type={confirmpassword? "text" : "password"}
+                    placeholder="Create a password"
+                    value={input.confirmpassword}
+                    name="confirmpassword"
+                    onChange={changeEventHandler}
+                    required
+                    className="pl-11 pr-12 h-12 border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 bg-slate-50/50"
+                  />
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <button
+                    type="button"
+                    onClick={() => SetConfrirmPassword(!confirmpassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {confirmpassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
+               
               </div>
 
               {/* Role Selection */}

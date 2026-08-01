@@ -19,6 +19,10 @@ password:{
     type: String,
     required: true
 },
+confirmpassword:{
+    type: String,
+    required: true
+},
 role:{
     type: String,
     enum: ['student', 'recruiter'],
