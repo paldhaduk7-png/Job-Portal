@@ -79,12 +79,12 @@ const LatestJobCards = ({ job }) => {
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <span>{job?.applicants?.length || 0} applicants</span>
           </div>
-          <Link to="/jobs">
+         
           <button className="text-purple-600 font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
             View Details
             <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </button>
-          </Link>
+         
         </div>
       </div>
     </div>
