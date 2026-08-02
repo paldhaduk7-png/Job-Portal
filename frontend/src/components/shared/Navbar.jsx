@@ -16,7 +16,9 @@ import {
   ChevronDown,
   UserCircle,
   FileText,
-  Bookmark
+  Bookmark,
+   BadgeInfo,
+    
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -118,6 +120,15 @@ const Navbar = () => {
                     Browse
                   </Link>
                 </li>
+                <li>
+  <Link
+    to="/about"
+    className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2"
+  >
+    <BadgeInfo className="w-4 h-4" />
+    About
+  </Link>
+</li>
               </ul>
             )}
           </div>
