@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
 import {
   Mail,
   Pen,
@@ -20,11 +18,11 @@ import {
   BookOpen,
   Share2,
 } from "lucide-react";
-
 import ApplicationJobTabel from "./ApplicationJobTabel";
 import UpadateProfile from "./upadateProfile.jsx";
-
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
+import store from "@/redux/store";
+
 
 const Profile = () => {
   useGetAppliedJob();
@@ -32,30 +30,38 @@ const Profile = () => {
   const [open, setOpen] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
-  
+  const savedJobState = useSelector((store) => store.savedJob);
+  // console.log(savedJobState);
+  const applyjobstate= useSelector((store)=>store.job);
+  // console.log(applyjobstate);
+
+  const applicationStatus= useSelector((store)=>store.application);
+ console.log(applicationStatus.allAppliedJob);
+
   const stats = [
     {
       label: "Applied Jobs",
-      value: user?.appliedJobs?.length || 0,
+      value: applyjobstate?.allAppliedJob?.length || 0,
       icon: <Briefcase className="w-5 h-5" />,
     },
-    {
-      label: "Interviews",
-      value: user?.interviews?.length || 0,
-      icon: <Users className="w-5 h-5" />,
-    },
-    {
-      label: "Offers",
-      value: user?.offers?.length || 0,
-      icon: <Award className="w-5 h-5" />,
-    },
+  //     {
+  //   label: "Accepted",
+  //   value: acceptedCount?.length || 0,
+  //   icon: <Users className="w-5 h-5" />,
+  // },
+  // {
+  //   label: "Rejected",
+  //   value: rejectedCount?.length || 0,
+  //   icon: <Award className="w-5 h-5" />,
+  // },
     {
       label: "Saved Jobs",
-      value: user?.savedJobs?.length || 0,
+      value: savedJobState?.savedJobs?.length || 0,
       icon: <BookOpen className="w-5 h-5" />,
     },
   ];
 
+  
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
@@ -343,7 +349,7 @@ const Profile = () => {
           </div>
 
           <Badge className="bg-purple-100 text-purple-700 border-0 px-4 py-2">
-            {user?.appliedJobs?.length || 0} Applications
+            {applyjobstate?.allAppliedJob?.length || 0} Applications
           </Badge>
 
         </div>
