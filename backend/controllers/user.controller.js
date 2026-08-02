@@ -8,11 +8,11 @@ import cloudinary from "../utils/clodinary.js";
 //for register
 export const register = async (req, res) => {
   try {
-    const { fullname, email, phoneNumber, password, role , confirmpassword} = req.body;
+    const { fullname, email, phoneNumber, password, role } = req.body;
    console.log("BODY:", req.body);
 
     //eny filed not are empty
-    if (!fullname || !email || !phoneNumber || !password || !confirmpassword || !role) {
+    if (!fullname || !email || !phoneNumber || !password ||  !role) {
       return res.status(400).json({
         message: "All fields are required",
         success: false,
@@ -41,12 +41,6 @@ export const register = async (req, res) => {
       });
     }
 
-    if(password != confirmpassword){
-     return res.status(400).json({
-    success: false,
-    message: "Password and Confirm Password do not match"
-  });
-    }
 
     //pasword convert into hash
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -177,7 +171,7 @@ export const logout = async (req, res) => {
 //update profile
 export const updateProfile= async (req,res)=>{
     try {
-       const {fullname,email,phoneNumber,bio,skills} =req.body;
+       const {fullname,email,phoneNumber,bio,skills,location,github,linkedin,portfolio,leetcode} =req.body;
 
   const profilePhoto = req.files?.profilePhoto?.[0];
 const resume = req.files?.resume?.[0];
@@ -244,8 +238,11 @@ if (email) {
            if(fullname)      user.fullname=fullname;
            if(phoneNumber)    user.phoneNumber=phoneNumber;
            if(bio)           user.profile.bio=bio;
-           if(skills)    user.profile.skills=skillsArray;
-      
+        if (location !== undefined) user.profile.location = location;
+if (github !== undefined) user.profile.github = github;
+if (linkedin !== undefined) user.profile.linkedin = linkedin;
+if (portfolio !== undefined) user.profile.portfolio = portfolio;
+if (leetcode !== undefined) user.profile.leetcode = leetcode; 
        
 if(profilePhotoResponse){
    user.profile.profilePhoto = profilePhotoResponse.secure_url;
