@@ -53,7 +53,7 @@ const Footer = () => {
                 <path d="M12 21s-7-4.35-9.33-8.2C.7 9.55 2.16 5.5 5.9 4.8 8 4.4 10.1 5.4 12 7.4c1.9-2 4-3 6.1-2.6 3.74.7 5.2 4.75 3.23 8C19 16.65 12 21 12 21z" />
               </svg>
 
-              <span>Empowering careers since 2024</span>
+              <span>Empowering careers since 2026</span>
             </div>
           </div>
 
@@ -129,7 +129,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/applications"
+                  to="/applied-jobs"
                   className="text-slate-400 hover:text-purple-400 transition-colors text-sm"
                 >
                   My Applications
