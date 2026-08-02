@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { toast } from 'sonner'
 import { SAVE_API_END_POINT } from '@/utils/constant'
-import { addSavedJob } from "@/redux/savedJobSlice";
+import { addSavedJob, removeSavedJob } from "@/redux/savedJobSlice";
 import { useDispatch, useSelector } from 'react-redux'
 
 
@@ -21,19 +21,38 @@ const job = ({job}) => {
      const isSaved = savedJobs.some(
     (savedJob) => savedJob._id === job._id
 );
-    const saveJob=async ()=>{
-        try {
-        const res= await axios.post(`${SAVE_API_END_POINT}/post/${job._id}`,{}, { withCredentials: true });
-          
-        if(res.data.success){
-          dispatch(addSavedJob(job));
-           toast.success(res.data?.message);
-        }
-        }catch (error) {
-    console.log(error);
-    toast.error(error.response?.data?.message || "Something went wrong");
-}
+  const saveJob = async () => {
+  try {
+
+    if (isSaved) {
+      const res = await axios.delete(
+        `${SAVE_API_END_POINT}/delete/${job._id}`,
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        dispatch(removeSavedJob(job._id));
+        toast.success(res.data.message);
+      }
+
+    } else {
+
+      const res = await axios.post(
+        `${SAVE_API_END_POINT}/post/${job._id}`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        dispatch(addSavedJob(job));
+        toast.success(res.data.message);
+      }
     }
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Something went wrong");
+  }
+};
 
   
   const daysAgoFunction = (mongoTime) => {
@@ -129,9 +148,16 @@ const job = ({job}) => {
             <span>View Details</span>
             <ArrowUpRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Button>
-          <Button onClick={saveJob} className="flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300">
-            Save for later
-          </Button>
+         <Button
+  onClick={saveJob}
+  className={`flex-1 rounded-xl transition-all duration-300 ${
+    isSaved
+      ? "bg-green-100 text-green-700 hover:bg-green-200"
+      : "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+  }`}
+>
+  {isSaved ? "✓ Saved" : "Save for later"}
+</Button>
         </div>
       </div>
     </div>
