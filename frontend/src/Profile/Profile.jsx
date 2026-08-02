@@ -10,9 +10,8 @@ import {
   Briefcase,
   MapPin,
   Eye,
-  Download,
-  Award,
-  Users,
+   CheckCircle,
+  XCircle,
   FileText,
   Code,
   BookOpen,
@@ -21,7 +20,6 @@ import {
 import ApplicationJobTabel from "./ApplicationJobTabel";
 import UpadateProfile from "./upadateProfile.jsx";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
-import store from "@/redux/store";
 
 
 const Profile = () => {
@@ -33,10 +31,19 @@ const Profile = () => {
   const savedJobState = useSelector((store) => store.savedJob);
   // console.log(savedJobState);
   const applyjobstate= useSelector((store)=>store.job);
-  // console.log(applyjobstate);
+  console.log(applyjobstate);
 
-  const applicationStatus= useSelector((store)=>store.application);
- console.log(applicationStatus.allAppliedJob);
+const acceptedCount =
+  applyjobstate?.allAppliedJob?.filter(
+    (app) => app.status === "accepted"
+  ).length || 0;
+
+const rejectedCount =
+  applyjobstate?.allAppliedJob?.filter(
+    (app) => app.status === "rejected"
+  ).length || 0;
+
+
 
   const stats = [
     {
@@ -44,16 +51,16 @@ const Profile = () => {
       value: applyjobstate?.allAppliedJob?.length || 0,
       icon: <Briefcase className="w-5 h-5" />,
     },
-  //     {
-  //   label: "Accepted",
-  //   value: acceptedCount?.length || 0,
-  //   icon: <Users className="w-5 h-5" />,
-  // },
-  // {
-  //   label: "Rejected",
-  //   value: rejectedCount?.length || 0,
-  //   icon: <Award className="w-5 h-5" />,
-  // },
+    {
+  label: "Accepted",
+  value: acceptedCount,
+  icon: <CheckCircle className="w-5 h-5" />,
+},
+{
+  label: "Rejected",
+  value: rejectedCount,
+  icon: <XCircle className="w-5 h-5" />,
+},
     {
       label: "Saved Jobs",
       value: savedJobState?.savedJobs?.length || 0,
