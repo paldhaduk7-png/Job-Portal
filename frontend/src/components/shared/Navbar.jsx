@@ -3,18 +3,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "../ui/button";
-import { 
-  LogOut, 
-  User2, 
-  Briefcase, 
-  Home, 
-  Search, 
-  Users, 
-  Menu, 
+import {
+  LogOut,
+  User2,
+  Briefcase,
+  Home,
+  Search,
+  Users,
+  Menu,
   X,
   Sparkles,
   ChevronDown,
-  UserCircle
+  UserCircle,
+  FileText,
+  Bookmark,
+   BadgeInfo,
+    
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -116,6 +120,15 @@ const Navbar = () => {
                     Browse
                   </Link>
                 </li>
+                <li>
+  <Link
+    to="/about"
+    className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2"
+  >
+    <BadgeInfo className="w-4 h-4" />
+    About
+  </Link>
+</li>
               </ul>
             )}
           </div>
@@ -192,6 +205,7 @@ const Navbar = () => {
                     {/* Navigation Links */}
                     <div className="space-y-1">
                       {user && (
+                        <>
                         <Link 
                           to={user.role === "student" ? "/profile" : "/recruiter-profile"}
                           className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-purple-50 transition-all duration-200 group"
@@ -201,8 +215,37 @@ const Navbar = () => {
                           </div>
                           <span className="text-sm font-medium text-slate-700 group-hover:text-purple-600">View Profile</span>
                         </Link>
+                            {user.role === "student" && (
+      <>
+        <Link
+          to="/applied-jobs"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 transition-all duration-200 group"
+        >
+          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+            <FileText className="w-4 h-4 text-blue-600" />
+          </div>
+          <span className="text-sm font-medium text-slate-700 group-hover:text-blue-600">
+            Applied Jobs
+          </span>
+        </Link>
+
+        <Link
+          to="/saved-jobs"
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-yellow-50 transition-all duration-200 group"
+        >
+          <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+            <Bookmark className="w-4 h-4 text-yellow-600" />
+          </div>
+          <span className="text-sm font-medium text-slate-700 group-hover:text-yellow-600">
+            Saved Jobs
+          </span>
+        </Link>
+      </>
+    )}
+
+                        </>
                       )}
-                      
+                       
                       <button 
                         onClick={() => setOpen(true)}
                         className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 transition-all duration-200 group"

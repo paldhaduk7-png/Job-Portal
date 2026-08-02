@@ -17,6 +17,9 @@ import Applicants from './Admin/Applicants';
 import ProtectedRoute from './Admin/ProtectedRoute';
 import RecuterProfile from './Profile/RecuterProfile';
 import JobUpadate from './Admin/hadling CURD/JobUpadate';
+import AppliedJob from './AppliedJob/AppliedJob';
+import SavedJob from './SaveJob/savedJob';
+import About from './about/About';
 
 const appRouter= createBrowserRouter([
 //client
@@ -61,11 +64,35 @@ const appRouter= createBrowserRouter([
   </>
 },
 {
+  path:"/about",
+  element:
+  <>
+  <Navbar />
+  <About />
+  </>
+},
+{
   path:"/profile",
   element:
   <>
   <Navbar />
   <Profile />
+  </>
+},
+{
+  path:"/applied-jobs",
+  element:
+  <>
+  <Navbar />
+  <AppliedJob />
+  </>
+},
+{
+  path:"/saved-jobs",
+  element:
+  <>
+  <Navbar />
+  <SavedJob />
   </>
 },
 {

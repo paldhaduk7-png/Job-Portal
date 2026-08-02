@@ -32,7 +32,7 @@ const Profile = () => {
   const [open, setOpen] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
-
+  
   const stats = [
     {
       label: "Applied Jobs",
@@ -290,20 +290,31 @@ const Profile = () => {
                 </a>
               )}
 
-              {user?.Profile?.twitter && (
+              {user?.Profile?.portfolio && (
                 <a
-                  href={user.Profile.twitter}
+                  href={user.Profile.portfolio}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-sky-50 hover:bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm"
                 >
-                  Twitter
+                  Portfolio
+                </a>
+              )}
+              {user?.Profile?.leetcode && (
+                <a
+                  href={user.Profile.leetcode}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-sky-50 hover:bg-sky-100 text-sky-600 px-4 py-2 rounded-full text-sm"
+                >
+                 LeetCode
                 </a>
               )}
 
               {!user?.Profile?.github &&
                 !user?.Profile?.linkedin &&
-                !user?.Profile?.twitter && (
+                !user?.Profile?.portfolio && 
+                !user?.Profile?.leetcode &&(
                   <span className="text-sm text-slate-400">
                     No social links added
                   </span>

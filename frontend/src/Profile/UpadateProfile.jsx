@@ -41,7 +41,12 @@ const UpdateProfile = ({ open, setOpen }) => {
     bio: user?.Profile?.bio || "",
     skills: user?.Profile?.skills || [],
     profilePhoto: null,
-    resume: null
+    resume: null,
+    location: user?.Profile?.location || "",
+github: user?.Profile?.github || "",
+linkedin: user?.Profile?.linkedin || "",
+portfolio: user?.Profile?.portfolio || "",
+leetcode: user?.Profile?.leetcode || "",
   });
 
   const [previewPhoto, setPreviewPhoto] = useState(user?.Profile?.profilePhoto || null);
@@ -78,6 +83,11 @@ const UpdateProfile = ({ open, setOpen }) => {
     formData.append("phoneNumber", input.phoneNumber);
     formData.append("bio", input.bio);
     formData.append("skills", input.skills.length ? input.skills.join(",") : "");
+    formData.append("location", input.location);
+formData.append("github", input.github);
+formData.append("linkedin", input.linkedin);
+formData.append("portfolio", input.portfolio);
+formData.append("leetcode", input.leetcode);
 
     if (input.profilePhoto) {
       formData.append("profilePhoto", input.profilePhoto);
@@ -95,6 +105,7 @@ const UpdateProfile = ({ open, setOpen }) => {
       );
 
       if (res.data.success) {
+        console.log(res.data.user);
         dispatch(setUser(res.data.user));
         toast.success(res.data.message);
         setOpen(false);
@@ -208,6 +219,80 @@ const UpdateProfile = ({ open, setOpen }) => {
                   placeholder="Enter your phone number"
                 />
               </div>
+{/* Location */}
+<div className="space-y-1.5">
+  <Label className="text-sm font-medium text-slate-700">
+    Location
+  </Label>
+  <Input
+    type="text"
+    name="location"
+    value={input.location}
+    onChange={textHandler}
+    className="h-11 border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="e.g. Ahmedabad, Gujarat"
+  />
+</div>
+
+{/* GitHub */}
+<div className="space-y-1.5">
+  <Label className="text-sm font-medium text-slate-700">
+    GitHub
+  </Label>
+  <Input
+    type="url"
+    name="github"
+    value={input.github}
+    onChange={textHandler}
+    className="h-11 border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="https://github.com/username"
+  />
+</div>
+
+{/* LinkedIn */}
+<div className="space-y-1.5">
+  <Label className="text-sm font-medium text-slate-700">
+    LinkedIn
+  </Label>
+  <Input
+    type="url"
+    name="linkedin"
+    value={input.linkedin}
+    onChange={textHandler}
+    className="h-11 border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="https://linkedin.com/in/username"
+  />
+</div>
+
+{/* Portfolio */}
+<div className="space-y-1.5">
+  <Label className="text-sm font-medium text-slate-700">
+    Portfolio
+  </Label>
+  <Input
+    type="url"
+    name="portfolio"
+    value={input.portfolio}
+    onChange={textHandler}
+    className="h-11 border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="https://yourportfolio.com"
+  />
+</div>
+
+{/* LeetCode */}
+<div className="space-y-1.5">
+  <Label className="text-sm font-medium text-slate-700">
+    LeetCode
+  </Label>
+  <Input
+    type="url"
+    name="leetcode"
+    value={input.leetcode}
+    onChange={textHandler}
+    className="h-11 border-slate-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+    placeholder="https://leetcode.com/u/username"
+  />
+</div>
 
               
               {/* Bio */}

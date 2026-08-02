@@ -19,10 +19,6 @@ password:{
     type: String,
     required: true
 },
-confirmpassword:{
-    type: String,
-    required: true
-},
 role:{
     type: String,
     enum: ['student', 'recruiter'],
@@ -40,6 +36,27 @@ profile: {
   skills: [{ type: String }],
   resume: { type: String },
   resumeOriginalName: { type: String },
+    
+    location: {
+        type: String,
+        default: ""
+    },
+    github: {
+        type: String,
+        default: ""
+    },
+    linkedin: {
+        type: String,
+        default: ""
+    },
+    portfolio: {
+        type: String,
+        default: ""
+    },
+    leetcode: {
+        type: String,
+        default: ""
+    },
 
   // Recruiter
   company: {

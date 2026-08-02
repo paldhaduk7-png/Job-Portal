@@ -10,7 +10,7 @@ export const saveJob= async(req,res)=>{
     const job= await Job.findById(jobId);
      if(!job){
          return res.status(404).json({
-        Message: "Job not found",
+        message: "Job not found",
         success: false
     });
      }

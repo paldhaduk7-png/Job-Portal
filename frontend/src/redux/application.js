@@ -10,6 +10,7 @@ const applicationSlice= createSlice({
         setAllApplicants : (state, action)=>{
             state.allApplicants =action.payload
         },
+   
     }
 });
 
