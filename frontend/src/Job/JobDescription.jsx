@@ -9,6 +9,8 @@ import { setSingleJob } from '@/redux/jobSlice'
 import { toast } from 'sonner'
 import { Building2, MapPin, Briefcase, DollarSign, Users, Calendar, Clock, CheckCircle, ArrowLeft } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import LoginPopup from '@/Autheticated/LoginPopup'
+import useAuthenticate from '@/Autheticated/useAuthticate'
 
 const JobDescription = () => {
   const params = useParams();
@@ -22,8 +24,12 @@ const JobDescription = () => {
     (application) => application.applicant === user?._id
   ) || false;
   const [isApplied, setIsApplied] = useState(isIntiallyApplyed);
+const [open, setOpen] = useState(false);
+const requireAuth = useAuthenticate(setOpen);
 
   const applyjobHandeler = async () => {
+    
+      if (!requireAuth()) return;
     try {
       const res = await axios.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {}, { withCredentials: true });
       if (res.data.success) {
@@ -54,6 +60,8 @@ const JobDescription = () => {
   }, [jobId, dispatch, user?._id]);
 
   return (
+    <>
+    <LoginPopup open={open} setOpen={setOpen} />
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       
       {/* Back Button */}
@@ -173,6 +181,7 @@ const JobDescription = () => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

@@ -6,7 +6,7 @@ const router =express.Router();
 
 
 router.post("/post", isAuthenticated,postJob);
-router.get("/get",isAuthenticated, getAllJobs);
+router.get("/get", getAllJobs);
 router.get("/get/:id", isAuthenticated, findJobId);
 router.get("/getadminjobs", isAuthenticated, getAdminJob);
 router.put("/update/:id", isAuthenticated, updateJob);
