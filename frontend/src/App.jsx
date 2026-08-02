@@ -19,6 +19,7 @@ import RecuterProfile from './Profile/RecuterProfile';
 import JobUpadate from './Admin/hadling CURD/JobUpadate';
 import AppliedJob from './AppliedJob/AppliedJob';
 import SavedJob from './SaveJob/savedJob';
+import About from './about/About';
 
 const appRouter= createBrowserRouter([
 //client
@@ -60,6 +61,14 @@ const appRouter= createBrowserRouter([
   <>
   <Navbar />
   <Browse />
+  </>
+},
+{
+  path:"/about",
+  element:
+  <>
+  <Navbar />
+  <About />
   </>
 },
 {
