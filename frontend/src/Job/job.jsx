@@ -1,13 +1,41 @@
-import React from 'react'
+import React from "react";
 import { Button } from '@/components/ui/button'
 import { Bookmark, MapPin, Clock, Briefcase, DollarSign, Users, ArrowUpRight } from 'lucide-react'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from "@/components/ui/badge"
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { toast } from 'sonner'
+import { SAVE_API_END_POINT } from '@/utils/constant'
+import { addSavedJob } from "@/redux/savedJobSlice";
+import { useDispatch, useSelector } from 'react-redux'
+
 
 const job = ({job}) => {
   const navigate = useNavigate();
- 
+  const { savedJobs } = useSelector((store) => store.savedJob);
+  const dispatch=useDispatch();
+
+  // It checks whether at least one element in an array satisfies a condition.
+  //it returnan in true and flase
+     const isSaved = savedJobs.some(
+    (savedJob) => savedJob._id === job._id
+);
+    const saveJob=async ()=>{
+        try {
+        const res= await axios.post(`${SAVE_API_END_POINT}/post/${job._id}`,{}, { withCredentials: true });
+          
+        if(res.data.success){
+          dispatch(addSavedJob(job));
+           toast.success(res.data?.message);
+        }
+        }catch (error) {
+    console.log(error);
+    toast.error(error.response?.data?.message || "Something went wrong");
+}
+    }
+
+  
   const daysAgoFunction = (mongoTime) => {
     if (!mongoTime) return 'Recent';
     const createdAt = new Date(mongoTime);
@@ -34,8 +62,15 @@ const job = ({job}) => {
             <Clock className="w-3.5 h-3.5" />
             <span>{daysAgoFunction(job?.createdAt)}</span>
           </div>
-          <Button variant="ghost" size="icon" className="rounded-full hover:bg-purple-50 hover:text-purple-600 transition-colors">
-            <Bookmark className="w-5 h-5 text-slate-400 group-hover:text-purple-600 transition-colors" />
+          <Button   onClick={saveJob} variant="ghost" size="icon" className="rounded-full hover:bg-purple-50 hover:text-purple-600 transition-colors">
+               <Bookmark
+        className={`w-5 h-5 transition-colors ${
+            isSaved
+                ? "fill-purple-600 text-purple-600"
+                : "text-slate-400 hover:text-purple-600"
+        }`}
+    />
+
           </Button>
         </div>
 
@@ -94,7 +129,7 @@ const job = ({job}) => {
             <span>View Details</span>
             <ArrowUpRight className="w-4 h-4 ml-1 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
           </Button>
-          <Button className="flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300">
+          <Button onClick={saveJob} className="flex-1 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300">
             Save for later
           </Button>
         </div>
