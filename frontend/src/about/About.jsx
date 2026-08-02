@@ -208,7 +208,7 @@ const About = () => {
               </a>
 
               <a
-                href="https://www.linkedin.com/in/dhaduk-pal/"
+               href="mailto:paldhaduk7@gmail.com"
                 target="_blank"
                 rel="noreferrer"
                 className="group flex flex-col items-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-blue-100/50 hover:from-blue-100 hover:to-blue-200/50 transition-all duration-300 border-2 border-transparent hover:border-blue-200"
