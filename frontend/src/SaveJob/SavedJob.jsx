@@ -1,13 +1,42 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import Job from "../Job/job";
 import { motion } from "framer-motion";
 import { Bookmark } from "lucide-react";
-
+import { SAVE_API_END_POINT } from "@/utils/constant";
+import { setSavedJobs } from "@/redux/savedJobSlice";
 
 const SavedJob = () => {
+  const dispatch = useDispatch();
   const { savedJobs } = useSelector((store) => store.savedJob);
+  const { user } = useSelector((store) => store.auth);
 
+  useEffect(() => {
+    const fetchSavedJobs = async () => {
+      if (!user) {
+        dispatch(setSavedJobs([]));
+        return;
+      }
+
+      try {
+        const res = await axios.get(`${SAVE_API_END_POINT}/get`, {
+          withCredentials: true,
+        });
+
+        if (res.data.success) {
+          const savedJobList = res.data.savedJobs.map((item) => item.job);
+          dispatch(setSavedJobs(savedJobList));
+        } else {
+          dispatch(setSavedJobs([]));
+        }
+      } catch (error) {
+        dispatch(setSavedJobs([]));
+      }
+    };
+
+    fetchSavedJobs();
+  }, [dispatch, user]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

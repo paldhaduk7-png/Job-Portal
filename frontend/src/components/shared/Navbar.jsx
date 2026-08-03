@@ -26,6 +26,7 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
 import { clearAllJobs } from "@/redux/jobSlice";
+import { clearSavedJobs } from "@/redux/savedJobSlice";
 import {
   Dialog,
   DialogContent,
@@ -49,6 +50,7 @@ const Navbar = () => {
       if (res.data.success) {
         dispatch(setUser(null));
         dispatch(clearAllJobs());
+        dispatch(clearSavedJobs());
         navigate("/");
         toast.success(res?.data?.message);
       }
