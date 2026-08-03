@@ -26,6 +26,7 @@ import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
 import { clearAllJobs } from "@/redux/jobSlice";
+import { clearSavedJobs } from "@/redux/savedJobSlice";
 import {
   Dialog,
   DialogContent,
@@ -34,11 +35,15 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { setSearchQuery } from "@/redux/jobSlice";
+import useGetSavedJobs from "@/hooks/useGetSavedJobs";
 
 const Navbar = () => {
+  useGetSavedJobs();
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useSelector(store => store.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -49,6 +54,7 @@ const Navbar = () => {
       if (res.data.success) {
         dispatch(setUser(null));
         dispatch(clearAllJobs());
+        dispatch(clearSavedJobs());
         navigate("/");
         toast.success(res?.data?.message);
       }
@@ -109,7 +115,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/jobs" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
+                  <Link to="/jobs" onClick={()=> dispatch(setSearchQuery(""))} className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
                     <Search className="w-4 h-4" />
                     Jobs
                   </Link>

@@ -96,7 +96,7 @@ const Footer = () => {
                   to="/about"
                   className="text-slate-400 hover:text-purple-400 transition-colors text-sm"
                 >
-                  About Us
+                  About
                 </Link>
               </li>
             </ul>
@@ -217,39 +217,25 @@ const Footer = () => {
 
           <div className="flex items-center gap-4">
 
-            {/* Facebook */}
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-              className="w-9 h-9 bg-slate-700/50 rounded-lg flex items-center justify-center text-slate-400 hover:bg-[#1877f2] hover:text-white transition-all duration-300 hover:scale-110"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8.2V12h2.3V9.8c0-2.3 1.4-3.6 3.4-3.6 1 0 2 .2 2 .2v2.2h-1.1c-1.1 0-1.4.7-1.4 1.4v2h2.5l-.4 2.9h-2.1v7A10 10 0 0 0 22 12z" />
-              </svg>
-            </a>
+        
 
-            {/* X */}
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X"
-              className="w-9 h-9 bg-slate-700/50 rounded-lg flex items-center justify-center text-slate-400 hover:bg-black hover:text-white transition-all duration-300 hover:scale-110"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
+    
+            {/* GitHub */}
+       <a
+  href="https://github.com/paldhaduk7-png"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="GitHub"
+  className="w-9 h-9 bg-slate-700/50 rounded-lg flex items-center justify-center text-slate-400 hover:bg-black hover:text-white transition-all duration-300 hover:scale-110"
+>
+  <svg
+    className="w-4 h-4"
+    fill="currentColor"
+    viewBox="0 0 24 24"
+  >
+    <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2.02c-3.2.7-3.88-1.38-3.88-1.38-.52-1.32-1.27-1.67-1.27-1.67-1.04-.7.08-.69.08-.69 1.15.08 1.76 1.18 1.76 1.18 1.02 1.75 2.68 1.25 3.33.95.1-.74.4-1.25.72-1.54-2.55-.29-5.24-1.27-5.24-5.68 0-1.26.45-2.29 1.18-3.1-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.18 1.18a10.9 10.9 0 0 1 5.8 0c2.21-1.49 3.18-1.18 3.18-1.18.62 1.58.23 2.75.11 3.04.73.81 1.18 1.84 1.18 3.1 0 4.42-2.69 5.39-5.25 5.68.41.35.78 1.04.78 2.1v3.12c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5z"/>
+  </svg>
+</a>
 
             {/* LinkedIn */}
             <a
@@ -268,49 +254,7 @@ const Footer = () => {
               </svg>
             </a>
 
-            {/* Instagram */}
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-              className="w-9 h-9 bg-slate-700/50 rounded-lg flex items-center justify-center text-slate-400 hover:bg-[#e4405f] hover:text-white transition-all duration-300 hover:scale-110"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-              >
-                <rect x="3" y="3" width="18" height="18" rx="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle
-                  cx="17.5"
-                  cy="6.5"
-                  r="1"
-                  fill="currentColor"
-                  stroke="none"
-                />
-              </svg>
-            </a>
-
-            {/* YouTube */}
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="YouTube"
-              className="w-9 h-9 bg-slate-700/50 rounded-lg flex items-center justify-center text-slate-400 hover:bg-[#ff0000] hover:text-white transition-all duration-300 hover:scale-110"
-            >
-              <svg
-                className="w-4 h-4"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
+          
 
           </div>
         </div>

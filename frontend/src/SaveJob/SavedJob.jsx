@@ -3,11 +3,11 @@ import { useSelector } from "react-redux";
 import Job from "../Job/job";
 import { motion } from "framer-motion";
 import { Bookmark } from "lucide-react";
-
+import useGetSavedJobs from "@/hooks/useGetSavedJobs";
 
 const SavedJob = () => {
+  useGetSavedJobs();
   const { savedJobs } = useSelector((store) => store.savedJob);
-
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -206,9 +206,9 @@ console.log("RESUME CLOUDINARY:", resumeResponse);
   console.log("RESUME CLOUDINARY:", resumeResponse);
 }
 
-    let skillsArray;
+    let skillsArray = [];
     if(skills){
-  skillsArray=skills.split(",");
+      skillsArray = skills.split(",").map(s => s.trim()).filter(Boolean);
     }
    
     const userId=req.id;  //middlware authetication
@@ -234,10 +234,31 @@ if (email) {
   user.email = email;
 }
 
+// Check if any changes were made
+const isSame =
+  (user.fullname || "") === (fullname || "") &&
+  (user.email || "") === (email || "") &&
+  (user.phoneNumber?.toString() || "") === (phoneNumber?.toString() || "") &&
+  (user.profile?.bio || "") === (bio || "") &&
+  (user.profile?.location || "") === (location || "") &&
+  (user.profile?.github || "") === (github || "") &&
+  (user.profile?.linkedin || "") === (linkedin || "") &&
+  (user.profile?.portfolio || "") === (portfolio || "") &&
+  (user.profile?.leetcode || "") === (leetcode || "") &&
+  (user.profile?.skills || []).join(",") === skillsArray.join(",");
+
+if (isSame && !profilePhoto && !resume) {
+  return res.status(400).json({
+    message: "No changes detected",
+    success: false
+  });
+}
+
            //updating data
            if(fullname)      user.fullname=fullname;
            if(phoneNumber)    user.phoneNumber=phoneNumber;
            if(bio)           user.profile.bio=bio;
+           if(skills !== undefined) user.profile.skills = skillsArray;
         if (location !== undefined) user.profile.location = location;
 if (github !== undefined) user.profile.github = github;
 if (linkedin !== undefined) user.profile.linkedin = linkedin;
@@ -320,6 +341,24 @@ if (email) {
   }
 
   user.email = email;
+}
+
+// Check if any changes were made
+const isSame =
+  (user.fullname || "") === (fullname || "") &&
+  (user.email || "") === (email || "") &&
+  (user.phoneNumber?.toString() || "") === (phoneNumber?.toString() || "") &&
+  (user.profile?.bio || "") === (bio || "") &&
+  (user.profile?.companyName || "") === (companyName || "") &&
+  (user.profile?.designation || "") === (designation || "") &&
+  (user.profile?.companyLocation || "") === (companyLocation || "") &&
+  (user.profile?.companyWebsite || "") === (companyWebsite || "");
+
+if (isSame && !profilePhoto) {
+  return res.status(400).json({
+    message: "No changes detected",
+    success: false
+  });
 }
 
            //updating data

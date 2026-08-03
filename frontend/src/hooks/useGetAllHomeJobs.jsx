@@ -8,9 +8,9 @@ import { setAllJobs } from '@/redux/jobSlice';
 
 const useGetAllHomeJobs = () => {
   const dispatch = useDispatch();
-  console.log("HOOK CALLED");
+  // console.log("HOOK CALLED");
   useEffect(() => {
-    console.log("USE EFFECT RUNNING");
+    // console.log("USE EFFECT RUNNING");
 
     const fetchAllJobs = async () => {
       try {

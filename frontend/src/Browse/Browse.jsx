@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react';
 import Job from '@/Job/job';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { setSearchQuery } from '@/redux/jobSlice';
 import { Briefcase } from 'lucide-react';
+import LoginToViewMore from "@/components/shared/LoginToViewMore";
 
 const Browse = () => {
   useGetAllJobs();
-const { allJobs } = useSelector(store => store.job);
+  const { user } = useSelector(store => store.auth);
+  const { allJobs } = useSelector(store => store.job);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(setSearchQuery(""));
-  //   };
-  // }, [dispatch]);
+  const visibleJobs = !user ? allJobs?.slice(0, 5) : allJobs;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -26,23 +24,35 @@ const { allJobs } = useSelector(store => store.job);
             Search Results
           </h1>
           <p className="text-slate-500 mt-1">
-            {allJobs?.length || 0} jobs found
+            {!user && (allJobs?.length || 0) > 5
+              ? `Showing 5 of ${allJobs?.length || 0} search results`
+              : `${allJobs?.length || 0} jobs found`}
           </p>
         </div>
         <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
           <Briefcase className="w-4 h-4" />
-          {allJobs?.length || 0} Jobs
+          {visibleJobs?.length || 0} Jobs
         </div>
       </div>
 
-      {/* Job Grid with better responsive layout */}
-  {allJobs?.length > 0 ? (
-  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-    {allJobs?.map((job) => (
-      <Job key={job._id} job={job} />
-    ))}
-  </div>
-) : (
+      {/* Job Grid */}
+      {visibleJobs?.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {visibleJobs.map((job) => (
+              <Job key={job._id} job={job} />
+            ))}
+          </div>
+
+          {/* Show premium login banner if user is unauthenticated and there are more than 5 jobs */}
+          {!user && (allJobs?.length || 0) > 5 && (
+            <LoginToViewMore 
+              totalCount={allJobs?.length || 0} 
+              remainingCount={(allJobs?.length || 0) - 5} 
+            />
+          )}
+        </>
+      ) : (
         <div className="text-center py-16 bg-slate-50/80 rounded-3xl border-2 border-dashed border-slate-200">
           <div className="flex flex-col items-center gap-3">
             <Briefcase className="w-16 h-16 text-slate-300" />
@@ -53,6 +63,6 @@ const { allJobs } = useSelector(store => store.job);
       )}
     </div>
   );
-}
+};
 
 export default Browse;

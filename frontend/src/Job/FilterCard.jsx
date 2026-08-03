@@ -1,9 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from '@/components/ui/label'
-import { useDispatch } from 'react-redux'
-import { setSearchQuery } from '@/redux/jobSlice'
-import { Filter, ChevronDown } from 'lucide-react'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  setLocationFilter,
+  setIndustryFilter,
+  setSalaryFilter,
+  clearFilters,
+} from "@/redux/jobSlice";
+import { Filter } from 'lucide-react'
 
 const filterData = [
   {
@@ -21,16 +26,25 @@ const filterData = [
 ]
 
 const FilterCard = () => {
-  const [selectedValue, setSelectedValue] = useState("");
   const dispatch = useDispatch();
+  const filters = useSelector((store) => store.job?.filters) || { location: "", industry: "", salary: "" };
 
-  const changeHandeler = (value) => {
-    setSelectedValue(value);
-  }
+  const changeHandeler = (value, filterType) => {
+    const key = filterType.toLowerCase();
+    const currentValue = filters[key] || "";
+    // Toggle deselect if same value is selected again
+    const newValue = currentValue === value ? "" : value;
 
-  useEffect(() => {
-    dispatch(setSearchQuery(selectedValue));
-  }, [selectedValue, dispatch]);
+    if (filterType === "Location") {
+      dispatch(setLocationFilter(newValue));
+    } else if (filterType === "Industry") {
+      dispatch(setIndustryFilter(newValue));
+    } else if (filterType === "Salary") {
+      dispatch(setSalaryFilter(newValue));
+    }
+  };
+
+  const hasActiveFilters = Boolean(filters?.location || filters?.industry || filters?.salary);
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
@@ -43,14 +57,22 @@ const FilterCard = () => {
       
       <hr className="mb-4 border-slate-200" />
 
-      <RadioGroup value={selectedValue} onValueChange={changeHandeler} className="space-y-5">
-        {filterData.map((data, index) => (
-          <div key={index}>
+      {filterData.map((data, index) => {
+        const filterKey = data.filterType.toLowerCase();
+        const selectedValue = filters[filterKey] || "";
+
+        return (
+          <div key={index} className="space-y-5 mb-5">
             <h2 className="font-semibold text-slate-700 mb-2 flex items-center gap-2">
               <span className="w-1 h-4 bg-purple-600 rounded-full"></span>
               {data.filterType}
             </h2>
-            <div className="space-y-2 pl-2">
+
+            <RadioGroup
+              value={selectedValue}
+              onValueChange={(value) => changeHandeler(value, data.filterType)}
+              className="space-y-2 pl-2"
+            >
               {data.array.map((item, inx) => {
                 const itemId = `pd${index}-${inx}`;
                 return (
@@ -58,7 +80,12 @@ const FilterCard = () => {
                     <RadioGroupItem 
                       value={item} 
                       id={itemId} 
-                      className="text-purple-600 border-slate-300 data-[state=checked]:border-purple-600"
+                      onClick={() => {
+                        if (selectedValue === item) {
+                          changeHandeler(item, data.filterType);
+                        }
+                      }}
+                      className="text-purple-600 border-slate-300 data-[state=checked]:border-purple-600 cursor-pointer"
                     />
                     <Label 
                       htmlFor={itemId} 
@@ -69,16 +96,16 @@ const FilterCard = () => {
                   </div>
                 );
               })}
-            </div>
+            </RadioGroup>
           </div>
-        ))}
-      </RadioGroup>
+        );
+      })}
 
       {/* Clear Filter */}
-      {selectedValue && (
+      {hasActiveFilters && (
         <button 
-          onClick={() => setSelectedValue("")}
-          className="mt-4 text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors"
+          onClick={() => dispatch(clearFilters())}
+          className="mt-4 text-sm text-purple-600 hover:text-purple-700 font-medium transition-colors cursor-pointer"
         >
           Clear all filters
         </button>

@@ -14,7 +14,7 @@ const HeroSection = () => {
     e.preventDefault();
     if (query.trim()) {
       dispatch(setSearchQuery(query));
-      navigate("/browse");
+      navigate("/jobs");
     }
   };
 

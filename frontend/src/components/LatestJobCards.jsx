@@ -2,9 +2,15 @@ import React from 'react';
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Building2, ArrowUpRight } from 'lucide-react';
+import { useState } from "react";
+import LoginPopup from '@/Autheticated/LoginPopup'
+import useAuthenticate from '@/Autheticated/useAuthticate'
 
 const LatestJobCards = ({ job }) => {
   const navigate = useNavigate();
+
+const [open, setOpen] = useState(false);
+const requireAuth = useAuthenticate(setOpen);
 
   // Format date
   const formatDate = (dateString) => {
@@ -21,8 +27,12 @@ const LatestJobCards = ({ job }) => {
   };
 
   return (
+    <><LoginPopup open={open} setOpen={setOpen} />
     <div 
-      onClick={() => navigate(`/description/${job._id}`)} 
+      onClick={() => {
+  if (!requireAuth()) return;
+  navigate(`/description/${job._id}`);
+}}
       className="group bg-white rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-purple-200/60 hover:-translate-y-1"
     >
       <div className="p-6">
@@ -88,6 +98,7 @@ const LatestJobCards = ({ job }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

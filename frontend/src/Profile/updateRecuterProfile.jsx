@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -20,22 +20,41 @@ import { toast } from "sonner";
 const UpdateRecruiterProfile = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector((store) => store.auth);
+  const userProfile = user?.Profile || user?.profile || {};
 
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
-    bio: user?.Profile?.bio || "",
+    bio: userProfile?.bio || "",
 
-    companyName: user?.Profile?.companyName || "",
-    designation: user?.Profile?.designation || "",
-    companyLocation: user?.Profile?.companyLocation || "",
-    companyWebsite: user?.Profile?.companyWebsite || "",
+    companyName: userProfile?.companyName || "",
+    designation: userProfile?.designation || "",
+    companyLocation: userProfile?.companyLocation || "",
+    companyWebsite: userProfile?.companyWebsite || "",
 
     profilePhoto: null,
   });
 
-  const [previewPhoto, setPreviewPhoto] = useState(null);
+  const [previewPhoto, setPreviewPhoto] = useState(userProfile?.profilePhoto || null);
+
+  useEffect(() => {
+    if (open && user) {
+      const prof = user?.Profile || user?.profile || {};
+      setInput({
+        fullname: user?.fullname || "",
+        email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
+        bio: prof?.bio || "",
+        companyName: prof?.companyName || "",
+        designation: prof?.designation || "",
+        companyLocation: prof?.companyLocation || "",
+        companyWebsite: prof?.companyWebsite || "",
+        profilePhoto: null,
+      });
+      setPreviewPhoto(prof?.profilePhoto || null);
+    }
+  }, [open, user]);
 
   const textHandler = (e) => {
     setInput({
@@ -65,6 +84,24 @@ const UpdateRecruiterProfile = ({ open, setOpen }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    const prof = user?.Profile || user?.profile || {};
+    const isUnchanged =
+      (input.fullname || "") === (user?.fullname || "") &&
+      (input.email || "") === (user?.email || "") &&
+      (input.phoneNumber?.toString() || "") === (user?.phoneNumber?.toString() || "") &&
+      (input.bio || "") === (prof?.bio || "") &&
+      (input.companyName || "") === (prof?.companyName || "") &&
+      (input.designation || "") === (prof?.designation || "") &&
+      (input.companyLocation || "") === (prof?.companyLocation || "") &&
+      (input.companyWebsite || "") === (prof?.companyWebsite || "") &&
+      !input.profilePhoto;
+
+    if (isUnchanged) {
+      toast.info("No changes detected");
+      setOpen(false);
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("fullname", input.fullname);
@@ -92,17 +129,29 @@ const UpdateRecruiterProfile = ({ open, setOpen }) => {
         }
       );
 
-      if (res.data.success) {
-        dispatch(setUser(res.data.user));
-        toast.success(res.data.message);
+      if (res.status === 204) {
+        toast.info("No changes detected");
         setOpen(false);
+        return;
       }
+
+      if (res.data?.success) {
+        dispatch(setUser(res.data.user));
+        toast.success(res.data.message || "Profile updated successfully");
+      } else {
+        toast.info(res.data?.message || "No changes detected");
+      }
+      setOpen(false);
     } catch (error) {
       console.log(error.response?.data);
 
-      toast.error(
-        error.response?.data?.message || "Something went wrong"
-      );
+      const msg = error.response?.data?.message || "Something went wrong";
+      if (msg === "No changes detected" || error.response?.status === 400) {
+        toast.info(msg);
+      } else {
+        toast.error(msg);
+      }
+      setOpen(false);
     } finally {
       dispatch(setLoading(false));
     }
