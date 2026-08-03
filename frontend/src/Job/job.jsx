@@ -9,12 +9,19 @@ import { toast } from 'sonner'
 import { SAVE_API_END_POINT } from '@/utils/constant'
 import { addSavedJob, removeSavedJob } from "@/redux/savedJobSlice";
 import { useDispatch, useSelector } from 'react-redux'
-
+import { useState } from "react";
+import LoginPopup from '@/Autheticated/LoginPopup'
+import useAuthenticate from '@/Autheticated/useAuthticate'
 
 const job = ({job}) => {
   const navigate = useNavigate();
   const { savedJobs } = useSelector((store) => store.savedJob);
   const dispatch=useDispatch();
+
+  const [open, setOpen] = useState(false);
+
+const requireAuth = useAuthenticate(setOpen);
+
 
   // It checks whether at least one element in an array satisfies a condition.
   //it returnan in true and flase
@@ -22,6 +29,7 @@ const job = ({job}) => {
     (savedJob) => savedJob._id === job._id
 );
   const saveJob = async () => {
+      if (!requireAuth()) return;
   try {
 
     if (isSaved) {
@@ -72,6 +80,8 @@ const job = ({job}) => {
   };
 
   return (
+    <>
+    <LoginPopup open={open} setOpen={setOpen} />
     <div className="group bg-white rounded-2xl border border-slate-200/60 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer hover:border-purple-200/60 hover:-translate-y-1">
       <div className="p-6">
         
@@ -141,7 +151,11 @@ const job = ({job}) => {
         {/* Action Buttons */}
         <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
           <Button 
-            onClick={() => navigate(`/description/${job._id}`)} 
+           
+           onClick={() => {
+  if (!requireAuth()) return;
+  navigate(`/description/${job._id}`);
+}}
             variant="outline" 
             className="flex-1 rounded-xl border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 transition-all duration-200 group"
           >
@@ -161,6 +175,7 @@ const job = ({job}) => {
         </div>
       </div>
     </div>
+    </>
   )
 }
 
