@@ -1,0 +1,16 @@
+* [33m0c28089[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mui-redesign[m[33m)[m Refactor job search and filter functionality
+* [33m3fabab7[m Implement authentication popup and improve job navigation
+* [33maf0ab4d[m[33m ([m[1;31morigin/ui-redesign[m[33m)[m Add authentication popup for protected user actions
+* [33m41b11c8[m Implement authentication popup and fix guest saved jobs state
+* [33m813e979[m Add authentication popup for protected actions
+[31m|[m *   [33m640063b[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m Merge pull request #4 from paldhaduk7-png/ui-redesign
+[31m|[m [32m|[m[31m\[m  
+[31m|[m [32m|[m[31m/[m  
+[31m|[m[31m/[m[32m|[m   
+* [32m|[m [33m569d6de[m Add dynamic profile statistics and improve profile dashboard UI
+* [32m|[m [33m95ccced[m Update profile stats and improve profile UI
+[33m|[m *   [33m412077d[m Merge pull request #3 from paldhaduk7-png/ui-redesign
+[33m|[m [34m|[m[33m\[m  
+[33m|[m [34m|[m[33m/[m  
+[33m|[m[33m/[m[34m|[m   
+* [34m|[m [33m1ce4ada[m feat: enhance user profile with location and social links
