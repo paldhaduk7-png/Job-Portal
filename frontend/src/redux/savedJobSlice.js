@@ -7,7 +7,7 @@ const savedJobSlice = createSlice({
   },
   reducers: {
     setSavedJobs: (state, action) => {
-      state.savedJobs = action.payload;
+      state.savedJobs = action.payload || [];
     },
 
     clearSavedJobs: (state) => {
@@ -15,12 +15,14 @@ const savedJobSlice = createSlice({
     },
 
     addSavedJob: (state, action) => {
-      state.savedJobs.push(action.payload);
+      if (action.payload && !state.savedJobs.some((job) => job?._id === action.payload._id)) {
+        state.savedJobs.push(action.payload);
+      }
     },
 
     removeSavedJob: (state, action) => {
       state.savedJobs = state.savedJobs.filter(
-        (job) => job._id !== action.payload
+        (job) => job?._id !== action.payload
       );
     },
   },

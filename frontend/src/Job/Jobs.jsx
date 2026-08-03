@@ -6,29 +6,98 @@ import { motion } from "framer-motion";
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { Briefcase } from "lucide-react";
 
+const parseSalaryNumber = (salary) => {
+  if (typeof salary === "number") return salary;
+  if (!salary) return null;
+
+  const match = String(salary).match(/(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : null;
+};
+
 const Jobs = () => {
-  const { allJobs, searchQuery } = useSelector(store => store.job);
+const { allJobs, searchQuery, filters } = useSelector(store => store.job);
   const [filterJob, setFiltterJob] = useState(allJobs);
   useGetAllJobs();
-// console.log(allJobs[0]);
-  useEffect(() => {
-    if (searchQuery) {
-      console.log("Search Query:", searchQuery);
-      const filtered = allJobs.filter(job => {
-        if (searchQuery === "0-5LPA") return job.salary >= 0 && job.salary <= 5;
-        if (searchQuery === "5-10LPA") return job.salary >= 5 && job.salary <= 10;
-        if (searchQuery === "10-20LPA") return job.salary >= 10 && job.salary <= 20;
-     return (
-  job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  job.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  job.company?.name?.toLowerCase().includes(searchQuery.toLowerCase())
-);
+
+useEffect(() => {
+  let filtered = [...(allJobs || [])];
+  const normalizedQuery = String(searchQuery || "").trim().toLowerCase();
+
+  if (normalizedQuery) {
+    filtered = filtered.filter((job) => {
+      const searchText = [
+        job?.title,
+        job?.location,
+        job?.company?.name,
+        job?.description,
+        job?.jobType,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return searchText.includes(normalizedQuery);
+    });
+  }
+
+  if (filters?.location) {
+    const targetLoc = String(filters.location).trim().toLowerCase();
+    filtered = filtered.filter((job) =>
+      String(job?.location || "")
+        .toLowerCase()
+        .includes(targetLoc)
+    );
+  }
+
+  if (filters?.industry) {
+    const targetInd = String(filters.industry).trim().toLowerCase();
+    filtered = filtered.filter((job) => {
+      const title = String(job?.title || "").toLowerCase();
+      const description = String(job?.description || "").toLowerCase();
+      const requirements = Array.isArray(job?.requirements)
+        ? job.requirements.join(" ").toLowerCase()
+        : String(job?.requirements || "").toLowerCase();
+
+      const combinedText = `${title} ${description} ${requirements}`;
+
+      if (targetInd.includes("frontend")) {
+        return combinedText.includes("frontend") || combinedText.includes("react") || combinedText.includes("web");
+      }
+      if (targetInd.includes("backend")) {
+        return combinedText.includes("backend") || combinedText.includes("node") || combinedText.includes("express") || combinedText.includes("java") || combinedText.includes("python");
+      }
+      if (targetInd.includes("fullstack")) {
+        return combinedText.includes("fullstack") || combinedText.includes("full stack") || combinedText.includes("full-stack");
+      }
+
+      return combinedText.includes(targetInd);
+    });
+  }
+
+  if (filters?.salary) {
+    const salaryRange = {
+      "0-5LPA": [0, 5],
+      "5-10LPA": [5, 10],
+      "10-20LPA": [10, 20],
+    }[filters.salary];
+
+    if (salaryRange) {
+      filtered = filtered.filter((job) => {
+        let salaryValue = parseSalaryNumber(job?.salary);
+        if (salaryValue === null) return false;
+
+        if (salaryValue >= 1000) {
+          salaryValue = salaryValue / 100000;
+        }
+
+        return salaryValue >= salaryRange[0] && salaryValue <= salaryRange[1];
       });
-      setFiltterJob(filtered);
-    } else {
-      setFiltterJob(allJobs);
     }
-  }, [allJobs, searchQuery]);
+  }
+
+  setFiltterJob(filtered);
+
+}, [allJobs, searchQuery, filters]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

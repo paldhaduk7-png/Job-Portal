@@ -36,8 +36,10 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { setSearchQuery } from "@/redux/jobSlice";
+import useGetSavedJobs from "@/hooks/useGetSavedJobs";
 
 const Navbar = () => {
+  useGetSavedJobs();
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useSelector(store => store.auth);
