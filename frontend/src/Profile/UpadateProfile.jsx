@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import {
   Dialog,
@@ -33,23 +33,45 @@ import { toast } from "sonner";
 const UpdateProfile = ({ open, setOpen }) => {
   const dispatch = useDispatch();
   const { user, loading } = useSelector(store => store.auth);
+  const userProfile = user?.Profile || user?.profile || {};
 
   const [input, setInput] = useState({
     fullname: user?.fullname || "",
     email: user?.email || "",
     phoneNumber: user?.phoneNumber || "",
-    bio: user?.Profile?.bio || "",
-    skills: user?.Profile?.skills || [],
+    bio: userProfile?.bio || "",
+    skills: userProfile?.skills || [],
     profilePhoto: null,
     resume: null,
-    location: user?.Profile?.location || "",
-github: user?.Profile?.github || "",
-linkedin: user?.Profile?.linkedin || "",
-portfolio: user?.Profile?.portfolio || "",
-leetcode: user?.Profile?.leetcode || "",
+    location: userProfile?.location || "",
+    github: userProfile?.github || "",
+    linkedin: userProfile?.linkedin || "",
+    portfolio: userProfile?.portfolio || "",
+    leetcode: userProfile?.leetcode || "",
   });
 
-  const [previewPhoto, setPreviewPhoto] = useState(user?.Profile?.profilePhoto || null);
+  const [previewPhoto, setPreviewPhoto] = useState(userProfile?.profilePhoto || null);
+
+  useEffect(() => {
+    if (open && user) {
+      const prof = user?.Profile || user?.profile || {};
+      setInput({
+        fullname: user?.fullname || "",
+        email: user?.email || "",
+        phoneNumber: user?.phoneNumber || "",
+        bio: prof?.bio || "",
+        skills: prof?.skills || [],
+        profilePhoto: null,
+        resume: null,
+        location: prof?.location || "",
+        github: prof?.github || "",
+        linkedin: prof?.linkedin || "",
+        portfolio: prof?.portfolio || "",
+        leetcode: prof?.leetcode || "",
+      });
+      setPreviewPhoto(prof?.profilePhoto || null);
+    }
+  }, [open, user]);
 
   const textHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
@@ -77,6 +99,30 @@ leetcode: user?.Profile?.leetcode || "",
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    const prof = user?.Profile || user?.profile || {};
+    const origSkills = (prof?.skills || []).join(",");
+    const currentSkills = (input.skills || []).join(",");
+
+    const isUnchanged =
+      (input.fullname || "") === (user?.fullname || "") &&
+      (input.email || "") === (user?.email || "") &&
+      (input.phoneNumber?.toString() || "") === (user?.phoneNumber?.toString() || "") &&
+      (input.bio || "") === (prof?.bio || "") &&
+      (input.location || "") === (prof?.location || "") &&
+      (input.github || "") === (prof?.github || "") &&
+      (input.linkedin || "") === (prof?.linkedin || "") &&
+      (input.portfolio || "") === (prof?.portfolio || "") &&
+      (input.leetcode || "") === (prof?.leetcode || "") &&
+      currentSkills === origSkills &&
+      !input.profilePhoto &&
+      !input.resume;
+
+    if (isUnchanged) {
+      toast.info("No changes detected");
+      setOpen(false);
+      return;
+    }
+
     const formData = new FormData();
     formData.append("fullname", input.fullname);
     formData.append("email", input.email);
@@ -84,10 +130,10 @@ leetcode: user?.Profile?.leetcode || "",
     formData.append("bio", input.bio);
     formData.append("skills", input.skills.length ? input.skills.join(",") : "");
     formData.append("location", input.location);
-formData.append("github", input.github);
-formData.append("linkedin", input.linkedin);
-formData.append("portfolio", input.portfolio);
-formData.append("leetcode", input.leetcode);
+    formData.append("github", input.github);
+    formData.append("linkedin", input.linkedin);
+    formData.append("portfolio", input.portfolio);
+    formData.append("leetcode", input.leetcode);
 
     if (input.profilePhoto) {
       formData.append("profilePhoto", input.profilePhoto);
@@ -104,15 +150,29 @@ formData.append("leetcode", input.leetcode);
         { withCredentials: true }
       );
 
-      if (res.data.success) {
+      if (res.status === 204) {
+        toast.info("No changes detected");
+        setOpen(false);
+        return;
+      }
+
+      if (res.data?.success) {
         console.log(res.data.user);
         dispatch(setUser(res.data.user));
-        toast.success(res.data.message);
-        setOpen(false);
+        toast.success(res.data.message || "Profile updated successfully");
+      } else {
+        toast.info(res.data?.message || "No changes detected");
       }
+      setOpen(false);
     } catch (error) {
       console.log(error.response?.data);
-      toast.error(error.response?.data?.message || "Something went wrong");
+      const msg = error.response?.data?.message || "Something went wrong";
+      if (msg === "No changes detected" || error.response?.status === 400) {
+        toast.info(msg);
+      } else {
+        toast.error(msg);
+      }
+      setOpen(false);
     } finally {
       dispatch(setLoading(false));
     }
