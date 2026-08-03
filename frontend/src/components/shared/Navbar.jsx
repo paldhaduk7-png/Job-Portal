@@ -35,11 +35,13 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import { setSearchQuery } from "@/redux/jobSlice";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useSelector(store => store.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -111,7 +113,7 @@ const Navbar = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/jobs" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
+                  <Link to="/jobs" onClick={()=> dispatch(setSearchQuery(""))} className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
                     <Search className="w-4 h-4" />
                     Jobs
                   </Link>

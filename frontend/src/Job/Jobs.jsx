@@ -10,17 +10,19 @@ const Jobs = () => {
   const { allJobs, searchQuery } = useSelector(store => store.job);
   const [filterJob, setFiltterJob] = useState(allJobs);
   useGetAllJobs();
-console.log(allJobs[0]);
+// console.log(allJobs[0]);
   useEffect(() => {
     if (searchQuery) {
+      console.log("Search Query:", searchQuery);
       const filtered = allJobs.filter(job => {
         if (searchQuery === "0-5LPA") return job.salary >= 0 && job.salary <= 5;
         if (searchQuery === "5-10LPA") return job.salary >= 5 && job.salary <= 10;
         if (searchQuery === "10-20LPA") return job.salary >= 10 && job.salary <= 20;
-        return (
-          job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          job.location.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+     return (
+  job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  job.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
+  job.company?.name?.toLowerCase().includes(searchQuery.toLowerCase())
+);
       });
       setFiltterJob(filtered);
     } else {

@@ -29,8 +29,10 @@ const FilterCard = () => {
   }
 
   useEffect(() => {
+  if (selectedValue) {
     dispatch(setSearchQuery(selectedValue));
-  }, [selectedValue, dispatch]);
+  }
+}, [selectedValue, dispatch]);
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6">
