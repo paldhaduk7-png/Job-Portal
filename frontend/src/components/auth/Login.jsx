@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setUser } from "@/redux/authSlice";
 import { Loader2, Eye, EyeOff, Briefcase, Mail, Lock, ArrowRight, Sparkles } from "lucide-react";
+import GoogleLoginButton from "@/GoogluAuth/GoogleLoginButton";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -279,6 +280,8 @@ const Login = () => {
                   Sign up
                 </Link>
               </p>
+
+               <GoogleLoginButton />
 
               {/* Divider */}
               <div className="relative">
