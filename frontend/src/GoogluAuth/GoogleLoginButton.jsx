@@ -17,7 +17,11 @@ const GoogleLoginButton = ({ role }) => {
         toast.error("Google authentication failed. No credential received.");
         return;
       }
-
+        // Check if user selected a role
+    if (!role) {
+      toast.error("Please select your role first.");
+      return;
+    }
       dispatch(setLoading(true));
 
       const res = await axios.post(
