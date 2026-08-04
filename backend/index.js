@@ -31,7 +31,7 @@ app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute);
 app.use("/api/v1/save", saveRoute);
-app.use("/api/v1", forgotPasswordRoute);
+app.use("/api/v1/otp", forgotPasswordRoute);
 
 app.listen(PORT, ()=>{
     console.log(`server is satrt at port ${PORT}`);
