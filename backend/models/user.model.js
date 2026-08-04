@@ -12,17 +12,30 @@ email:{
 },
 phoneNumber:{
     type: Number,
-    required: true,
-    unique: true
+    required: false,
+    sparse: true
 },
 password:{
     type: String,
-    required: true
+    required: false
+},
+googleId:{
+    type: String,
+    default: ""
+},
+authProvider:{
+    type: String,
+    enum: ['local', 'google'],
+    default: 'local'
+},
+isEmailVerified: {
+    type: Boolean,
+    default: false
 },
 role:{
     type: String,
     enum: ['student', 'recruiter'],
-      required: true
+    required: true
 },
 resetOTP: {
     type: String,

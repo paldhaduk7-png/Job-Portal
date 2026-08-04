@@ -23,6 +23,7 @@ import {
   ArrowRight,
   CheckCircle
 } from "lucide-react";
+import GoogleLoginButton from "@/GoogluAuth/GoogleLoginButton";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -468,6 +469,7 @@ const Signup = () => {
                   Login
                 </Link>
               </p>
+              <GoogleLoginButton role={input.role} />
 
               {/* Divider */}
               <div className="relative">
