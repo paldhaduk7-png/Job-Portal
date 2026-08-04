@@ -23,6 +23,9 @@ import About from './about/About';
 import ForgotPassword from './components/auth/ForgotPassword';
 import VerifyOtp from './components/auth/VerifyOtp';
 import ResetPassword from './components/auth/ResetPassword';
+import ProtectedUserRoute from "./components/ProtectedUserRoute";
+import PublicRoute from './components/PublicRoute';
+
 
 const appRouter= createBrowserRouter([
 //client
@@ -35,19 +38,24 @@ const appRouter= createBrowserRouter([
   </>
 },
 {
-  path:"/login",
-  element:
-  <>
-  <Navbar />
-  <Login/>
-  </>
+  path: "/login",
+  element: (
+    <>
+      <Navbar />
+      <PublicRoute>
+        <Login />
+      </PublicRoute>
+    </>
+  ),
 },
 {
   path:"/signup",
   element:
   <>
   <Navbar />
+  <PublicRoute>
   <Signup/>
+  </PublicRoute>
   </>
 },
 {
@@ -55,7 +63,9 @@ const appRouter= createBrowserRouter([
   element:
   <>
   <Navbar />
+  <PublicRoute>
   <ForgotPassword />
+  </PublicRoute>
   </>
 },
 {
@@ -63,7 +73,9 @@ const appRouter= createBrowserRouter([
   element:
   <>
   <Navbar />
+  <PublicRoute>
   <VerifyOtp />
+  </PublicRoute>
   </>
 },
 {
@@ -71,7 +83,9 @@ const appRouter= createBrowserRouter([
   element:
   <>
   <Navbar />
+  <PublicRoute>
   <ResetPassword />
+  </PublicRoute>
   </>
 },
 {
@@ -99,28 +113,37 @@ const appRouter= createBrowserRouter([
   </>
 },
 {
-  path:"/profile",
-  element:
-  <>
-  <Navbar />
-  <Profile />
-  </>
+  path: "/profile",
+  element: (
+    <>
+      <Navbar />
+      <ProtectedUserRoute>
+        <Profile />
+      </ProtectedUserRoute>
+    </>
+  ),
 },
 {
-  path:"/applied-jobs",
-  element:
-  <>
-  <Navbar />
-  <AppliedJob />
-  </>
+  path: "/applied-jobs",
+  element: (
+    <>
+      <Navbar />
+      <ProtectedUserRoute>
+        <AppliedJob />
+      </ProtectedUserRoute>
+    </>
+  ),
 },
 {
-  path:"/saved-jobs",
-  element:
-  <>
-  <Navbar />
-  <SavedJob />
-  </>
+  path: "/saved-jobs",
+  element: (
+    <>
+      <Navbar />
+      <ProtectedUserRoute>
+        <SavedJob />
+      </ProtectedUserRoute>
+    </>
+  ),
 },
 {
   path:"/description/:id",
