@@ -20,6 +20,9 @@ import JobUpadate from './Admin/hadling CURD/JobUpadate';
 import AppliedJob from './AppliedJob/AppliedJob';
 import SavedJob from './SaveJob/savedJob';
 import About from './about/About';
+import ForgotPassword from './components/auth/ForgotPassword';
+import VerifyOtp from './components/auth/VerifyOtp';
+import ResetPassword from './components/auth/ResetPassword';
 
 const appRouter= createBrowserRouter([
 //client
@@ -45,6 +48,30 @@ const appRouter= createBrowserRouter([
   <>
   <Navbar />
   <Signup/>
+  </>
+},
+{
+  path:"/forgot-password",
+  element:
+  <>
+  <Navbar />
+  <ForgotPassword />
+  </>
+},
+{
+  path:"/verify-otp",
+  element:
+  <>
+  <Navbar />
+  <VerifyOtp />
+  </>
+},
+{
+  path:"/reset-password",
+  element:
+  <>
+  <Navbar />
+  <ResetPassword />
   </>
 },
 {

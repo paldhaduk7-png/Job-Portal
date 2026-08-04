@@ -24,6 +24,14 @@ role:{
     enum: ['student', 'recruiter'],
       required: true
 },
+resetOTP: {
+    type: String,
+    default: null,
+},
+resetOTPExpire: {
+    type: Date,
+    default: null,
+},
 profile: {
   // Common
   bio: { type: String },

@@ -3,7 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getDataUri from "../utils/dataUri.js";
 import cloudinary from "../utils/clodinary.js";
-
+import otpGenerator from "otp-generator";
+import sendEmail from "../utils/sendEmail.js";
 
 //for register
 export const register = async (req, res) => {
