@@ -5,6 +5,9 @@ import getDataUri from "../utils/dataUri.js";
 import cloudinary from "../utils/clodinary.js";
 import otpGenerator from "otp-generator";
 import sendEmail from "../utils/sendEmail.js";
+import { OAuth2Client } from "google-auth-library";
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //for register
 export const register = async (req, res) => {
@@ -138,7 +141,8 @@ console.log(email, password, role);
       .cookie("token", token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
         httpOnly: true,
-        sameSite: "strict",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
       })
       .json({
         message: `Welcome back ${user.fullname}`,
@@ -223,7 +227,8 @@ console.log("RESUME CLOUDINARY:", resumeResponse);
 
 
 if (email) {
-  const existingUser = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase();
+  const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (existingUser && existingUser._id.toString() !== userId) {
     return res.status(400).json({
@@ -232,7 +237,7 @@ if (email) {
     });
   }
 
-  user.email = email;
+  user.email = normalizedEmail;
 }
 
 // Check if any changes were made
@@ -332,7 +337,8 @@ profilePhotoResponse = await cloudinary.uploader.upload(fileUri.content, {
 
 
 if (email) {
-  const existingUser = await User.findOne({ email });
+  const normalizedEmail = email.toLowerCase();
+  const existingUser = await User.findOne({ email: normalizedEmail });
 
   if (existingUser && existingUser._id.toString() !== userId) {
     return res.status(400).json({
@@ -341,7 +347,7 @@ if (email) {
     });
   }
 
-  user.email = email;
+  user.email = normalizedEmail;
 }
 
 // Check if any changes were made
@@ -399,3 +405,126 @@ if(profilePhotoResponse){
         });
     }
 }
+
+// for Google Login
+export const googleLogin = async (req, res) => {
+  try {
+    const { credential, role } = req.body;
+
+    if (!credential) {
+      return res.status(400).json({
+        message: "Google credential token is required",
+        success: false,
+      });
+    }
+
+    // Role validation
+    const validRoles = ["student", "recruiter"];
+    const selectedRole = role || "student";
+    if (!validRoles.includes(selectedRole)) {
+      return res.status(400).json({
+        message: "Invalid role specified",
+        success: false,
+      });
+    }
+
+    // Verify Google ID token
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    if (!payload) {
+      return res.status(400).json({
+        message: "Invalid Google token",
+        success: false,
+      });
+    }
+
+    const { email, name, picture, sub, email_verified } = payload;
+    const normalizedEmail = email.toLowerCase();
+
+    // Check if user exists in MongoDB
+    let user = await User.findOne({ email: normalizedEmail });
+
+    if (user) {
+      // Role check for existing user
+      if (user.role !== selectedRole) {
+        return res.status(400).json({
+          message: "Account doesn't exist with current role",
+          success: false,
+        });
+      }
+
+      // User exists: update googleId / email_verified / profilePhoto if not set
+      let updated = false;
+      if (!user.googleId) {
+        user.googleId = sub;
+        updated = true;
+      }
+      if (email_verified && !user.isEmailVerified) {
+        user.isEmailVerified = email_verified;
+        updated = true;
+      }
+      if (!user.profile?.profilePhoto && picture) {
+        if (!user.profile) user.profile = {};
+        user.profile.profilePhoto = picture;
+        updated = true;
+      }
+      if (updated) {
+        await user.save();
+      }
+    } else {
+      // Create new user for Google login
+      user = await User.create({
+        fullname: name || "Google User",
+        email: normalizedEmail,
+        googleId: sub,
+        authProvider: "google",
+        isEmailVerified: !!email_verified,
+        role: selectedRole,
+        profile: {
+          profilePhoto: picture || "",
+        },
+      });
+    }
+
+    // Generate App JWT token
+    const tokenData = {
+      userId: user._id,
+    };
+    const token = await jwt.sign(tokenData, process.env.SECRET_KEY, {
+      expiresIn: "1d",
+    });
+
+    const userResponse = {
+      _id: user._id,
+      fullname: user.fullname,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      role: user.role,
+      Profile: user.profile,
+    };
+
+    return res
+      .status(200)
+      .cookie("token", token, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+      })
+      .json({
+        message: `Welcome back ${user.fullname}`,
+        user: userResponse,
+        success: true,
+      });
+  } catch (error) {
+    console.error("Google Login Error:", error);
+    return res.status(500).json({
+      message: error.message || "Google login failed",
+      success: false,
+    });
+  }
+};

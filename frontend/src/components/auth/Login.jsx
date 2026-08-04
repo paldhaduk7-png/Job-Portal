@@ -281,7 +281,7 @@ const Login = () => {
                 </Link>
               </p>
 
-               <GoogleLoginButton />
+               <GoogleLoginButton role={input.role} />
 
               {/* Divider */}
               <div className="relative">
