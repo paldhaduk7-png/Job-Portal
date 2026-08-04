@@ -22,6 +22,8 @@ const corsOption = {
     credentials: true
 };
 app.use(cors(corsOption));
+
+console.log("Calling connectDB...");
 connectDB();
 const PORT =process.env.PORT || 3000;
 
