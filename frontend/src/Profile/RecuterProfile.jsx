@@ -22,9 +22,12 @@ import {
 import { useSelector } from "react-redux";
 import UpdateRecruiterProfile from "./updateRecuterProfile";
 import RecruiterPostedJobs from "./RecruiterPostedJobs";
+import ImagePreviewModal from "./ImagePreviewModal";
+
 
 const RecruiterProfile = () => {
   const [open, setOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
 
   const getInitials = (name) => {
@@ -55,7 +58,10 @@ const RecruiterProfile = () => {
           {/* Profile Header - Avatar and Name */}
           <div className="flex flex-col sm:flex-row sm:items-end justify-between -mt-12 gap-4">
             <div className="flex items-end gap-4">
-              <Avatar className="h-20 w-20 md:h-24 md:w-24 border-4 border-white shadow-md">
+              <Avatar
+  onClick={() => setPreviewOpen(true)}
+  className="h-20 w-20 md:h-24 md:w-24 border-4 border-white shadow-md cursor-pointer hover:scale-105 transition"
+>
                 {user?.Profile?.profilePhoto ? (
                   <AvatarImage src={user?.Profile?.profilePhoto} alt="profile" />
                 ) : (
@@ -218,6 +224,11 @@ const RecruiterProfile = () => {
       </div>
 
       <UpdateRecruiterProfile open={open} setOpen={setOpen} />
+      <ImagePreviewModal
+  open={previewOpen}
+  setOpen={setPreviewOpen}
+  image={user?.Profile?.profilePhoto}
+/>
     </div>
   );
 };

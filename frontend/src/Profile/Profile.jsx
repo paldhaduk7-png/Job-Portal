@@ -20,12 +20,13 @@ import {
 import ApplicationJobTabel from "./ApplicationJobTabel";
 import UpadateProfile from "./upadateProfile.jsx";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
-
+import ImagePreviewModal from "./ImagePreviewModal";
 
 const Profile = () => {
   useGetAppliedJob();
 
   const [open, setOpen] = useState(false);
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const { user } = useSelector((store) => store.auth);
   const savedJobState = useSelector((store) => store.savedJob);
@@ -80,14 +81,18 @@ const rejectedCount =
         <div className="h-32 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-500 relative">
 
           {/* Profile Photo */}
-          <div className="absolute -bottom-12 left-8">
-            <Avatar className="h-28 w-28 ring-4 ring-white shadow-xl">
-              <AvatarImage
-                src={user?.Profile?.profilePhoto}
-                alt={user?.fullname || "Profile"}
-              />
-            </Avatar>
-          </div>
+         {/* Profile Photo */}
+<div className="absolute -bottom-12 left-8">
+  <Avatar
+    onClick={() => setPreviewOpen(true)}
+    className="h-28 w-28 ring-4 ring-white shadow-xl cursor-pointer hover:scale-105 transition"
+  >
+    <AvatarImage
+      src={user?.Profile?.profilePhoto}
+      alt={user?.fullname || "Profile"}
+    />
+  </Avatar>
+</div>
 
           {/* Edit Profile */}
           <div className="absolute right-6 top-6">
@@ -368,6 +373,11 @@ const rejectedCount =
 
       {/* IMPORTANT: original working update component */}
       <UpadateProfile open={open} setOpen={setOpen} />
+      <ImagePreviewModal
+  open={previewOpen}
+  setOpen={setPreviewOpen}
+  image={user?.Profile?.profilePhoto}
+/>
 
     </div>
   );
