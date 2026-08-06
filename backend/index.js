@@ -20,7 +20,7 @@ app.use(cookieParser());
 const corsOption = {
     origin: [
         "http://localhost:5173",
-        "https://your-vercel-frontend-url.vercel.app"
+        "https://job-portal-xi-jet.vercel.app"
     ],
     credentials: true
 };
