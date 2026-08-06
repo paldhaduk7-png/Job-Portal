@@ -15,7 +15,7 @@ import AdminJobs from './Admin/AdminJobs.jsx'
 import PostJob from './Admin/PostJob';
 import Applicants from './Admin/Applicants';
 import ProtectedRoute from './Admin/ProtectedRoute';
-import RecuterProfile from './Profile/RecuterProfile';
+import RecruiterProfile from './Profile/RecruiterProfile';
 import JobUpdate from './Admin/crud/JobUpdate';
 import AppliedJob from './AppliedJob/AppliedJob';
 import SavedJob from "./SaveJob/SavedJob";
@@ -170,7 +170,7 @@ const appRouter= createBrowserRouter([
     <>
     <Navbar />
     <ProtectedRoute>
-     <RecuterProfile />
+     <RecruiterProfile />
      </ProtectedRoute>
     </>
 },
