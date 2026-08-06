@@ -8,7 +8,7 @@ import Jobs from './Job/Jobs';
 import Browse from "./Browse/Browse";
 import Profile from './Profile/Profile';
 import JobDescription from './Job/JobDescription';
-import Compaies from './Admin/Compaies';
+import Companies from './Admin/Companies';
 import ComapnyCreate from './Admin/ComapnyCreate';
 import ComapnySetup from './Admin/ComapnySetup';
 import AdminJobs from './Admin/AdminJobs.jsx'
@@ -161,7 +161,7 @@ const appRouter= createBrowserRouter([
     <>
     <Navbar />
     <ProtectedRoute>
-     <Compaies />
+     <Companies />
      </ProtectedRoute>
     </>
 },{

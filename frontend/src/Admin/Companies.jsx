@@ -15,7 +15,7 @@ import {
   Users
 } from 'lucide-react'
 
-const Compaies = () => {
+const Companies = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useGetAllCompanies();
@@ -125,4 +125,4 @@ const Compaies = () => {
   )
 }
 
-export default Compaies
+export default Companies
