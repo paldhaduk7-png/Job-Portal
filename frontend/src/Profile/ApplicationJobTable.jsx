@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { Briefcase, Building2, Calendar, Eye } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const AppliedJobTable = () => {
+const ApplicationJobTable = () => {
   const { allAppliedJob } = useSelector(store => store.job);
   const navigate = useNavigate();
 
@@ -139,4 +139,4 @@ const AppliedJobTable = () => {
   );
 };
 
-export default AppliedJobTable;
+export default ApplicationJobTable;

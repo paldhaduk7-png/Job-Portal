@@ -17,7 +17,7 @@ import {
   BookOpen,
   Share2,
 } from "lucide-react";
-import ApplicationJobTabel from "./ApplicationJobTabel";
+import ApplicationJobTable from "./ApplicationJobTable";
 import UpdateProfile from "./UpdateProfile";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
 import ImagePreviewModal from "./ImagePreviewModal";
@@ -367,7 +367,7 @@ const rejectedCount =
         </div>
 
         {/* IMPORTANT: original working component */}
-        <ApplicationJobTabel />
+        <ApplicationJobTable />
 
       </div>
 
