@@ -1,5 +1,5 @@
 import React from 'react';
-import Job from '@/Job/job';
+import Job from '@/Job/Job';
 import { useDispatch, useSelector } from 'react-redux';
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import { setSearchQuery } from '@/redux/jobSlice';

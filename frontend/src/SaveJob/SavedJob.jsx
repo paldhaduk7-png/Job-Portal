@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Job from "../Job/job";
+import Job from "../Job/Job";
 import { motion } from "framer-motion";
 import { Bookmark } from "lucide-react";
 import useGetSavedJobs from "@/hooks/useGetSavedJobs";

@@ -1,5 +1,5 @@
 import React from "react";
-import Job from "@/Job/job";
+import Job from "@/Job/Job";
 import { useSelector } from "react-redux";
 import { FileText } from "lucide-react";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
