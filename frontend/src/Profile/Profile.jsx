@@ -18,7 +18,7 @@ import {
   Share2,
 } from "lucide-react";
 import ApplicationJobTabel from "./ApplicationJobTabel";
-import UpadateProfile from "./upadateProfile.jsx";
+import UpdateProfile from "./UpdateProfile";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
 import ImagePreviewModal from "./ImagePreviewModal";
 
@@ -372,7 +372,7 @@ const rejectedCount =
       </div>
 
       {/* IMPORTANT: original working update component */}
-      <UpadateProfile open={open} setOpen={setOpen} />
+      <UpdateProfile open={open} setOpen={setOpen} />
       <ImagePreviewModal
   open={previewOpen}
   setOpen={setPreviewOpen}
