@@ -20,7 +20,7 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { useSelector } from "react-redux";
-import UpdateRecruiterProfile from "./updateRecuterProfile";
+import UpdateRecruiterProfile from "./UpdateRecruiterProfile";
 import RecruiterPostedJobs from "./RecruiterPostedJobs";
 import ImagePreviewModal from "./ImagePreviewModal";
 
