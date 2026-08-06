@@ -9,7 +9,7 @@ import { JOB_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { Loader2, ArrowLeft, Briefcase, MapPin, FileText, List, DollarSign, Users, Clock, Building2 } from 'lucide-react'
 
-const JobUpadate = () => {
+const JobUpdate = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [input, setInput] = useState({
@@ -194,4 +194,4 @@ const JobUpadate = () => {
   )
 }
 
-export default JobUpadate
+export default JobUpdate

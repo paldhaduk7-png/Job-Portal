@@ -16,7 +16,7 @@ import PostJob from './Admin/PostJob';
 import Applicants from './Admin/Applicants';
 import ProtectedRoute from './Admin/ProtectedRoute';
 import RecuterProfile from './Profile/RecuterProfile';
-import JobUpadate from './Admin/hadling CURD/JobUpadate';
+import JobUpdate from './Admin/crud/JobUpdate';
 import AppliedJob from './AppliedJob/AppliedJob';
 import SavedJob from "./SaveJob/SavedJob";
 import About from './about/About';
@@ -220,7 +220,7 @@ const appRouter= createBrowserRouter([
     <>
     <Navbar />
     <ProtectedRoute>
-<JobUpadate />
+<JobUpdate />
 </ProtectedRoute>
     </>
 },

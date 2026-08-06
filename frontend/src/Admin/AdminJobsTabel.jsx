@@ -21,7 +21,7 @@ import {
 } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import JobDelete from './hadling CURD/JobDelete'
+import JobDelete from './crud/JobDelete'
 import { Button } from '@/components/ui/button'
 
 const AdminJobsTabel = () => {

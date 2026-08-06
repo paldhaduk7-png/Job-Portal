@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Edit2, MoreHorizontal, Eye, Trash2, Calendar, Building2, Plus } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import CompanyDelete from './hadling CURD/CompanyDelete'
+import CompanyDelete from './crud/CompanyDelete'
 import { Button } from '@/components/ui/button'
 
 const ComapnyTabel = () => {
