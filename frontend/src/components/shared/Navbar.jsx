@@ -17,8 +17,12 @@ import {
   UserCircle,
   FileText,
   Bookmark,
-   BadgeInfo,
-    
+  BadgeInfo,
+  Globe,
+  Zap,
+  Compass,
+  Rocket,
+  LayoutDashboard,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
@@ -66,94 +70,97 @@ const Navbar = () => {
     }
   };
 
-  // Get initials for avatar fallback
   const getInitials = (name) => {
     if (!name) return "U";
     return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
   };
 
   return (
-    <nav className="bg-white/80 backdrop-blur-lg border-b border-slate-200/50 sticky top-0 z-50 shadow-sm">
+    <nav className="bg-white/95 backdrop-blur-md border-b border-indigo-100/60 sticky top-0 z-50 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           
-          {/* Logo */}
+          {/* Logo - Indigo/Purple Theme */}
           <div className="flex items-center gap-2">
-            <Link to="/" className="flex items-center gap-2 group">
-              <div className="w-9 h-9 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/25 group-hover:scale-105 transition-transform duration-300">
-                <Briefcase className="w-5 h-5 text-white" />
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:shadow-indigo-500/40 transition-all duration-300">
+                <Briefcase className="w-5 h-5 text-white" strokeWidth={2} />
               </div>
-              <span className="text-2xl font-extrabold tracking-tight">
-                Job<span className="text-purple-600">Portal</span>
+              <span className="text-2xl font-bold tracking-tight">
+                Job<span className="text-indigo-600">Portal</span>
               </span>
             </Link>
           </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - With Icons */}
+          <div className="hidden md:flex items-center gap-1">
             {user && user.role === 'recruiter' ? (
-              <ul className="flex items-center gap-6 font-medium">
-                <li>
-                  <Link to="/admin/companies" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
-                    <Users className="w-4 h-4" />
-                    Companies
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/admin/jobs" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
-                    <Briefcase className="w-4 h-4" />
-                    Jobs
-                  </Link>
-                </li>
-              </ul>
+              <div className="flex items-center gap-1">
+                <Link 
+                  to="/admin/companies" 
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <Users className="w-4 h-4" />
+                  Companies
+                </Link>
+                <Link 
+                  to="/admin/jobs" 
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <LayoutDashboard className="w-4 h-4" />
+                  Jobs
+                </Link>
+              </div>
             ) : (
-              <ul className="flex items-center gap-6 font-medium">
-                <li>
-                  <Link to="/" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
-                    <Home className="w-4 h-4" />
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/jobs" onClick={()=> dispatch(setSearchQuery(""))} className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
-                    <Search className="w-4 h-4" />
-                    Jobs
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/browse" className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2">
-                    <Sparkles className="w-4 h-4" />
-                    Browse
-                  </Link>
-                </li>
-                <li>
-  <Link
-    to="/about"
-    className="text-slate-600 hover:text-purple-600 transition-colors flex items-center gap-2"
-  >
-    <BadgeInfo className="w-4 h-4" />
-    About
-  </Link>
-</li>
-              </ul>
+              <div className="flex items-center gap-1">
+                <Link 
+                  to="/" 
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <Home className="w-4 h-4" />
+                  Home
+                </Link>
+                <Link 
+                  to="/jobs" 
+                  onClick={()=> dispatch(setSearchQuery(""))} 
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <Search className="w-4 h-4" />
+                  Jobs
+                </Link>
+                <Link 
+                  to="/browse" 
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <Compass className="w-4 h-4" />
+                  Browse
+                </Link>
+                <Link
+                  to="/about"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
+                >
+                  <BadgeInfo className="w-4 h-4" />
+                  About
+                </Link>
+              </div>
             )}
           </div>
 
-          {/* Right Side - Auth buttons / Profile */}
+          {/* Right Side - Auth Buttons */}
           <div className="flex items-center gap-3">
             {!user ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link to="/login">
                   <Button 
                     variant="ghost" 
-                    className="text-slate-600 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300"
+                    className="text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg px-5 transition-all"
                   >
                     Login
                   </Button>
                 </Link>
                 <Link to="/signup">
                   <Button 
-                    className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl px-6 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-all duration-300"
+                    className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-lg px-6 shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all duration-300"
                   >
                     Sign Up
                   </Button>
@@ -162,106 +169,73 @@ const Navbar = () => {
             ) : (
               <Popover>
                 <PopoverTrigger asChild>
-                  <div className="flex items-center gap-3 cursor-pointer group">
-                    <Avatar className="w-10 h-10 ring-2 ring-purple-500/20 group-hover:ring-purple-500/50 transition-all duration-300">
+                  <div className="flex items-center gap-3 cursor-pointer group px-2 py-1 rounded-lg hover:bg-indigo-50/70 transition-all">
+                    <Avatar className="w-9 h-9 ring-2 ring-indigo-500/20 group-hover:ring-indigo-500/40 transition-all">
                       <AvatarImage 
                         src={user?.Profile?.profilePhoto} 
                         alt={user?.fullname} 
                       />
-                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-indigo-500 text-white font-medium">
+                      <AvatarFallback className="bg-gradient-to-br from-indigo-500 to-purple-500 text-white text-sm font-medium">
                         {getInitials(user?.fullname)}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="hidden sm:block text-left">
-                      <p className="text-sm font-semibold text-slate-800 leading-tight">
-                        {user?.fullname?.split(" ")[0] || "User"}
-                      </p>
-                      <p className="text-xs text-slate-500 capitalize">
-                        {user?.role || "Member"}
-                      </p>
-                    </div>
-                    <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-purple-600 transition-colors" />
+                    <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors" />
                   </div>
                 </PopoverTrigger>
 
-                <PopoverContent className="w-72 p-4 rounded-2xl shadow-2xl border-slate-100">
-                  <div className="space-y-4">
-                    {/* User Info */}
-                    <div className="flex items-center gap-3 pb-4 border-b border-slate-100">
-                      <Avatar className="w-14 h-14 ring-2 ring-purple-500/20">
-                        <AvatarImage 
-                          src={user?.Profile?.profilePhoto} 
-                          alt={user?.fullname} 
-                        />
-                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-indigo-500 text-white text-lg font-medium">
+                <PopoverContent className="w-64 p-3 rounded-xl shadow-xl border-indigo-100">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-all">
+                      <Avatar className="w-10 h-10">
+                        <AvatarImage src={user?.Profile?.profilePhoto} />
+                        <AvatarFallback className="bg-indigo-100 text-indigo-600">
                           {getInitials(user?.fullname)}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <h4 className="font-bold text-slate-800">{user?.fullname}</h4>
-                        <p className="text-sm text-slate-500 truncate max-w-[180px]">
-                          {user?.Profile?.bio || "No bio added yet"}
-                        </p>
-                        <p className="text-xs text-purple-600 capitalize font-medium">
-                          {user?.role}
-                        </p>
+                        <p className="text-sm font-semibold text-slate-800">{user?.fullname}</p>
+                        <p className="text-xs text-slate-500 capitalize">{user?.role}</p>
                       </div>
                     </div>
 
-                    {/* Navigation Links */}
-                    <div className="space-y-1">
-                      {user && (
-                        <>
-                        <Link 
-                          to={user.role === "student" ? "/profile" : "/recruiter-profile"}
-                          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-purple-50 transition-all duration-200 group"
+                    <div className="h-px bg-indigo-100 my-1" />
+
+                    <Link 
+                      to={user.role === "student" ? "/profile" : "/recruiter-profile"}
+                      className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-indigo-50/70 transition-all text-sm text-slate-600 hover:text-indigo-600"
+                    >
+                      <UserCircle className="w-4 h-4" />
+                      Profile
+                    </Link>
+
+                    {user.role === "student" && (
+                      <>
+                        <Link
+                          to="/applied-jobs"
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-indigo-50/70 transition-all text-sm text-slate-600 hover:text-indigo-600"
                         >
-                          <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center group-hover:bg-purple-200 transition-colors">
-                            <UserCircle className="w-4 h-4 text-purple-600" />
-                          </div>
-                          <span className="text-sm font-medium text-slate-700 group-hover:text-purple-600">View Profile</span>
+                          <FileText className="w-4 h-4" />
+                          Applied Jobs
                         </Link>
-                            {user.role === "student" && (
-      <>
-        <Link
-          to="/applied-jobs"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-blue-50 transition-all duration-200 group"
-        >
-          <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-            <FileText className="w-4 h-4 text-blue-600" />
-          </div>
-          <span className="text-sm font-medium text-slate-700 group-hover:text-blue-600">
-            Applied Jobs
-          </span>
-        </Link>
+                        <Link
+                          to="/saved-jobs"
+                          className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-indigo-50/70 transition-all text-sm text-slate-600 hover:text-indigo-600"
+                        >
+                          <Bookmark className="w-4 h-4" />
+                          Saved Jobs
+                        </Link>
+                      </>
+                    )}
 
-        <Link
-          to="/saved-jobs"
-          className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-yellow-50 transition-all duration-200 group"
-        >
-          <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
-            <Bookmark className="w-4 h-4 text-yellow-600" />
-          </div>
-          <span className="text-sm font-medium text-slate-700 group-hover:text-yellow-600">
-            Saved Jobs
-          </span>
-        </Link>
-      </>
-    )}
+                    <div className="h-px bg-indigo-100 my-1" />
 
-                        </>
-                      )}
-                       
-                      <button 
-                        onClick={() => setOpen(true)}
-                        className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-red-50 transition-all duration-200 group"
-                      >
-                        <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center group-hover:bg-red-200 transition-colors">
-                          <LogOut className="w-4 h-4 text-red-600" />
-                        </div>
-                        <span className="text-sm font-medium text-slate-700 group-hover:text-red-600">Logout</span>
-                      </button>
-                    </div>
+                    <button 
+                      onClick={() => setOpen(true)}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 transition-all text-sm text-slate-600 hover:text-red-600"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      Logout
+                    </button>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -270,66 +244,74 @@ const Navbar = () => {
             {/* Mobile Menu Button */}
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl hover:bg-slate-100 transition-colors"
+              className="md:hidden p-2 rounded-lg hover:bg-indigo-50/70 transition-colors"
             >
               {mobileMenuOpen ? (
-                <X className="w-6 h-6 text-slate-600" />
+                <X className="w-5 h-5 text-slate-600" />
               ) : (
-                <Menu className="w-6 h-6 text-slate-600" />
+                <Menu className="w-5 h-5 text-slate-600" />
               )}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - With Icons */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-t border-slate-100 py-4 px-4 shadow-lg">
-          <div className="space-y-2">
+        <div className="md:hidden bg-white border-t border-indigo-100 py-3 px-4 shadow-lg">
+          <div className="space-y-1">
             {user && user.role === 'recruiter' ? (
               <>
                 <Link 
                   to="/admin/companies" 
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Users className="w-5 h-5 text-purple-600" />
-                  <span className="font-medium text-slate-700">Companies</span>
+                  <Users className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">Companies</span>
                 </Link>
                 <Link 
                   to="/admin/jobs" 
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Briefcase className="w-5 h-5 text-purple-600" />
-                  <span className="font-medium text-slate-700">Jobs</span>
+                  <LayoutDashboard className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">Jobs</span>
                 </Link>
               </>
             ) : (
               <>
                 <Link 
                   to="/" 
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Home className="w-5 h-5 text-purple-600" />
-                  <span className="font-medium text-slate-700">Home</span>
+                  <Home className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">Home</span>
                 </Link>
                 <Link 
                   to="/jobs" 
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Search className="w-5 h-5 text-purple-600" />
-                  <span className="font-medium text-slate-700">Jobs</span>
+                  <Search className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">Jobs</span>
                 </Link>
                 <Link 
                   to="/browse" 
-                  className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-purple-50 transition-colors"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <Sparkles className="w-5 h-5 text-purple-600" />
-                  <span className="font-medium text-slate-700">Browse</span>
+                  <Compass className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">Browse</span>
+                </Link>
+                <Link
+                  to="/about"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <BadgeInfo className="w-4 h-4 text-indigo-600" />
+                  <span className="font-medium">About</span>
                 </Link>
               </>
             )}
@@ -337,34 +319,34 @@ const Navbar = () => {
         </div>
       )}
 
-      {/* Logout Confirmation Dialog */}
+      {/* Logout Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[425px] rounded-2xl p-6">
+        <DialogContent className="sm:max-w-[400px] rounded-xl p-6">
           <DialogHeader className="text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <LogOut className="w-8 h-8 text-red-600" />
+            <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <LogOut className="w-6 h-6 text-red-600" />
             </div>
-            <DialogTitle className="text-2xl font-bold text-slate-800">
-              Confirm Logout
+            <DialogTitle className="text-xl font-bold text-slate-800">
+              Logout
             </DialogTitle>
-            <DialogDescription className="text-slate-500 pt-2">
-              Are you sure you want to log out? You will need to sign in again to access your account.
+            <DialogDescription className="text-slate-500 text-sm">
+              Are you sure you want to sign out?
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex gap-3 mt-6">
+          <DialogFooter className="flex gap-2 mt-4">
             <Button 
               variant="outline" 
               onClick={() => setOpen(false)}
-              className="flex-1 rounded-xl h-11"
+              className="flex-1 rounded-lg"
             >
               Cancel
             </Button>
-           <Button 
-  onClick={logoutHandler}
-  className="flex-1 h-11 rounded-xl bg-red-600 text-white hover:bg-red-700"
->
-  Logout
-</Button>
+            <Button 
+              onClick={logoutHandler}
+              className="flex-1 rounded-lg bg-red-600 text-white hover:bg-red-700"
+            >
+              Logout
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
