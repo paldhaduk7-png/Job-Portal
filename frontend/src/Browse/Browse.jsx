@@ -24,8 +24,8 @@ const Browse = () => {
             Search Results
           </h1>
           <p className="text-slate-500 mt-1">
-            {!user && (allJobs?.length || 0) > 5
-              ? `Showing 5 of ${allJobs?.length || 0} search results`
+            {!user
+              ? `Showing ${visibleJobs?.length || 0} of ${allJobs?.length || 0} search results (Guest Preview)`
               : `${allJobs?.length || 0} jobs found`}
           </p>
         </div>
@@ -44,11 +44,11 @@ const Browse = () => {
             ))}
           </div>
 
-          {/* Show premium login banner if user is unauthenticated and there are more than 5 jobs */}
-          {!user && (allJobs?.length || 0) > 5 && (
+          {/* Always show lock section for unauthenticated guests */}
+          {!user && (
             <LoginToViewMore 
               totalCount={allJobs?.length || 0} 
-              remainingCount={(allJobs?.length || 0) - 5} 
+              remainingCount={Math.max(0, (allJobs?.length || 0) - 5)} 
             />
           )}
         </>

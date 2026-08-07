@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import LoginToViewMore from "@/components/shared/LoginToViewMore";
-import {  Briefcase } from "lucide-react";
+import { Briefcase } from "lucide-react";
+
 const parseSalaryNumber = (salary) => {
   if (typeof salary === "number") return salary;
   if (!salary) return null;
@@ -110,8 +111,8 @@ const Jobs = () => {
         <div>
           <h1 className="text-3xl font-bold text-slate-800">Jobs</h1>
           <p className="text-slate-500 mt-1">
-            {!user && (filterJob?.length || 0) > 5
-              ? `Showing 5 of ${filterJob?.length || 0} job opportunities`
+            {!user 
+              ? `Showing ${visibleJobs?.length || 0} of ${filterJob?.length || 0} job opportunities (Guest Preview)`
               : `${filterJob?.length || 0} opportunities found`}
           </p>
         </div>
@@ -149,11 +150,11 @@ const Jobs = () => {
                 ))}
               </div>
 
-              {/* Show premium login banner if user is unauthenticated and there are more than 5 jobs */}
-              {!user && (filterJob?.length || 0) > 5 && (
+              {/* Always show lock section for unauthenticated guests */}
+              {!user && (
                 <LoginToViewMore 
                   totalCount={filterJob?.length || 0} 
-                  remainingCount={(filterJob?.length || 0) - 5} 
+                  remainingCount={Math.max(0, (filterJob?.length || 0) - 5)} 
                 />
               )}
             </>
