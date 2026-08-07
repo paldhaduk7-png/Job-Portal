@@ -26,6 +26,13 @@ const corsOption = {
 };
 app.use(cors(corsOption));
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Job Portal Backend API is running"
+  });
+});
+
 console.log("Calling connectDB...");
 connectDB();
 const PORT =process.env.PORT || 3000;
