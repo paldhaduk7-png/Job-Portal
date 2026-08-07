@@ -106,7 +106,7 @@ const LatestJobCards = ({ job }) => {
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <Badge className="bg-purple-50 text-purple-700 hover:bg-purple-100 border-0 px-3 py-1.5 font-medium rounded-full text-xs flex items-center gap-1">
               <Building2 className="w-3 h-3" />
-              {job?.position || 'Position'} ({job?.positionCount || 1})
+              {job?.position ? `${job.position} Positions` : 'Multiple Openings'}
             </Badge>
             <Badge className={`border ${getJobTypeColor(job?.jobType)} px-3 py-1.5 font-medium rounded-full text-xs flex items-center gap-1`}>
               <Briefcase className="w-3 h-3" />
@@ -122,7 +122,7 @@ const LatestJobCards = ({ job }) => {
             <div className="flex items-center gap-2 text-sm">
               <Users className="w-4 h-4 text-slate-400" />
               <span className="text-slate-500 font-medium">
-                {job?.applicants?.length || 0} applicants
+                {job?.applications?.length ?? 0} {job?.applications?.length === 1 ? 'applicant' : 'applicants'}
               </span>
             </div>
             
