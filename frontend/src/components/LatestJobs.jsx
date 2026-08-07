@@ -23,7 +23,7 @@ const LatestJobs = () => {
           <div>
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-50 to-indigo-50 rounded-full border border-purple-100/60 mb-4">
               <Sparkles className="w-4 h-4 text-purple-600" />
-              <span className="text-sm font-medium text-purple-700">Hot Opportunities 🔥</span>
+              <span className="text-sm font-medium text-purple-700">Hot Opportunities </span>
             </div>
             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight">
               <span className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
