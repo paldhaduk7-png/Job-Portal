@@ -29,8 +29,8 @@ import { toast } from "sonner";
 import axios from "axios";
 import { USER_API_END_POINT } from "@/utils/constant";
 import { setUser } from "@/redux/authSlice";
-import { clearAllJobs } from "@/redux/jobSlice";
 import { clearSavedJobs } from "@/redux/savedJobSlice";
+import { setSearchQuery, clearFilters, clearAllJobs } from "@/redux/jobSlice";
 import {
   Dialog,
   DialogContent,
@@ -39,7 +39,6 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { setSearchQuery } from "@/redux/jobSlice";
 import useGetSavedJobs from "@/hooks/useGetSavedJobs";
 
 const Navbar = () => {
@@ -122,7 +121,10 @@ const Navbar = () => {
                 </Link>
                 <Link 
                   to="/jobs" 
-                  onClick={()=> dispatch(setSearchQuery(""))} 
+                  onClick={() => {
+                    dispatch(setSearchQuery(""));
+                    dispatch(clearFilters());
+                  }} 
                   className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/70 rounded-lg transition-all"
                 >
                   <Search className="w-4 h-4" />
@@ -292,7 +294,11 @@ const Navbar = () => {
                 <Link 
                   to="/jobs" 
                   className="flex items-center gap-3 px-4 py-2.5 rounded-lg hover:bg-indigo-50/70 transition-colors text-slate-600"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={() => {
+                    dispatch(setSearchQuery(""));
+                    dispatch(clearFilters());
+                    setMobileMenuOpen(false);
+                  }}
                 >
                   <Search className="w-4 h-4 text-indigo-600" />
                   <span className="font-medium">Jobs</span>
