@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import FilterCard from "./FilterCard";
 import Job from "./Job";
 import { useSelector, useDispatch } from "react-redux";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import useGetAllJobs from '@/hooks/useGetAllJobs';
 import LoginToViewMore from "@/components/shared/LoginToViewMore";
-import { Briefcase, Search, X, RotateCcw } from "lucide-react";
+import { Briefcase, Search, X, RotateCcw, Sparkles, Layers, SlidersHorizontal } from "lucide-react";
 import { setSearchQuery, clearFilters } from "@/redux/jobSlice";
 import { Button } from "@/components/ui/button";
 
@@ -19,8 +19,8 @@ const parseSalaryNumber = (salary) => {
 
 const Jobs = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector(store => store.auth);
-  const { allJobs, searchQuery, filters } = useSelector(store => store.job);
+  const { user } = useSelector((store) => store.auth);
+  const { allJobs, searchQuery, filters } = useSelector((store) => store.job);
   const [filterJob, setFiltterJob] = useState(allJobs);
   useGetAllJobs();
 
@@ -113,113 +113,142 @@ const Jobs = () => {
   const isFiltered = Boolean(searchQuery || filters?.location || filters?.industry || filters?.salary);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50/90 via-indigo-50/20 to-slate-50/80 relative overflow-hidden">
       
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-800">Jobs</h1>
-          <p className="text-slate-500 mt-1">
-            {!user 
-              ? `Showing ${visibleJobs?.length || 0} of ${filterJob?.length || 0} job opportunities (Guest Preview)`
-              : `${filterJob?.length || 0} opportunities found`}
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          {isFiltered && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleClearAllFilters}
-              className="rounded-full text-xs font-semibold text-purple-700 hover:text-purple-800 hover:bg-purple-50 border-purple-200 flex items-center gap-1.5 shadow-sm"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Show All Jobs ({allJobs?.length || 0})</span>
-            </Button>
-          )}
-          <div className="bg-purple-100 text-purple-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
-            <Briefcase className="w-4 h-4" />
-            {visibleJobs?.length || 0} Jobs
-          </div>
-        </div>
-      </div>
+      {/* Background Ambient Glows & Mesh Lighting */}
+      <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[600px] h-[380px] bg-gradient-to-tr from-indigo-500/12 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-32 right-10 w-[500px] h-[400px] bg-gradient-to-bl from-pink-500/10 via-indigo-400/8 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-[600px] left-1/3 w-[700px] h-[450px] bg-gradient-to-r from-blue-400/8 via-purple-400/8 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* Active Search Filter Banner */}
-      {searchQuery && (
-        <div className="flex items-center justify-between bg-purple-50/80 border border-purple-200/80 rounded-2xl px-5 py-3 mb-6 shadow-sm">
-          <div className="flex items-center gap-2 text-purple-900 text-sm font-medium">
-            <Search className="w-4 h-4 text-purple-600" />
-            <span>
-              Search query active: <strong className="text-purple-700 font-bold">"{searchQuery}"</strong>
-            </span>
-          </div>
-          <button
-            onClick={handleClearAllFilters}
-            className="text-xs font-bold text-purple-700 hover:text-purple-900 hover:underline flex items-center gap-1 bg-white px-3 py-1.5 rounded-xl border border-purple-200 shadow-sm transition-all"
-          >
-            <X className="w-3.5 h-3.5" />
-            View All Jobs
-          </button>
-        </div>
-      )}
-
-      {/* Filter + Jobs */}
-      <div className="flex flex-col lg:flex-row gap-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
         
-        {/* Filter Sidebar */}
-        <div className="lg:w-72 flex-shrink-0">
-          <div className="sticky top-24">
-            <FilterCard />
+        {/* Top Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/70">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Explore Jobs
+              </h1>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-indigo-50/90 text-indigo-700 border border-indigo-200/80 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 animate-pulse"></span>
+                {visibleJobs?.length || 0} {visibleJobs?.length === 1 ? 'Job' : 'Jobs'}
+              </span>
+            </div>
+            <p className="text-slate-500 text-sm mt-1.5 font-normal">
+              {!user 
+                ? `Showing ${visibleJobs?.length || 0} of ${filterJob?.length || 0} job opportunities (Guest Preview)`
+                : `Found ${filterJob?.length || 0} available opportunities matching your profile`}
+            </p>
+          </div>
+
+          {/* Action Controls */}
+          <div className="flex items-center gap-3 self-start sm:self-auto">
+            {isFiltered && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleClearAllFilters}
+                className="rounded-xl text-xs font-semibold text-indigo-700 hover:text-indigo-800 bg-white hover:bg-indigo-50 border-indigo-200/80 flex items-center gap-1.5 shadow-2xs h-9 px-3.5 transition-all active:scale-95"
+              >
+                <RotateCcw className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Reset Filters</span>
+              </Button>
+            )}
+            <div className="hidden sm:flex items-center gap-2 bg-white text-indigo-700 border border-indigo-100/90 px-4 py-2 rounded-xl text-xs font-semibold shadow-xs">
+              <Briefcase className="w-4 h-4 text-indigo-600" />
+              <span>{allJobs?.length || 0} Total in Database</span>
+            </div>
           </div>
         </div>
 
-        {/* Jobs Grid */}
-        <div className="flex-1">
-          {visibleJobs?.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-5">
-                {visibleJobs.map((job) => (
-                  <motion.div 
-                    key={job?._id} 
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Job job={job} />
-                  </motion.div>
-                ))}
+        {/* Active Search Filter Banner */}
+        {searchQuery && (
+          <div className="flex items-center justify-between bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-indigo-50/90 border border-indigo-200/80 rounded-2xl px-5 py-3.5 mb-8 shadow-xs backdrop-blur-md">
+            <div className="flex items-center gap-2.5 text-slate-700 text-sm">
+              <div className="p-1.5 bg-indigo-600 text-white rounded-lg shadow-2xs">
+                <Search className="w-3.5 h-3.5" />
               </div>
-
-              {/* Always show lock section for unauthenticated guests */}
-              {!user && (
-                <LoginToViewMore 
-                  totalCount={filterJob?.length || 0} 
-                  remainingCount={Math.max(0, (filterJob?.length || 0) - 5)} 
-                />
-              )}
-            </>
-          ) : (
-            <div className="text-center py-16 bg-slate-50/80 rounded-3xl border-2 border-dashed border-slate-200 p-6">
-              <div className="flex flex-col items-center gap-3 max-w-sm mx-auto">
-                <Briefcase className="w-16 h-16 text-slate-300" />
-                <h3 className="text-xl font-semibold text-slate-600">No jobs found</h3>
-                <p className="text-slate-400 text-sm">
-                  {isFiltered
-                    ? `No jobs match "${searchQuery || 'your filters'}". Click below to view all available jobs.`
-                    : "No jobs available at this moment. Check back later."}
-                </p>
-                {isFiltered && (
-                  <Button
-                    onClick={handleClearAllFilters}
-                    className="mt-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl text-sm"
-                  >
-                    Clear Filter & Show All Jobs
-                  </Button>
-                )}
-              </div>
+              <span>
+                Searching for: <strong className="text-indigo-900 font-bold">"{searchQuery}"</strong>
+              </span>
             </div>
-          )}
+            <button
+              onClick={handleClearAllFilters}
+              className="text-xs font-semibold text-indigo-700 hover:text-indigo-900 flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-xl border border-indigo-200/80 shadow-2xs hover:shadow-xs transition-all active:scale-95"
+            >
+              <X className="w-3.5 h-3.5" />
+              <span>Clear Search</span>
+            </button>
+          </div>
+        )}
+
+        {/* Layout: Sticky Filter Sidebar + Jobs Grid */}
+        <div className="flex flex-col lg:flex-row gap-8">
+          
+          {/* Filter Sidebar */}
+          <div className="lg:w-72 xl:w-80 flex-shrink-0">
+            <div className="sticky top-24">
+              <FilterCard />
+            </div>
+          </div>
+
+          {/* Jobs Main Content */}
+          <div className="flex-1 min-w-0">
+            {visibleJobs?.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 sm:gap-6">
+                  <AnimatePresence mode="popLayout">
+                    {visibleJobs.map((job) => (
+                      <motion.div 
+                        key={job?._id} 
+                        layout
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.25 }}
+                      >
+                        <Job job={job} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+
+                {/* Lock card for unauthenticated guest users */}
+                {!user && (
+                  <div className="mt-8">
+                    <LoginToViewMore 
+                      totalCount={filterJob?.length || 0} 
+                      remainingCount={Math.max(0, (filterJob?.length || 0) - 5)} 
+                    />
+                  </div>
+                )}
+              </>
+            ) : (
+              /* Empty State */
+              <div className="text-center py-20 px-6 bg-white/90 rounded-3xl border-2 border-dashed border-slate-200 shadow-xs backdrop-blur-sm">
+                <div className="flex flex-col items-center gap-4 max-w-md mx-auto">
+                  <div className="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-500 flex items-center justify-center ring-8 ring-indigo-50/50">
+                    <Briefcase className="w-8 h-8 stroke-[1.5]" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 tracking-tight">No Jobs Found</h3>
+                  <p className="text-slate-500 text-sm leading-relaxed">
+                    {isFiltered
+                      ? `No job positions match your current search or filter criteria. Try adjusting or clearing filters to see all available opportunities.`
+                      : "No jobs are currently available at this moment. Please check back soon."}
+                  </p>
+                  {isFiltered && (
+                    <Button
+                      onClick={handleClearAllFilters}
+                      className="mt-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl text-sm font-semibold px-6 shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all"
+                    >
+                      <RotateCcw className="w-4 h-4 mr-2" />
+                      Reset All Filters
+                    </Button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
