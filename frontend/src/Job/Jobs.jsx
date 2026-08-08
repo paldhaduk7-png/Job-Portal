@@ -156,7 +156,7 @@ const Jobs = () => {
             )}
             <div className="hidden sm:flex items-center gap-2 bg-white text-indigo-700 border border-indigo-100/90 px-4 py-2 rounded-xl text-xs font-semibold shadow-xs">
               <Briefcase className="w-4 h-4 text-indigo-600" />
-              <span>{allJobs?.length || 0} Total in Database</span>
+              <span>{allJobs?.length || 0} Total Job Listings</span>
             </div>
           </div>
         </div>
