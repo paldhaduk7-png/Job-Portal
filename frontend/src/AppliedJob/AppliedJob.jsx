@@ -1,56 +1,98 @@
 import React from "react";
 import Job from "@/Job/Job";
 import { useSelector } from "react-redux";
-import { FileText } from "lucide-react";
+import { FileText, Sparkles, ArrowRight, Briefcase } from "lucide-react";
 import useGetAppliedJob from "@/hooks/useGetAppliedJob";
-const AppliedJob = () => {
-useGetAppliedJob();
+import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
-const { allAppliedJob } = useSelector((store) => store.job);
+const AppliedJob = () => {
+  useGetAppliedJob();
+  const { allAppliedJob } = useSelector((store) => store.job);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50/90 via-indigo-50/20 to-slate-50/80 relative overflow-hidden pb-16">
+      
+      {/* Background Ambient Glows */}
+      <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[600px] h-[380px] bg-gradient-to-tr from-indigo-500/12 via-purple-500/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+      <div className="absolute top-32 right-10 w-[500px] h-[400px] bg-gradient-to-bl from-blue-500/10 via-indigo-400/8 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-3xl font-bold text-slate-800">
-            Applied Jobs
-          </h1>
-          <p className="text-slate-500 mt-1">
-            {allAppliedJob?.length || 0} applied jobs
-          </p>
-        </div>
-
-        <div className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium flex items-center gap-2">
-          <FileText className="w-4 h-4" />
-          {allAppliedJob?.length || 0} Applied
-        </div>
-      </div>
-
-      {/* Applied Jobs */}
-      {allAppliedJob?.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {allAppliedJob.map((application) => (
-            <Job
-              key={application._id}
-              job={application.job}
-            />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-16 bg-slate-50/80 rounded-3xl border-2 border-dashed border-slate-200">
-          <div className="flex flex-col items-center gap-3">
-            <FileText className="w-16 h-16 text-slate-300" />
-            <h3 className="text-xl font-semibold text-slate-600">
-              No Applied Jobs
-            </h3>
-            <p className="text-slate-400">
-              You haven't applied for any jobs yet.
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
+        
+        {/* Header Section */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-200/70">
+          <div>
+            <div className="flex items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+                Applied Jobs
+              </h1>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50/90 text-blue-700 border border-blue-200/80 shadow-2xs">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse"></span>
+                {allAppliedJob?.length || 0} {allAppliedJob?.length === 1 ? 'Job' : 'Jobs'} Applied
+              </span>
+            </div>
+            <p className="text-slate-500 text-sm mt-1.5 font-normal">
+              Review and monitor the status of all your submitted job applications.
             </p>
           </div>
+
+          <div className="flex items-center gap-3 self-start sm:self-auto">
+            <Link to="/jobs">
+              <Button
+                variant="outline"
+                size="sm"
+                className="rounded-xl text-xs font-semibold text-indigo-700 hover:text-indigo-800 bg-white hover:bg-indigo-50 border-indigo-200/80 flex items-center gap-1.5 shadow-2xs h-9 px-3.5 transition-all"
+              >
+                <Briefcase className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Explore More Jobs</span>
+              </Button>
+            </Link>
+          </div>
         </div>
-      )}
+
+        {/* Applied Jobs Grid */}
+        {allAppliedJob?.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {allAppliedJob.map((application) => (
+                <motion.div
+                  key={application._id}
+                  layout
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <Job job={application.job} />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
+        ) : (
+          /* Empty State */
+          <div className="text-center py-20 px-6 bg-white/90 rounded-3xl border-2 border-dashed border-slate-200 shadow-xs backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-4 max-w-md mx-auto">
+              <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-500 flex items-center justify-center ring-8 ring-blue-50/50">
+                <FileText className="w-8 h-8 stroke-[1.5]" />
+              </div>
+              <h3 className="text-xl font-bold text-slate-800 tracking-tight">No Applied Jobs Yet</h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                You haven't submitted any job applications yet. Browse the latest job openings and apply with 1-click.
+              </p>
+              <Link to="/jobs">
+                <Button
+                  className="mt-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white rounded-xl text-sm font-semibold px-6 shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30 transition-all flex items-center gap-2"
+                >
+                  <span>Browse Jobs Now</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 };
