@@ -178,12 +178,6 @@ const Profile = () => {
                   <Eye className="w-3.5 h-3.5" />
                 </div>
               </div>
-
-              {/* Member Status Badge */}
-              <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 bg-slate-50 border border-slate-200/80 px-3.5 py-1.5 rounded-full shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-                <span>Candidate Account • Member since 2024</span>
-              </div>
             </div>
 
             {/* Name & Role */}
