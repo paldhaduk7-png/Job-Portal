@@ -193,7 +193,7 @@ const Profile = () => {
               </div>
 
               {/* Bio Callout */}
-              <div className="mt-3.5 p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-indigo-50/30 border border-slate-200/70 text-sm text-slate-600 leading-relaxed font-normal">
+              <div className="mt-3.5 p-4 rounded-2xl bg-gradient-to-r from-s`late-50 to-indigo-50/30 border border-slate-200/70 text-sm text-slate-600 leading-relaxed font-normal">
                 <p className="flex items-start gap-2">
                   <span className="text-indigo-500 font-bold">•</span>
                   <span>{user?.Profile?.bio || "No professional bio added yet. Click 'Edit Profile' to add a summary about your skills and career interests."}</span>
