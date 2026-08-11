@@ -1,7 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
-import { ArrowLeft, Building2, Globe, MapPin, FileText, Upload, X, Image as ImageIcon, Loader2, CheckCircle } from 'lucide-react'
+import { 
+  ArrowLeft, 
+  Building2, 
+  Globe, 
+  MapPin, 
+  FileText, 
+  Upload, 
+  X, 
+  Image as ImageIcon, 
+  Loader2, 
+  CheckCircle2, 
+  Sparkles,
+  ShieldCheck,
+  ExternalLink,
+  Camera
+} from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import axios from 'axios'
 import { COMPANY_API_END_POINT } from '@/utils/constant'
@@ -157,7 +172,6 @@ const CompanySetup = () => {
       })
       // Set preview if logo exists
       if (singleCompany?.logo) {
-        // Assuming logo is URL from server
         setPreviewUrl(singleCompany.logo)
       }
     }
@@ -176,7 +190,7 @@ const CompanySetup = () => {
     {
       name: 'description',
       label: 'Company Description',
-      placeholder: 'Tell us about your company',
+      placeholder: 'Tell us about your company mission, culture, and achievements',
       icon: FileText,
       type: 'text',
       required: false,
@@ -192,7 +206,7 @@ const CompanySetup = () => {
     {
       name: 'location',
       label: 'Location',
-      placeholder: 'City, Country',
+      placeholder: 'e.g. San Francisco, USA or Remote',
       icon: MapPin,
       type: 'text',
       required: false,
@@ -200,73 +214,124 @@ const CompanySetup = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
-      <div className="max-w-3xl mx-auto">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate("/admin/companies")}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6 group"
-        >
-          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Back to Companies</span>
-        </button>
+    <div className="relative min-h-screen bg-[#fafbff] py-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Dynamic Ambient Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Top-Left Indigo Glow Orb */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-indigo-400/25 to-purple-400/20 rounded-full blur-3xl" />
+        
+        {/* Top-Right Violet Glow Orb */}
+        <div className="absolute top-1/4 -right-20 w-[30rem] h-[30rem] bg-gradient-to-bl from-purple-400/20 via-pink-300/15 to-transparent rounded-full blur-3xl" />
+        
+        {/* Bottom Soft Blue Orb */}
+        <div className="absolute -bottom-28 left-1/4 w-[36rem] h-[36rem] bg-gradient-to-tr from-blue-300/20 to-indigo-200/20 rounded-full blur-3xl" />
 
-        {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 px-8 py-6">
-            <div className="flex items-center justify-between">
+        {/* Subtle Modern Dot-Matrix Grid */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]" 
+          style={{
+            backgroundImage: `radial-gradient(circle, #6366f1 1px, transparent 1px)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+        
+        {/* Vignette mask */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fafbff]/80" />
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 max-w-3xl mx-auto">
+        {/* Back Button */}
+        <div className="mb-6">
+          <button
+            onClick={() => navigate("/admin/companies")}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 hover:bg-white backdrop-blur-md border border-slate-200/70 text-slate-600 hover:text-indigo-600 shadow-sm hover:shadow-md transition-all duration-200 group text-sm font-medium"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            <span>Back to Companies</span>
+          </button>
+        </div>
+
+        {/* Main Glass Card */}
+        <div className="bg-white/85 backdrop-blur-xl rounded-3xl shadow-2xl shadow-indigo-500/10 border border-white/90 overflow-hidden transition-all duration-300">
+          {/* Header Banner */}
+          <div className="relative bg-gradient-to-r from-indigo-600 via-indigo-700 to-purple-700 px-8 py-7 overflow-hidden">
+            {/* Ambient inner glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+            
+            <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
-                  <Building2 className="h-8 w-8 text-white" />
+                <div className="relative group">
+                  <div className="absolute -inset-0.5 bg-white/30 rounded-2xl blur-sm" />
+                  <div className="relative bg-white/15 backdrop-blur-md rounded-2xl p-3.5 border border-white/30 shadow-inner">
+                    <Building2 className="h-8 w-8 text-white" />
+                  </div>
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Company Setup</h1>
-                  <p className="text-indigo-100 text-sm mt-1">
-                    Configure your company details
+                  <div className="flex items-center gap-2">
+                    <h1 className="text-2xl font-bold text-white tracking-tight">Company Setup</h1>
+                    <span className="text-[11px] font-semibold text-indigo-100 bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full border border-white/20">
+                      Profile Editor
+                    </span>
+                  </div>
+                  <p className="text-indigo-100/90 text-sm mt-0.5 font-normal">
+                    Configure your organization details, branding, and location
                   </p>
                 </div>
               </div>
-              <div className="bg-white/10 px-4 py-2 rounded-lg">
-                <span className="text-white text-sm font-medium">
+
+              {/* ID Tag */}
+              <div className="inline-flex items-center self-start sm:self-auto bg-white/15 backdrop-blur-md px-3.5 py-1.5 rounded-xl border border-white/25 shadow-inner">
+                <span className="text-white/80 text-xs font-mono font-medium">
                   ID: #{params.id?.slice(0, 8)}
                 </span>
               </div>
             </div>
           </div>
 
-          <form onSubmit={changeSubmitHandler} className="p-8">
+          <form onSubmit={changeSubmitHandler} className="p-8 sm:p-10 space-y-8">
             {/* Logo Upload Section */}
-            <div className="mb-8 p-6 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 hover:border-indigo-300 transition-colors">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-slate-50/90 via-indigo-50/20 to-purple-50/20 border-2 border-dashed border-indigo-100 hover:border-indigo-300 transition-all duration-300 group">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
+                {/* Logo Preview Container */}
+                <div className="relative flex-shrink-0">
                   {previewUrl ? (
-                    <div className="relative group">
+                    <div className="relative group/logo">
                       <img 
                         src={previewUrl} 
                         alt="Company logo"
-                        className="h-24 w-24 rounded-xl object-cover border-2 border-white shadow-lg"
+                        className="h-24 w-24 rounded-2xl object-cover border-2 border-white shadow-xl shadow-slate-300/50 bg-white"
                       />
                       <button
                         type="button"
                         onClick={removeLogo}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600 transition-colors opacity-0 group-hover:opacity-100"
+                        className="absolute -top-2 -right-2 bg-rose-500 hover:bg-rose-600 text-white rounded-full p-1.5 shadow-lg transition-all duration-200 hover:scale-110 active:scale-95"
+                        title="Remove Logo"
                       >
-                        <X className="h-3 w-3" />
+                        <X className="h-3.5 w-3.5" />
                       </button>
                     </div>
                   ) : (
-                    <div className="h-24 w-24 rounded-xl bg-indigo-100 flex items-center justify-center border-2 border-indigo-200">
-                      <ImageIcon className="h-10 w-10 text-indigo-400" />
+                    <div className="h-24 w-24 rounded-2xl bg-indigo-50 border-2 border-indigo-100 flex flex-col items-center justify-center text-indigo-400 group-hover:scale-105 group-hover:bg-indigo-100/70 transition-all duration-300">
+                      <ImageIcon className="h-8 w-8 mb-1" />
+                      <span className="text-[10px] font-semibold tracking-wider text-indigo-400 uppercase">No Logo</span>
                     </div>
                   )}
                 </div>
                 
-                <div className="flex-1">
-                  <Label className="block text-sm font-medium text-gray-700 mb-2">
-                    Company Logo
-                  </Label>
-                  <div className="flex items-center gap-4">
+                {/* Upload Action & Guidelines */}
+                <div className="flex-1 text-center sm:text-left">
+                  <div className="flex items-center justify-center sm:justify-start gap-2 mb-1">
+                    <Label className="text-sm font-bold text-slate-800">
+                      Company Logo
+                    </Label>
+                    <span className="text-[11px] font-medium text-slate-400">Optional</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mb-3">
+                    Upload a high-resolution logo to display on your jobs and company page.
+                  </p>
+                  
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3">
                     <input
                       ref={fileInputRef}
                       type="file"
@@ -278,18 +343,20 @@ const CompanySetup = () => {
                     />
                     <label
                       htmlFor="logo-upload"
-                      className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-gray-300 rounded-lg hover:border-indigo-400 hover:bg-indigo-50 transition-colors text-sm font-medium text-gray-700"
+                      className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-indigo-50 border border-slate-200/90 hover:border-indigo-300 rounded-xl shadow-sm hover:shadow transition-all duration-200 text-xs font-semibold text-slate-700 hover:text-indigo-600 active:scale-95"
                     >
-                      <Upload className="h-4 w-4" />
-                      Choose File
+                      <Upload className="h-3.5 w-3.5 text-indigo-600" />
+                      <span>{previewUrl ? 'Change Logo' : 'Upload Image'}</span>
                     </label>
+                    
                     {previewUrl && (
-                      <span className="text-sm text-green-600 flex items-center gap-1">
-                        <CheckCircle className="h-4 w-4" />
-                        Logo uploaded
+                      <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+                        Logo Loaded
                       </span>
                     )}
-                    <span className="text-xs text-gray-400">
+                    
+                    <span className="text-[11px] text-slate-400">
                       PNG, JPG, SVG up to 5MB
                     </span>
                   </div>
@@ -304,38 +371,56 @@ const CompanySetup = () => {
                 const hasError = errors[field.name]
                 
                 return (
-                  <div key={field.name}>
-                    <Label className="block text-sm font-medium text-gray-700 mb-1.5">
-                      {field.label}
-                      {field.required && <span className="text-red-500 ml-1">*</span>}
-                    </Label>
+                  <div key={field.name} className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-sm font-bold text-slate-800 flex items-center gap-1">
+                        {field.label}
+                        {field.required && <span className="text-rose-500 font-bold">*</span>}
+                      </Label>
+                      {!field.required && (
+                        <span className="text-[11px] text-slate-400 font-medium">Optional</span>
+                      )}
+                    </div>
+
                     <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                        <Icon className={`h-4 w-4 ${hasError ? 'text-red-400' : 'text-gray-400'}`} />
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                        <Icon className={`h-4 w-4 transition-colors ${hasError ? 'text-rose-400' : 'text-slate-400'}`} />
                       </div>
+                      
                       <Input
                         type={field.type}
                         name={field.name}
                         placeholder={field.placeholder}
                         value={input[field.name] || ''}
                         onChange={changeEventHandler}
-                        className={`pl-10 h-11 ${hasError ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-indigo-500 focus:ring-indigo-500'}`}
+                        className={`pl-11 pr-11 h-12 text-sm rounded-2xl bg-slate-50/70 border-2 transition-all duration-200 ${
+                          hasError 
+                            ? 'border-rose-400 bg-rose-50/30 focus:border-rose-500 focus:ring-4 focus:ring-rose-500/10' 
+                            : 'border-slate-200/80 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/15'
+                        }`}
                       />
+                      
                       {input[field.name] && !hasError && (
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                          <CheckCircle className="h-4 w-4 text-green-500" />
+                        <div className="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none">
+                          <CheckCircle2 className="h-4 w-4 text-emerald-500 animate-in fade-in zoom-in duration-200" />
                         </div>
                       )}
                     </div>
+
                     {hasError && (
-                      <p className="text-sm text-red-500 mt-1.5 flex items-center gap-1">
-                        <span className="inline-block w-1 h-1 rounded-full bg-red-500"></span>
+                      <p className="text-xs text-rose-500 font-medium flex items-center gap-1.5 mt-1 animate-in fade-in slide-in-from-top-1 duration-150">
+                        <span className="inline-block w-1.5 h-1.5 rounded-full bg-rose-500" />
                         {errors[field.name]}
                       </p>
                     )}
+
                     {field.name === 'description' && (
-                      <div className="flex justify-end mt-1">
-                        <span className={`text-xs ${input.description?.length > 400 ? 'text-yellow-500' : 'text-gray-400'}`}>
+                      <div className="flex justify-end pt-0.5">
+                        <span className={`text-[11px] font-medium tabular-nums ${
+                          input.description?.length > 450 
+                            ? 'text-amber-500 font-semibold' 
+                            : 'text-slate-400'
+                        }`}>
                           {input.description?.length || 0}/500 characters
                         </span>
                       </div>
@@ -346,12 +431,12 @@ const CompanySetup = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 pt-6 border-t border-gray-200">
+            <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-3 pt-6 border-t border-slate-100">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => navigate("/admin/companies")}
-                className="w-full sm:w-auto px-8 h-11 border-2 hover:bg-gray-50 transition-colors"
+                className="w-full sm:w-auto px-7 h-11 rounded-xl border-slate-200 hover:bg-slate-50 text-slate-600 font-medium transition-colors"
                 disabled={loading}
               >
                 Cancel
@@ -359,44 +444,56 @@ const CompanySetup = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full sm:w-auto px-8 h-11 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 transition-all flex-1"
+                className="relative group w-full sm:w-auto px-9 h-11 rounded-xl font-semibold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 hover:from-indigo-700 hover:via-indigo-600 hover:to-purple-700 shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 overflow-hidden flex-1 sm:flex-initial"
               >
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
                 {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Updating...
-                  </>
+                  <span className="flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin text-white" />
+                    <span>Updating Company...</span>
+                  </span>
                 ) : (
-                  'Update Company'
+                  <span className="flex items-center justify-center gap-2">
+                    <Sparkles className="h-4 w-4" />
+                    <span>Update Company</span>
+                  </span>
                 )}
               </Button>
             </div>
 
-            {/* Footer Info */}
-            <div className="mt-6 text-center">
-              <p className="text-xs text-gray-400">
-                All fields except description and logo are required for company setup
+            {/* Form Footer Note */}
+            <div className="text-center">
+              <p className="text-[11px] text-slate-400">
+                Changes made here will immediately reflect across all active job postings for this company.
               </p>
             </div>
           </form>
         </div>
 
-        {/* Quick Tips */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-indigo-600 text-lg mb-1">🏢</div>
-            <h4 className="text-sm font-medium text-gray-900">Complete Profile</h4>
-            <p className="text-xs text-gray-500">A complete company profile attracts more candidates</p>
+        {/* Quick Setup / Feature Tips */}
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="group bg-white/70 hover:bg-white backdrop-blur-xl p-4 rounded-2xl border border-white/80 shadow-lg shadow-slate-200/40 hover:shadow-indigo-500/10 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-9 h-9 rounded-xl bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 mb-3 group-hover:scale-110 transition-transform">
+              <Building2 className="w-5 h-5" />
+            </div>
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Complete Profile</h4>
+            <p className="text-xs text-slate-500 mt-1 leading-relaxed">A complete company profile attracts up to 3x more candidates.</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-indigo-600 text-lg mb-1">📸</div>
-            <h4 className="text-sm font-medium text-gray-900">Professional Logo</h4>
-            <p className="text-xs text-gray-500">Upload a professional logo to build trust</p>
+
+          <div className="group bg-white/70 hover:bg-white backdrop-blur-xl p-4 rounded-2xl border border-white/80 shadow-lg shadow-slate-200/40 hover:shadow-purple-500/10 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-9 h-9 rounded-xl bg-purple-50 border border-purple-100 flex items-center justify-center text-purple-600 mb-3 group-hover:scale-110 transition-transform">
+              <Camera className="w-5 h-5" />
+            </div>
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Professional Logo</h4>
+            <p className="text-xs text-slate-500 mt-1 leading-relaxed">Upload a crisp square logo to build trust and brand recognition.</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-            <div className="text-indigo-600 text-lg mb-1">🔗</div>
-            <h4 className="text-sm font-medium text-gray-900">Website Link</h4>
-            <p className="text-xs text-gray-500">Add your website to showcase your company</p>
+
+          <div className="group bg-white/70 hover:bg-white backdrop-blur-xl p-4 rounded-2xl border border-white/80 shadow-lg shadow-slate-200/40 hover:shadow-emerald-500/10 hover:-translate-y-1 transition-all duration-300">
+            <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 mb-3 group-hover:scale-110 transition-transform">
+              <ExternalLink className="w-5 h-5" />
+            </div>
+            <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wide">Website Link</h4>
+            <p className="text-xs text-slate-500 mt-1 leading-relaxed">Direct applicants to your official career site and culture pages.</p>
           </div>
         </div>
       </div>
