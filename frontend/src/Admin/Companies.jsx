@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import ComapnyTabel from './ComapnyTabel'
 import { useNavigate } from 'react-router-dom'
 import useGetAllCompanies from "@/hooks/useGetAllCompanies"
-import { useDispatch } from 'react-redux'
+import useGetAllAdminJobs from "@/hooks/useGetAllAdminJobs"
+import { useDispatch, useSelector } from 'react-redux'
 import { setsearchComapnyByText } from '@/redux/companySlice'
 import {
   Building2,
@@ -20,7 +21,15 @@ const Companies = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useGetAllCompanies();
+  useGetAllAdminJobs();
   const [serach, setSearch] = useState("");
+
+  const { allCompany } = useSelector(store => store.company);
+  const { allAdminJobs } = useSelector(store => store.job);
+
+  const totalCompanies = allCompany?.length || 0;
+  const activeJobs = allAdminJobs?.filter(job => !job.status || job.status.toLowerCase() === 'active').length || 0;
+  const totalApplications = allAdminJobs?.reduce((total, job) => total + (job?.applications?.length || 0), 0) || 0;
 
   useEffect(() => {
     dispatch(setsearchComapnyByText(serach));
@@ -98,13 +107,13 @@ const Companies = () => {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold text-indigo-600 uppercase tracking-wider">Total Companies</p>
-                <p className="text-3xl font-extrabold text-slate-900 mt-2">24</p>
+                <p className="text-3xl font-extrabold text-slate-900 mt-2">{totalCompanies}</p>
                 <div className="flex items-center gap-2 mt-3">
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50/90 border border-emerald-100 px-2.5 py-0.5 rounded-full">
                     <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    +12%
+                    {totalCompanies === 1 ? '1 registered' : `${totalCompanies} registered`}
                   </span>
-                  <span className="text-xs text-slate-400">vs last month</span>
+                  <span className="text-xs text-slate-400">organizations</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 p-4 rounded-2xl shadow-lg shadow-indigo-500/30 group-hover:scale-110 transition-transform duration-300">
@@ -119,13 +128,13 @@ const Companies = () => {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold text-emerald-600 uppercase tracking-wider">Active Jobs</p>
-                <p className="text-3xl font-extrabold text-slate-900 mt-2">12</p>
+                <p className="text-3xl font-extrabold text-slate-900 mt-2">{activeJobs}</p>
                 <div className="flex items-center gap-2 mt-3">
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 bg-emerald-50/90 border border-emerald-100 px-2.5 py-0.5 rounded-full">
                     <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full" />
-                    +8%
+                    {activeJobs === 1 ? '1 active opening' : `${activeJobs} active openings`}
                   </span>
-                  <span className="text-xs text-slate-400">vs last week</span>
+                  <span className="text-xs text-slate-400">live postings</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-4 rounded-2xl shadow-lg shadow-emerald-500/30 group-hover:scale-110 transition-transform duration-300">
@@ -140,13 +149,13 @@ const Companies = () => {
             <div className="relative flex items-center justify-between">
               <div>
                 <p className="text-xs font-bold text-purple-600 uppercase tracking-wider">Total Applications</p>
-                <p className="text-3xl font-extrabold text-slate-900 mt-2">156</p>
+                <p className="text-3xl font-extrabold text-slate-900 mt-2">{totalApplications}</p>
                 <div className="flex items-center gap-2 mt-3">
                   <span className="inline-flex items-center gap-1 text-xs font-semibold text-purple-600 bg-purple-50/90 border border-purple-100 px-2.5 py-0.5 rounded-full">
                     <span className="inline-block w-1.5 h-1.5 bg-purple-500 rounded-full" />
-                    +24%
+                    {totalApplications === 1 ? '1 candidate' : `${totalApplications} candidates`}
                   </span>
-                  <span className="text-xs text-slate-400">vs last month</span>
+                  <span className="text-xs text-slate-400">applied</span>
                 </div>
               </div>
               <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-4 rounded-2xl shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
@@ -204,7 +213,7 @@ const Companies = () => {
             </span>
             <span className="h-3.5 w-px bg-slate-300" />
             <span className="text-xs text-slate-500">
-              Showing <span className="font-semibold text-slate-700">3</span> companies
+              Showing <span className="font-semibold text-slate-700">{totalCompanies}</span> {totalCompanies === 1 ? 'company' : 'companies'}
             </span>
           </div>
           <p className="text-xs text-slate-400 flex items-center gap-2">

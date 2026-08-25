@@ -2,17 +2,23 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setSearchJobsByText } from '@/redux/jobSlice'
 import AdminJobsTabel from './AdminJobsTabel'
 import useGetAllAdminJobs from '@/hooks/useGetAllAdminJobs'
-import { Briefcase, Plus, Search, X, Users, Building2 } from 'lucide-react'
+import { Briefcase, Plus, Search, X, Users, Building2, CheckCircle2 } from 'lucide-react'
 
 const AdminJobs = () => {
   useGetAllAdminJobs();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [serach, setSearch] = useState("");
+
+  const { allAdminJobs } = useSelector(store => store.job);
+
+  const totalJobs = allAdminJobs?.length || 0;
+  const activeJobs = allAdminJobs?.filter(job => !job.status || job.status.toLowerCase() === 'active').length || 0;
+  const totalApplications = allAdminJobs?.reduce((total, job) => total + (job?.applications?.length || 0), 0) || 0;
 
   useEffect(() => {
     dispatch(setSearchJobsByText(serach));
@@ -40,7 +46,7 @@ const AdminJobs = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Total Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">24</p>
+                <p className="text-2xl font-bold text-gray-900">{totalJobs}</p>
               </div>
               <div className="bg-blue-50 p-3 rounded-xl">
                 <Briefcase className="h-5 w-5 text-blue-600" />
@@ -51,10 +57,10 @@ const AdminJobs = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Active Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">12</p>
+                <p className="text-2xl font-bold text-gray-900">{activeJobs}</p>
               </div>
               <div className="bg-green-50 p-3 rounded-xl">
-                <Users className="h-5 w-5 text-green-600" />
+                <CheckCircle2 className="h-5 w-5 text-green-600" />
               </div>
             </div>
           </div>
@@ -62,10 +68,10 @@ const AdminJobs = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-500">Total Applications</p>
-                <p className="text-2xl font-bold text-gray-900">156</p>
+                <p className="text-2xl font-bold text-gray-900">{totalApplications}</p>
               </div>
               <div className="bg-purple-50 p-3 rounded-xl">
-                <Building2 className="h-5 w-5 text-purple-600" />
+                <Users className="h-5 w-5 text-purple-600" />
               </div>
             </div>
           </div>
