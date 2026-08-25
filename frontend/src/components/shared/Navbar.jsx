@@ -343,31 +343,34 @@ const Navbar = () => {
 
       {/* Logout Dialog */}
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-[400px] rounded-xl p-6">
-          <DialogHeader className="text-center">
-            <div className="w-14 h-14 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <LogOut className="w-6 h-6 text-red-600" />
+        <DialogContent className="sm:max-w-[420px] rounded-3xl p-6 bg-white/95 backdrop-blur-xl border border-white/90 shadow-2xl">
+          <DialogHeader className="text-center sm:text-center">
+            <div className="relative w-14 h-14 mx-auto mb-3">
+              <div className="absolute -inset-1 bg-red-500/20 rounded-2xl blur-md" />
+              <div className="relative w-14 h-14 bg-gradient-to-br from-red-50 to-rose-100 border border-red-200/60 rounded-2xl flex items-center justify-center text-red-600 shadow-sm">
+                <LogOut className="w-7 h-7 text-red-500" />
+              </div>
             </div>
-            <DialogTitle className="text-xl font-bold text-slate-800">
-              Logout
+            <DialogTitle className="text-xl font-bold text-slate-900 text-center">
+              Sign Out
             </DialogTitle>
-            <DialogDescription className="text-slate-500 text-sm">
-              Are you sure you want to sign out?
+            <DialogDescription className="text-slate-500 text-xs sm:text-sm text-center mt-1">
+              Are you sure you want to sign out of your account? You will need to log back in to access your portal.
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter className="flex gap-2 mt-4">
+          <DialogFooter className="flex flex-row gap-3 mt-6 sm:justify-center">
             <Button 
               variant="outline" 
               onClick={() => setOpen(false)}
-              className="flex-1 rounded-lg"
+              className="flex-1 rounded-xl h-11 border-slate-200/80 text-slate-700 hover:bg-slate-50 font-medium"
             >
               Cancel
             </Button>
             <Button 
               onClick={logoutHandler}
-              className="flex-1 rounded-lg bg-red-600 text-white hover:bg-red-700"
+              className="flex-1 rounded-xl h-11 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 text-white font-medium shadow-lg shadow-red-500/25 transition-all cursor-pointer"
             >
-              Logout
+              Sign Out
             </Button>
           </DialogFooter>
         </DialogContent>

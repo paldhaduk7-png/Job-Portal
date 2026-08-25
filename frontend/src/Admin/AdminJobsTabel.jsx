@@ -145,27 +145,27 @@ const AdminJobsTabel = () => {
                       </Button>
                     </PopoverTrigger>
 
-                    <PopoverContent className="w-48 p-2 border-gray-200 shadow-lg">
+                    <PopoverContent className="w-48 p-1.5 bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-xl rounded-2xl">
                       <div className="flex flex-col gap-1">
                         {/* Edit */}
                         <button
                           onClick={() => navigate(`/admin/job/update/${job._id}`)}
-                          className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg transition-colors"
+                          className="flex items-center gap-2.5 w-full px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50/80 hover:text-orange-600 rounded-xl transition-all duration-150 text-left"
                         >
-                          <Edit2 className="h-4 w-4" />
-                          <span>Edit</span>
+                          <Edit2 className="h-4 w-4 text-orange-500" />
+                          <span>Edit Job</span>
                         </button>
 
                         {/* View Applicants */}
                         <button
                           onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
-                          className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-indigo-50 hover:text-indigo-700 rounded-lg transition-colors"
+                          className="flex items-center gap-2.5 w-full px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-indigo-50/80 hover:text-indigo-600 rounded-xl transition-all duration-150 text-left"
                         >
-                          <Eye className="h-4 w-4" />
-                          <span>Applicants</span>
+                          <Eye className="h-4 w-4 text-indigo-500" />
+                          <span>View Applicants</span>
                         </button>
 
-                        <div className="border-t border-gray-100 my-1"></div>
+                        <div className="border-t border-slate-100 my-1" />
 
                         {/* Delete */}
                         <JobDelete jobId={job._id} />

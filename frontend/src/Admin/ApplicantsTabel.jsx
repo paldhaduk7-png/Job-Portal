@@ -168,28 +168,37 @@ const ApplicantsTabel = () => {
                       </Button>
                     </PopoverTrigger>
 
-                    <PopoverContent className="w-48 p-2 border-gray-200 shadow-lg">
+                    <PopoverContent className="w-48 p-2 bg-white/95 backdrop-blur-xl border border-slate-200/80 shadow-xl rounded-2xl">
+                      <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-2.5 py-1 mb-1">
+                        Application Status
+                      </div>
                       <div className="flex flex-col gap-1">
                         {sortListing.map((status, index) => {
                           const isActive = item.status === status
-                          const icon = status === 'Accepted' ? CheckCircle : XCircle
-                          const color = status === 'Accepted' ? 'text-green-600 hover:bg-green-50' : 'text-red-600 hover:bg-red-50'
+                          const Icon = status === 'Accepted' ? CheckCircle : XCircle
+                          const color = status === 'Accepted' 
+                            ? 'text-emerald-700 hover:bg-emerald-50' 
+                            : 'text-rose-700 hover:bg-rose-50'
                           
                           return (
                             <button
                               key={index}
                               onClick={() => statusHandler(status, item._id)}
-                              className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-lg transition-colors ${
+                              className={`flex items-center justify-between w-full px-2.5 py-2 text-xs font-semibold rounded-xl transition-all duration-150 cursor-pointer ${
                                 isActive 
-                                  ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                                  : `${color} hover:bg-opacity-50`
+                                  ? status === 'Accepted'
+                                    ? 'bg-emerald-50 text-emerald-700 cursor-default font-bold'
+                                    : 'bg-rose-50 text-rose-700 cursor-default font-bold'
+                                  : color
                               }`}
                               disabled={isActive}
                             >
-                              <icon className="h-4 w-4" />
-                              <span>{status}</span>
+                              <div className="flex items-center gap-2">
+                                <Icon className={`h-4 w-4 ${status === 'Accepted' ? 'text-emerald-600' : 'text-rose-600'}`} />
+                                <span>{status}</span>
+                              </div>
                               {isActive && (
-                                <span className="ml-auto text-xs text-gray-400">(Current)</span>
+                                <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${status === 'Accepted' ? 'bg-emerald-500' : 'bg-rose-500'}`} />
                               )}
                             </button>
                           )
