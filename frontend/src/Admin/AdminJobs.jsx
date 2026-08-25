@@ -41,37 +41,60 @@ const AdminJobs = () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+          {/* Total Jobs */}
+          <div className="group relative bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">{totalJobs}</p>
+                <p className="text-xs font-bold text-blue-600 uppercase tracking-wider">Total Jobs</p>
+                <p className="text-3xl font-extrabold text-gray-900 mt-2">{totalJobs}</p>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-blue-700 bg-blue-50 border border-blue-100 px-2.5 py-0.5 rounded-full">
+                    <span className="inline-block w-1.5 h-1.5 bg-blue-500 rounded-full" />
+                    {totalJobs === 1 ? '1 job posted' : `${totalJobs} jobs posted`}
+                  </span>
+                </div>
               </div>
-              <div className="bg-blue-50 p-3 rounded-xl">
-                <Briefcase className="h-5 w-5 text-blue-600" />
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-3.5 rounded-2xl shadow-md shadow-blue-500/20 text-white">
+                <Briefcase className="h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow">
+
+          {/* Active Jobs */}
+          <div className="group relative bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Active Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">{activeJobs}</p>
+                <p className="text-xs font-bold text-green-600 uppercase tracking-wider">Active Jobs</p>
+                <p className="text-3xl font-extrabold text-gray-900 mt-2">{activeJobs}</p>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-0.5 rounded-full">
+                    <span className="inline-block w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                    {activeJobs === 1 ? '1 active opening' : `${activeJobs} active openings`}
+                  </span>
+                </div>
               </div>
-              <div className="bg-green-50 p-3 rounded-xl">
-                <CheckCircle2 className="h-5 w-5 text-green-600" />
+              <div className="bg-gradient-to-br from-emerald-500 to-teal-600 p-3.5 rounded-2xl shadow-md shadow-emerald-500/20 text-white">
+                <CheckCircle2 className="h-6 w-6" />
               </div>
             </div>
           </div>
-          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-md transition-shadow">
+
+          {/* Total Applications */}
+          <div className="group relative bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-all duration-300">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-500">Total Applications</p>
-                <p className="text-2xl font-bold text-gray-900">{totalApplications}</p>
+                <p className="text-xs font-bold text-purple-600 uppercase tracking-wider">Total Applications</p>
+                <p className="text-3xl font-extrabold text-gray-900 mt-2">{totalApplications}</p>
+                <div className="flex items-center gap-2 mt-3">
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold text-purple-700 bg-purple-50 border border-purple-100 px-2.5 py-0.5 rounded-full">
+                    <span className="inline-block w-1.5 h-1.5 bg-purple-500 rounded-full" />
+                    {totalApplications === 1 ? '1 applicant' : `${totalApplications} total applicants`}
+                  </span>
+                </div>
               </div>
-              <div className="bg-purple-50 p-3 rounded-xl">
-                <Users className="h-5 w-5 text-purple-600" />
+              <div className="bg-gradient-to-br from-purple-500 to-pink-600 p-3.5 rounded-2xl shadow-md shadow-purple-500/20 text-white">
+                <Users className="h-6 w-6" />
               </div>
             </div>
           </div>
