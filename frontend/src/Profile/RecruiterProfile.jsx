@@ -45,17 +45,47 @@ const RecruiterProfile = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto py-8 px-4 md:px-6 lg:px-8">
-      {/* Page Header */}
-      <div className="flex items-center gap-3 mb-6">
-        <div className="bg-blue-50 p-2.5 rounded-xl">
-          <User className="h-6 w-6 text-blue-600" />
-        </div>
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Recruiter Profile</h1>
-          <p className="text-sm text-gray-500">Manage your profile and company information</p>
-        </div>
+    <div className="relative min-h-screen bg-[#fafbff] py-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Dynamic Ambient Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Top-Left Indigo Glow Orb */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-indigo-400/25 to-blue-400/20 rounded-full blur-3xl" />
+        
+        {/* Top-Right Violet Glow Orb */}
+        <div className="absolute top-1/4 -right-20 w-[30rem] h-[30rem] bg-gradient-to-bl from-blue-400/20 via-indigo-300/15 to-transparent rounded-full blur-3xl" />
+        
+        {/* Center-Bottom Soft Cyan/Blue Orb */}
+        <div className="absolute -bottom-28 left-1/3 w-[36rem] h-[36rem] bg-gradient-to-tr from-blue-300/20 to-indigo-200/20 rounded-full blur-3xl" />
+
+        {/* Subtle Modern Dot-Matrix Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]" 
+          style={{
+            backgroundImage: `radial-gradient(circle, #6366f1 1px, transparent 1px)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+        
+        {/* Radial vignette mask to fade grid smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fafbff]/80" />
       </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        {/* Page Header */}
+        <div className="flex items-center gap-3 mb-6">
+          <div className="relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur-md opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative bg-white/90 backdrop-blur-xl p-3 rounded-2xl shadow-lg border border-white/60">
+              <User className="h-6 w-6 text-blue-600" />
+            </div>
+          </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-800 bg-clip-text text-transparent">
+              Recruiter Profile
+            </h1>
+            <p className="text-sm text-slate-500">Manage your profile and company information</p>
+          </div>
+        </div>
 
       {/* Profile Card */}
       <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
@@ -238,10 +268,11 @@ const RecruiterProfile = () => {
 
       <UpdateRecruiterProfile open={open} setOpen={setOpen} />
       <ImagePreviewModal
-  open={previewOpen}
-  setOpen={setPreviewOpen}
-  image={user?.Profile?.profilePhoto}
-/>
+        open={previewOpen}
+        setOpen={setPreviewOpen}
+        image={user?.Profile?.profilePhoto}
+      />
+      </div>
     </div>
   );
 };
