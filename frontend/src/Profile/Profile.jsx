@@ -119,14 +119,32 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50/90 via-indigo-50/20 to-slate-50/80 relative overflow-hidden py-10 px-4 sm:px-6 lg:px-8">
-      
-      {/* Background Ambient Glows & Mesh Lighting */}
-      <div className="absolute top-0 left-1/4 -translate-x-1/2 w-[650px] h-[400px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/12 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-40 right-10 w-[500px] h-[380px] bg-gradient-to-bl from-pink-500/10 via-indigo-400/8 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
-      <div className="absolute top-[600px] left-1/3 w-[700px] h-[450px] bg-gradient-to-r from-blue-400/8 via-purple-400/8 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+    <div className="relative min-h-screen bg-[#fafbff] py-10 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Dynamic Ambient Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Top-Left Indigo Glow Orb */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-indigo-400/25 to-purple-400/20 rounded-full blur-3xl" />
+        
+        {/* Top-Right Violet Glow Orb */}
+        <div className="absolute top-1/4 -right-20 w-[30rem] h-[30rem] bg-gradient-to-bl from-purple-400/20 via-pink-300/15 to-transparent rounded-full blur-3xl" />
+        
+        {/* Center-Bottom Soft Cyan/Blue Orb */}
+        <div className="absolute -bottom-28 left-1/3 w-[36rem] h-[36rem] bg-gradient-to-tr from-blue-300/20 to-indigo-200/20 rounded-full blur-3xl" />
 
-      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Subtle Modern Dot-Matrix Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]" 
+          style={{
+            backgroundImage: `radial-gradient(circle, #6366f1 1px, transparent 1px)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+        
+        {/* Radial vignette mask to fade grid smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fafbff]/80" />
+      </div>
+
+      <div className="relative z-10 max-w-6xl mx-auto space-y-8">
         
         {/* Main Profile Header Card */}
         <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden">
