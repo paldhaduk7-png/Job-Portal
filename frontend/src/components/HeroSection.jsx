@@ -29,15 +29,25 @@ const HeroSection = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden min-h-[600px] flex items-center">
+    <div className="relative overflow-hidden min-h-[600px] flex items-center bg-[#fafbff]">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/30 via-white/50 to-purple-100/30 -z-10"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-indigo-100/30 via-white/50 to-purple-100/30 -z-10" />
       
       {/* Glow Orbs */}
-      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-indigo-400/20 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-purple-400/20 rounded-full blur-3xl" style={{ animationDelay: '1s' }}></div>
-      <div className="absolute top-20 right-20 w-40 h-40 bg-blue-300/20 rounded-full blur-2xl"></div>
-      <div className="absolute bottom-20 left-20 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl"></div>
+      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-indigo-400/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute -bottom-40 -left-40 w-[600px] h-[600px] bg-purple-400/20 rounded-full blur-3xl" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-20 right-20 w-40 h-40 bg-blue-300/20 rounded-full blur-2xl" />
+      <div className="absolute bottom-20 left-20 w-32 h-32 bg-pink-300/20 rounded-full blur-2xl" />
+
+      {/* Subtle Modern Dot-Matrix Grid Overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.35] pointer-events-none" 
+        style={{
+          backgroundImage: `radial-gradient(circle, #6366f1 1px, transparent 1px)`,
+          backgroundSize: '32px 32px'
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fafbff]/80 pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 relative z-10 w-full">
         <div className="text-center max-w-4xl mx-auto">
