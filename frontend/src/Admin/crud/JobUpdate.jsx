@@ -85,28 +85,57 @@ const JobUpdate = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="relative min-h-screen bg-[#fafbff] py-8 px-4 sm:px-6 lg:px-8 overflow-hidden">
+      {/* Dynamic Ambient Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {/* Top-Left Indigo Glow Orb */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-gradient-to-br from-orange-400/20 via-indigo-400/20 to-purple-400/15 rounded-full blur-3xl" />
+        
+        {/* Top-Right Amber Glow Orb */}
+        <div className="absolute top-1/4 -right-20 w-[30rem] h-[30rem] bg-gradient-to-bl from-amber-400/15 via-orange-300/15 to-transparent rounded-full blur-3xl" />
+        
+        {/* Center-Bottom Soft Cyan/Blue Orb */}
+        <div className="absolute -bottom-28 left-1/3 w-[36rem] h-[36rem] bg-gradient-to-tr from-blue-300/20 to-indigo-200/20 rounded-full blur-3xl" />
+
+        {/* Subtle Modern Dot-Matrix Grid Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]" 
+          style={{
+            backgroundImage: `radial-gradient(circle, #6366f1 1px, transparent 1px)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+        
+        {/* Radial vignette mask to fade grid smoothly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#fafbff]/80" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto">
         {/* Back Button */}
-        <button
-          onClick={() => navigate("/admin/jobs")}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors mb-6 group"
-        >
-          <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-medium">Back to Jobs</span>
-        </button>
+        <div className="mb-6">
+          <button
+            onClick={() => navigate("/admin/jobs")}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 hover:bg-white backdrop-blur-md border border-slate-200/70 text-slate-600 hover:text-orange-600 shadow-sm hover:shadow-md transition-all duration-200 group text-sm font-medium"
+          >
+            <ArrowLeft className="h-4 w-4 group-hover:-translate-x-1 transition-transform duration-200" />
+            <span>Back to Jobs</span>
+          </button>
+        </div>
 
         {/* Main Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+        <div className="bg-white/85 backdrop-blur-xl rounded-3xl shadow-2xl shadow-orange-500/10 border border-white/90 overflow-hidden transition-all duration-300">
           {/* Header */}
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 px-8 py-6">
-            <div className="flex items-center gap-4">
-              <div className="bg-white/20 rounded-xl p-3 backdrop-blur-sm">
-                <Briefcase className="h-8 w-8 text-white" />
+          <div className="relative bg-gradient-to-r from-orange-500 via-orange-600 to-amber-600 px-8 py-7 overflow-hidden">
+            {/* Ambient inner glow */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div className="relative flex items-center gap-4">
+              <div className="bg-white/20 rounded-2xl p-3.5 backdrop-blur-sm border border-white/20 shadow-inner">
+                <Briefcase className="h-7 w-7 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-white">Update Job</h1>
-                <p className="text-orange-100 text-sm mt-1">
+                <h1 className="text-2xl font-extrabold text-white">Update Job</h1>
+                <p className="text-orange-100 text-sm mt-0.5">
                   Fill in the details below to update a job listing.
                 </p>
               </div>
@@ -121,12 +150,12 @@ const JobUpdate = () => {
                 
                 return (
                   <div key={field.name} className={isFullWidth ? 'md:col-span-2' : ''}>
-                    <Label className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <Label className="block text-sm font-medium text-slate-700 mb-1.5">
                       {field.label}
                     </Label>
                     <div className="relative">
-                      <div className="absolute left-3 top-1/2 -translate-y-1/2">
-                        <Icon className="h-4 w-4 text-gray-400" />
+                      <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <Icon className="h-4 w-4 text-slate-400" />
                       </div>
                       <Input
                         type={field.type}
@@ -134,7 +163,7 @@ const JobUpdate = () => {
                         placeholder={field.placeholder}
                         value={input[field.name] || ''}
                         onChange={changeEventHandler}
-                        className={`pl-10 h-11 border-gray-200 focus:border-orange-500 focus:ring-orange-500`}
+                        className="pl-10 h-11 bg-slate-50/70 border-slate-200/80 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 rounded-xl transition-all duration-200"
                       />
                     </div>
                   </div>
@@ -142,13 +171,13 @@ const JobUpdate = () => {
               })}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center gap-3 mt-8 pt-6 border-t border-gray-200">
+            {/* Form Actions */}
+            <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-end gap-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => navigate("/admin/jobs")}
-                className="w-full sm:w-auto px-8 h-11 border-2 hover:bg-gray-50 transition-colors"
+                className="h-11 px-6 rounded-xl border-slate-200 hover:bg-slate-50"
                 disabled={loading}
               >
                 Cancel
@@ -156,7 +185,7 @@ const JobUpdate = () => {
               <Button
                 type="submit"
                 disabled={loading}
-                className="w-full sm:w-auto px-8 h-11 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 transition-all flex-1"
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-lg shadow-orange-500/25 h-11 px-8 rounded-xl font-medium"
               >
                 {loading ? (
                   <>
@@ -173,20 +202,20 @@ const JobUpdate = () => {
 
         {/* Quick Tips */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/80">
             <div className="text-orange-500 text-lg mb-1">📝</div>
-            <h4 className="text-sm font-medium text-gray-900">Clear Title</h4>
-            <p className="text-xs text-gray-500">Use a clear and descriptive job title</p>
+            <h4 className="text-sm font-semibold text-slate-800">Clear Title</h4>
+            <p className="text-xs text-slate-500 mt-0.5">Use a clear and descriptive job title</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/80">
             <div className="text-orange-500 text-lg mb-1">💰</div>
-            <h4 className="text-sm font-medium text-gray-900">Competitive Salary</h4>
-            <p className="text-xs text-gray-500">Mention salary range to attract more applicants</p>
+            <h4 className="text-sm font-semibold text-slate-800">Competitive Salary</h4>
+            <p className="text-xs text-slate-500 mt-0.5">Mention salary range to attract more applicants</p>
           </div>
-          <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
+          <div className="bg-white/80 backdrop-blur-xl p-4 rounded-2xl shadow-sm border border-white/80">
             <div className="text-orange-500 text-lg mb-1">🎯</div>
-            <h4 className="text-sm font-medium text-gray-900">Clear Requirements</h4>
-            <p className="text-xs text-gray-500">List specific skills and experience needed</p>
+            <h4 className="text-sm font-semibold text-slate-800">Clear Requirements</h4>
+            <p className="text-xs text-slate-500 mt-0.5">List specific skills and experience needed</p>
           </div>
         </div>
       </div>
