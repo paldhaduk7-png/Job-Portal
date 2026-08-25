@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { useSelector } from "react-redux";
-import { Briefcase, Calendar, MapPin, Users, Clock, Eye } from "lucide-react";
+import { Briefcase, Users, Eye, Edit2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -57,7 +57,9 @@ const RecruiterPostedJobs = () => {
               <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                 Status
               </TableHead>
-            
+              <TableHead className="text-xs font-medium text-gray-500 uppercase tracking-wider text-right">
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -84,15 +86,44 @@ const RecruiterPostedJobs = () => {
                       {job?.jobType || 'Full-time'}
                     </span>
                   </TableCell>
-                  <TableCell className="py-3 text-center text-sm text-gray-600">
-                    {job?.applicants?.length || 0}
+                  <TableCell className="py-3 text-center">
+                    <button
+                      onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors font-medium text-xs cursor-pointer"
+                      title="View Applicants"
+                    >
+                      <Users className="w-3.5 h-3.5" />
+                      <span>{job?.applications?.length || 0}</span>
+                    </button>
                   </TableCell>
                   <TableCell className="py-3 text-center">
                     <span className={`text-xs px-3 py-1 rounded-full font-medium ${getStatusColor(job?.status)}`}>
                       {job?.status || 'Active'}
                     </span>
                   </TableCell>
-                 
+                  <TableCell className="py-3 text-right">
+                    <div className="flex items-center justify-end gap-1.5">
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => navigate(`/admin/jobs/${job._id}/applicants`)}
+                        className="h-8 px-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                        title="View Applicants"
+                      >
+                        <Eye className="w-4 h-4 mr-1" />
+                        <span className="text-xs">Applicants</span>
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => navigate(`/admin/job/update/${job._id}`)}
+                        className="h-8 w-8 p-0 text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                        title="Edit Job"
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (

@@ -20,15 +20,24 @@ import {
   CheckCircle2
 } from "lucide-react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useGetAllAdminJobs from "@/hooks/useGetAllAdminJobs";
 import UpdateRecruiterProfile from "./UpdateRecruiterProfile";
 import RecruiterPostedJobs from "./RecruiterPostedJobs";
 import ImagePreviewModal from "./ImagePreviewModal";
 
 
 const RecruiterProfile = () => {
+  useGetAllAdminJobs();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const { user } = useSelector((store) => store.auth);
+  const { allAdminJobs } = useSelector((store) => store.job);
+
+  const totalJobs = allAdminJobs?.length || 0;
+  const activeJobs = allAdminJobs?.filter(job => !job.status || job.status.toLowerCase() === 'active').length || 0;
+  const totalApplicants = allAdminJobs?.reduce((total, job) => total + (job?.applications?.length || 0), 0) || 0;
 
   const getInitials = (name) => {
     if (!name) return '?';
@@ -170,7 +179,7 @@ const RecruiterProfile = () => {
               <BriefcaseBusiness className="h-5 w-5 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">{user?.jobs?.length || 0}</p>
+              <p className="text-2xl font-bold text-gray-900">{totalJobs}</p>
               <p className="text-xs text-gray-500">Total Jobs Posted</p>
             </div>
           </div>
@@ -183,7 +192,7 @@ const RecruiterProfile = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
-                {user?.jobs?.filter(job => job.status === 'active').length || 0}
+                {activeJobs}
               </p>
               <p className="text-xs text-gray-500">Active Jobs</p>
             </div>
@@ -197,7 +206,7 @@ const RecruiterProfile = () => {
             </div>
             <div>
               <p className="text-2xl font-bold text-gray-900">
-                {user?.jobs?.reduce((total, job) => total + (job.applicants || 0), 0) || 0}
+                {totalApplicants}
               </p>
               <p className="text-xs text-gray-500">Total Applicants</p>
             </div>
@@ -211,11 +220,15 @@ const RecruiterProfile = () => {
           <div className="flex items-center gap-2">
             <BriefcaseBusiness className="h-5 w-5 text-blue-600" />
             <h3 className="font-semibold text-lg text-gray-900">Posted Jobs</h3>
-            <span className="text-xs bg-blue-100 text-blue-700 px-2.5 py-0.5 rounded-full">
-              {user?.jobs?.length || 0} Jobs
+            <span className="text-xs bg-blue-100 text-blue-700 px-2.5 py-0.5 rounded-full font-medium">
+              {totalJobs} Jobs
             </span>
           </div>
-          <Button variant="outline" className="text-sm border-blue-200 text-blue-600 hover:bg-blue-50">
+          <Button 
+            onClick={() => navigate('/admin/jobs/create')}
+            variant="outline" 
+            className="text-sm border-blue-200 text-blue-600 hover:bg-blue-50"
+          >
             <Plus className="w-4 h-4 mr-1" />
             Post New Job
           </Button>
