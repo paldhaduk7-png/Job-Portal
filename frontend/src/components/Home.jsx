@@ -3,44 +3,37 @@ import CategoryCarousel from './CategoryCarousel'
 import HeroSection from './HeroSection'
 import LatestJobs from './LatestJobs'
 import Footer from './Fotter'
+import GuestHome from './GuestHome'
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { setSearchQuery } from '@/redux/jobSlice' 
 
-
 const Home = () => {
- 
+  const dispatch = useDispatch(); 
+  const { user } = useSelector(store => store.auth);
+  const navigate = useNavigate();
 
-// useGetAllJobs();
+  useEffect(() => {
+    if (user?.role === 'recruiter') {
+      navigate("/admin/companies");
+    }
+  }, [user, navigate]);
 
- const dispatch = useDispatch(); 
-const {user}=useSelector(store=>store.auth);
-// console.log(user);
-const navigate=useNavigate();
- 
-  // useEffect(() => {
-  //   // clear search query when home page loads
-  //   dispatch(setSearchQuery(""));  // ← add this
-  // }, []);
-
-useEffect ( ()=>{
-  if(user?.role=== 'recruiter'){
-navigate("/admin/companies")
+  // When user is NOT logged in, show the different/guest landing page:
+  if (!user) {
+    return <GuestHome />;
   }
 
-}, []);
-
+  // When user IS logged in, show what the website already had originally:
   return (
     <div>
-    
-         <HeroSection />
+      <HeroSection />
       {/* <CategoryCarousel /> */}
       <LatestJobs />
       <Footer />  
-
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
