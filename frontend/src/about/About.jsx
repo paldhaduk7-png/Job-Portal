@@ -25,10 +25,8 @@ import {
   Compass
 } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import developerPhoto from "@/assets/developer.jpg";
 
 const About = () => {
-  const [imgError, setImgError] = useState(false);
 
   const technologies = [
     { name: "React 19", category: "Frontend", icon: <Layout className="w-4 h-4 text-cyan-600" />, bg: "bg-cyan-50 text-cyan-700 border-cyan-200/80" },
@@ -159,22 +157,16 @@ const About = () => {
           <div className="p-6 sm:p-10">
             <div className="flex flex-col md:flex-row gap-8 sm:gap-10 items-center md:items-start">
               
-              {/* Profile Image with Frame */}
+              {/* Profile Avatar */}
               <div className="flex-shrink-0">
                 <div className="relative group">
-                  <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-3xl overflow-hidden ring-4 ring-indigo-500/20 shadow-xl shadow-indigo-950/10 transition-all duration-300 group-hover:scale-[1.02] bg-gradient-to-br from-indigo-100 to-purple-100">
-                    {!imgError ? (
-                      <img
-                        src={developerPhoto}
-                        alt="Dhaduk Pal Girishbhai"
-                        onError={() => setImgError(true)}
-                        className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <User className="w-20 h-20 text-indigo-600" />
-                      </div>
-                    )}
+                  <div className="w-40 h-40 sm:w-48 sm:h-48 rounded-3xl ring-4 ring-indigo-500/20 shadow-xl shadow-indigo-950/10 transition-all duration-300 group-hover:scale-[1.02] bg-gradient-to-br from-indigo-500 via-purple-600 to-pink-500 flex flex-col items-center justify-center text-white p-4">
+                    <div className="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center mb-2 shadow-inner border border-white/20 group-hover:scale-110 transition-transform">
+                      <Code2 className="w-10 h-10 text-white" />
+                    </div>
+                    <span className="text-sm font-bold tracking-wider uppercase text-white/90">
+                      DP
+                    </span>
                   </div>
                   <div className="absolute -bottom-2.5 -right-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
