@@ -19,6 +19,14 @@ const applicationSchema=new mongoose.Schema({
         type:String,
         enum:['pending', 'accepted', 'rejected'],
         default: 'pending'
+    },
+    resume: {
+        type: String,
+        required: true
+    },
+    resumeOriginalName: {
+        type: String,
+        required: true
     }
 }, {timestamps: true});
 
