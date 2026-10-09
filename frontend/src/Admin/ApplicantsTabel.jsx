@@ -128,15 +128,15 @@ const ApplicantsTabel = () => {
                 </TableCell>
 
                 <TableCell>
-                  {item?.applicant?.profile?.resume ? (
+                  {item?.resume ? (
                     <a
                       className="flex items-center gap-1.5 text-indigo-600 hover:text-indigo-800 hover:underline transition-colors cursor-pointer text-sm"
-                      href={`https://docs.google.com/viewer?url=${encodeURIComponent(item?.applicant?.profile?.resume)}&embedded=true`}
+                      href={`https://docs.google.com/viewer?url=${encodeURIComponent(item?.resume)}&embedded=true`}
                       target='_blank'
                       rel='noopener noreferrer'
                     >
                       <FileText className="h-3.5 w-3.5" />
-                      {item?.applicant?.profile?.resumeOriginalName || 'View Resume'}
+                      {item?.resumeOriginalName || 'View Resume'}
                     </a>
                   ) : (
                     <span className="text-gray-400 text-sm flex items-center gap-1.5">

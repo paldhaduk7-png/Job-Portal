@@ -53,6 +53,7 @@ const JobDescription = () => {
   const [isApplied, setIsApplied] = useState(isIntiallyApplyed);
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [resume, setResume] = useState(null);
   const requireAuth = useAuthenticate(setOpen);
 
   const isSaved = savedJobs?.some(
@@ -62,7 +63,16 @@ const JobDescription = () => {
   const applyjobHandeler = async () => {
     if (!requireAuth()) return;
     try {
-      const res = await axios.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`, {}, { withCredentials: true });
+      const formData = new FormData();
+      if (resume) {
+        formData.append("resume", resume);
+      }
+      const res = await axios.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`, formData, { 
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
       if (res.data.success) {
         setIsApplied(true);
         const updateSingleJob = { 
@@ -344,7 +354,6 @@ const JobDescription = () => {
                 </div>
               </div>
 
-              {/* Apply Action Button */}
               <div className="w-full sm:w-auto">
                 {isApplied ? (
                   <Button 
@@ -355,13 +364,30 @@ const JobDescription = () => {
                     <span>Application Submitted</span>
                   </Button>
                 ) : (
-                  <Button 
-                    onClick={applyjobHandeler} 
-                    className="w-full sm:w-auto bg-white hover:bg-slate-50 text-indigo-700 hover:text-indigo-800 font-extrabold px-10 py-4 h-auto rounded-2xl shadow-xl shadow-slate-950/20 hover:shadow-2xl transition-all duration-300 text-sm sm:text-base flex items-center justify-center gap-2 hover:scale-[1.03] active:scale-[0.98]"
-                  >
-                    <Sparkles className="w-4.5 h-4.5 text-indigo-600" />
-                    <span>Apply For Position</span>
-                  </Button>
+                  <div className="flex flex-col gap-3 w-full">
+                    <div className="flex flex-col gap-1.5 w-full">
+                      <label htmlFor="resumeUpload" className="text-sm font-semibold text-white/90">
+                        Upload Resume (Optional)
+                      </label>
+                      <input 
+                        id="resumeUpload"
+                        type="file" 
+                        accept="application/pdf"
+                        onChange={(e) => setResume(e.target.files?.[0])}
+                        className="text-sm text-slate-100 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-white/20 file:text-white hover:file:bg-white/30 cursor-pointer w-full"
+                      />
+                      <p className="text-xs text-indigo-200">
+                        If not uploaded, your profile resume will be used.
+                      </p>
+                    </div>
+                    <Button 
+                      onClick={applyjobHandeler} 
+                      className="w-full sm:w-auto bg-white hover:bg-slate-50 text-indigo-700 hover:text-indigo-800 font-extrabold px-10 py-4 h-auto rounded-2xl shadow-xl shadow-slate-950/20 hover:shadow-2xl transition-all duration-300 text-sm sm:text-base flex items-center justify-center gap-2 hover:scale-[1.03] active:scale-[0.98]"
+                    >
+                      <Sparkles className="w-4.5 h-4.5 text-indigo-600" />
+                      <span>Apply For Position</span>
+                    </Button>
+                  </div>
                 )}
               </div>
             </div>
